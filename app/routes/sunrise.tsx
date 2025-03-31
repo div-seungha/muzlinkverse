@@ -47,12 +47,9 @@ export default function Index() {
 
   return (
     <div className="content-container">
+      <div className="cover-bg"></div>
+      <img className="cover" src="/cover.webp" alt="송병도, sunrise" />
       <div className="header-container">
-        <img
-          className="w-[100px] h-[100px]"
-          src="/cover.webp"
-          alt="송병도, sunrise"
-        />
         <div className="flex flex-col-reverse text-right">
           <h1>Sunrise</h1>
           <p>송병도</p>
