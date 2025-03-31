@@ -60,7 +60,7 @@ body {
 .content-container {
   width: 100%;
   display: block;
-  height: 100svh;
+  min-height: 100svh;
   /* display: flex;
   flex-direction: column; */
   background: radial-gradient(ellipse at top, #a80f00, transparent),
