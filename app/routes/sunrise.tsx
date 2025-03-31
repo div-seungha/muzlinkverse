@@ -1,3 +1,4 @@
+import { MetaFunction } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { FaSpotify, FaYoutube } from "react-icons/fa";
 import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
@@ -12,6 +13,14 @@ const youtubeMusic =
 
 // const melonTrackId = "38723311";
 // const bugsTrackId = "33468444";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "송병도 - Sunrise" },
+    { name: "description", content: "송병도 - Sunrise" },
+    { property: "og:image", content: "/cover.webp" },
+  ];
+};
 
 export default function Index() {
   const [spotify, setSpotify] = useState("");
