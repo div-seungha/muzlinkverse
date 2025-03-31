@@ -27,7 +27,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // 구글 애널리틱스 페이지 뷰 트래킹
     if (window.gtag) {
-      window.gtag("config", "G-XXXXXXXXXX", {
+      window.gtag("config", "G-LJRQ5HGF2Z", {
         page_path: window.location.pathname,
       });
     }
