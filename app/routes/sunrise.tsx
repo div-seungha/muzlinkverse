@@ -62,6 +62,12 @@ export default function Index() {
               Youtube Music
             </button>
           </a>
+          <a href={youtubeLink} target="_blank" rel="noreferrer">
+            <button className="youtube">
+              <FaYoutube fontSize={20} />
+              Youtube
+            </button>
+          </a>
           <a href={melon} target="_blank" rel="noreferrer">
             <button className="melon">
               <TbMusicShare fontSize={20} />
@@ -84,12 +90,6 @@ export default function Index() {
             <button className="bugs">
               <TbMusicShare fontSize={20} />
               Bugs
-            </button>
-          </a>
-          <a href={youtubeLink} target="_blank" rel="noreferrer">
-            <button className="youtube">
-              <FaYoutube fontSize={20} />
-              Youtube
             </button>
           </a>
           {/* <a href={genie} target="_blank" rel="noreferrer">
