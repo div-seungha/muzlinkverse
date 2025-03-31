@@ -180,3 +180,14 @@ button:hover {
   font-weight: 200;
   margin: 8px 0;
 }
+
+/** Index ******************************/
+
+.index-container {
+  background: #1d1d1f;
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
