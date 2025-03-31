@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const spotifyAlbumId = "7INnDLNxqOZcF03uxHiBoA"; // 앨범 ID
-const appleTrackId = "/1801387819";
+const appleTrackId = "1801387819";
 const youtubeLink = "https://www.youtube.com/watch?v=3VQjL9_VzRg";
 const youtubeMusicId = "3VQjL9_VzRg";
 
