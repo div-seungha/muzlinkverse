@@ -33,17 +33,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <script
         async
-        src={`https://www.googletagmanager.com/gtag/js?id=G-LJRQ5HGF2Z`}
+        src="https://www.googletagmanager.com/gtag/js?id=G-LJRQ5HGF2Z"
       ></script>
       <script>
-        {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-LJRQ5HGF2Z', {
-              page_path: window.location.pathname,
-            });
-          `}
+        {`window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-LJRQ5HGF2Z');`}
       </script>
       <body>
         {children}
