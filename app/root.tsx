@@ -8,6 +8,7 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
+import { useEffect } from "react";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -23,6 +24,15 @@ export const links: LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    // 구글 애널리틱스 페이지 뷰 트래킹
+    if (window.gtag) {
+      window.gtag("config", "G-XXXXXXXXXX", {
+        page_path: window.location.pathname,
+      });
+    }
+  }, []);
+
   return (
     <html lang="ko">
       <head>
@@ -31,6 +41,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
+      <script
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=G-LJRQ5HGF2Z`}
+      ></script>
+      <script>
+        {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-LJRQ5HGF2Z', {
+              page_path: window.location.pathname,
+            });
+          `}
+      </script>
       <body>
         {children}
         <ScrollRestoration />

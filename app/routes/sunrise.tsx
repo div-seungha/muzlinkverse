@@ -10,8 +10,8 @@ const youtubeMusic =
   "https://music.youtube.com/watch?v=3VQjL9_VzRg&si=z4SL3ZIijictYVZ9";
 // const youtubeMusicId = "3VQjL9_VzRg";
 
-const melonTrackId = "38723311";
-const bugsTrackId = "33468444";
+// const melonTrackId = "38723311";
+// const bugsTrackId = "33468444";
 
 export default function Index() {
   const [spotify, setSpotify] = useState("");
