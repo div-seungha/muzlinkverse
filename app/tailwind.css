@@ -70,7 +70,8 @@ body {
 }
 
 .header-container {
-  max-width: 360px;
+  width: 360px;
+  width: 100%;
   height: fit-content;
   margin: 0 auto;
   background: #1d1d1f55;
@@ -85,6 +86,10 @@ body {
   backdrop-filter: blur(12px);
   /* background: linear-gradient(to bottom, #1d1d1f 20%, transparent); */
   display: flex;
+
+  @media screen and (max-width: 340px) {
+    display: block;
+  }
 }
 
 img {
@@ -116,8 +121,19 @@ p {
   gap: 12px;
 }
 
+a {
+  display: block;
+  width: 100%;
+}
+
 button {
-  width: 280px;
+  /* min-width: 240px; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  width: 100%;
   height: 48px;
   padding: 12px;
   box-sizing: border-box;

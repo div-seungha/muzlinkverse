@@ -1,19 +1,26 @@
 import { useEffect, useState } from "react";
+import { FaSpotify, FaYoutube } from "react-icons/fa";
+import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
 
 const spotifyAlbumId = "7INnDLNxqOZcF03uxHiBoA"; // 앨범 ID
-const appleTrackId = "1801387819";
+// const appleTrackId = "1801387819";
+const apple = "https://music.apple.com/kr/album/sunrise-single/1801387819";
 const youtubeLink = "https://www.youtube.com/watch?v=3VQjL9_VzRg";
-const youtubeMusicId = "3VQjL9_VzRg";
+const youtubeMusic =
+  "https://music.youtube.com/watch?v=3VQjL9_VzRg&si=z4SL3ZIijictYVZ9";
+// const youtubeMusicId = "3VQjL9_VzRg";
 
 const melonTrackId = "38723311";
 const bugsTrackId = "33468444";
 
 export default function Index() {
   const [spotify, setSpotify] = useState("");
-  const [apple, setApple] = useState("");
-  const [youtubeMusic, setYoutubeMusic] = useState("");
-  const [melon, setMelon] = useState("");
-  const [bugs, setBugs] = useState("");
+  //   const [apple, setApple] = useState("");
+  //   const [youtubeMusic, setYoutubeMusic] = useState(
+  //     "https://music.youtube.com/watch?v=3VQjL9_VzRg&si=z4SL3ZIijictYVZ9"
+  //   );
+  //   const [melon, setMelon] = useState("");
+  //   const [bugs, setBugs] = useState("");
 
   useEffect(() => {
     // 현재 URL에 있는 Spotify 앨범 링크
@@ -24,17 +31,17 @@ export default function Index() {
 
     if (isMobile) {
       setSpotify(`spotify://album/${spotifyAlbumId}`);
-      setApple(`https://music.apple.com/kr/album/sunrise-single/1801387819`);
-      setMelon(`melon://track/${melonTrackId}`);
-      setBugs(`bugs://track/${bugsTrackId}`);
-      setYoutubeMusic(`ytmusic://song/${youtubeMusicId}`);
+      //   setApple(`https://music.apple.com/kr/album/sunrise-single/1801387819`);
+      //   setMelon(`melon://track/${melonTrackId}`);
+      //   setBugs(`bugs://track/${bugsTrackId}`);
+      //   setYoutubeMusic(`ytmusic://song/${youtubeMusicId}`);
       //   setGenie(`genie://track/${genieTrackId}`);
     } else {
       setSpotify(`https://open.spotify.com/album/${spotifyAlbumId}`);
-      setApple(`https://music.apple.com/kr/album/sunrise-single/1801387819`);
-      setMelon(`https://www.melon.com/song/detail.htm?songId=${melonTrackId}`);
-      setBugs(`https://music.bugs.co.kr/track/${bugsTrackId}`);
-      setYoutubeMusic(`https://music.youtube.com/watch?v=${youtubeMusicId}`);
+      //   setApple(`https://music.apple.com/kr/album/sunrise-single/1801387819`);
+      //   setMelon(`https://www.melon.com/song/detail.htm?songId=${melonTrackId}`);
+      //   setBugs(`https://music.bugs.co.kr/track/${bugsTrackId}`);
+      //   setYoutubeMusic(`https://music.youtube.com/watch?v=${youtubeMusicId}`);
     }
   }, []);
 
@@ -46,30 +53,42 @@ export default function Index() {
           src="/cover.webp"
           alt="송병도, sunrise"
         />
-        <div className="flex flex-col-reverse h-[180px]">
+        <div className="flex flex-col-reverse text-right">
           <h1>Sunrise</h1>
           <p>송병도</p>
         </div>
       </div>
       <div className="link-container">
         <a href={spotify} target="_blank" rel="noreferrer">
-          <button>Spotify</button>
+          <button>
+            <FaSpotify />
+            Spotify
+          </button>
         </a>
         <a href={apple} target="_blank" rel="noreferrer">
-          <button>Apple Music</button>
+          <button>
+            <SiApplemusic />
+            Apple Music
+          </button>
         </a>
         <a href={youtubeMusic} target="_blank" rel="noreferrer">
-          <button>Youtube Music</button>
+          <button>
+            <SiYoutubemusic />
+            Youtube Music
+          </button>
         </a>
         <a href={youtubeLink} target="_blank" rel="noreferrer">
-          <button>Youtube</button>
+          <button>
+            <FaYoutube />
+            Youtube
+          </button>
         </a>
-        <a href={melon} target="_blank" rel="noreferrer">
+        {/* <a href={melon} target="_blank" rel="noreferrer">
           <button>Melon</button>
         </a>
         <a href={bugs} target="_blank" rel="noreferrer">
           <button>Bugs</button>
-        </a>
+        </a> */}
         {/* <a href={genie} target="_blank" rel="noreferrer">
         <button>Youtube</button>
       </a> */}
