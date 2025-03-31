@@ -42,11 +42,11 @@ export default function Index() {
     <div className="content-container">
       <div className="header-container">
         <img
-          className="w-[120px] h-[120px]"
+          className="w-[100px] h-[100px]"
           src="/cover.webp"
           alt="송병도, sunrise"
         />
-        <div className="flex flex-col-reverse h-[120px]">
+        <div className="flex flex-col-reverse h-[180px]">
           <h1>Sunrise</h1>
           <p>송병도</p>
         </div>

@@ -70,6 +70,9 @@ body {
 }
 
 .header-container {
+  max-width: 360px;
+  height: fit-content;
+  margin: 0 auto;
   background: #1d1d1f55;
   height: fit-content;
   /* background-image: url(/cover.webp); */
@@ -84,10 +87,15 @@ body {
   display: flex;
 }
 
+img {
+  border: 1px solid #ffffff77;
+  border-radius: 8px;
+}
+
 h1 {
   font-family: Pretendard;
   font-weight: 900;
-  font-size: 3rem;
+  font-size: 2rem;
   color: #ffffffdd;
   line-height: 1;
 }
@@ -113,7 +121,7 @@ button {
   height: 48px;
   padding: 12px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
