@@ -24,7 +24,7 @@ export default function Index() {
 
     if (isMobile) {
       setSpotify(`spotify://album/${spotifyAlbumId}`);
-      setApple(`music://track/${appleTrackId}`);
+      setApple(`music://album/sunrise-single/1801387819`);
       setMelon(`melon://track/${melonTrackId}`);
       setBugs(`bugs://track/${bugsTrackId}`);
       setYoutubeMusic(`ytmusic://song/${youtubeMusicId}`);
