@@ -51,6 +51,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --text-primary: #1de1d1f;
+  }
+  .dark {
+    --text-primary: #ffffff;
+  }
+}
+
 html,
 body {
   background: #1f1f1d;
@@ -69,6 +78,23 @@ body {
     radial-gradient(ellipse at bottom, #fde970, transparent); */
   padding: 40px;
   box-sizing: border-box;
+}
+
+.content-box {
+  position: relative;
+  @media screen and (min-width: 768px) {
+    width: 480px;
+    margin: 0 auto;
+  }
+}
+
+.cover-box {
+  width: 100%;
+  position: relative;
+  @media screen and (min-width: 768px) {
+    width: 480px;
+    margin: 0 auto;
+  }
 }
 
 .cover {
@@ -100,8 +126,8 @@ body {
   height: fit-content;
   margin: 0 auto;
   position: absolute;
-  top: 260px;
-  right: 40px;
+  top: 120px;
+  right: 0px;
   box-sizing: border-box;
 
   display: flex;
@@ -147,13 +173,22 @@ a {
   width: 100%;
 }
 
+img.profile {
+  width: 72px;
+  height: 72px;
+  border-radius: 36px;
+  object-fit: cover;
+  box-shadow: 2px 2px 8px #1d1d1f;
+  margin-bottom: 12px;
+}
+
 button {
   /* min-width: 240px; */
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 8px;
-  font-weight: 500;
+  font-weight: 600;
   width: 100%;
   height: 48px;
   padding: 12px;
@@ -163,15 +198,90 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* border: 1px solid #ffffff33; */
   border-radius: 12px;
-  color: #fff;
+  transition: all 300ms;
   /* border: 1px solid #ffffffaa; */
-  /* box-shadow: 0px 0px 4px #ffffffdd; */
+  box-shadow: 2px 2px 8px #00000055;
 }
 
 button:hover {
   background: #fff;
   color: #1d1d1f;
+}
+
+button.apple {
+  background: #f9243b;
+  color: #fff;
+}
+
+button.youtube:hover {
+  background: #fff;
+  color: #ff0032;
+}
+button.youtube-music {
+  background: #000;
+  color: #ff0032;
+}
+
+button.spotify {
+  background: #1cb955;
+  color: #fff;
+}
+
+button.melon {
+  background: #04cd3b;
+  color: #fff;
+}
+
+button.bugs {
+  background: #ff3b28;
+  color: #fff;
+}
+
+button.apple:hover {
+  color: #f9243b;
+  background: #fff;
+}
+
+button.youtube {
+  background: #ff0032;
+  color: #000;
+}
+button.youtube-music:hover {
+  color: #fff;
+  background: #ff0032;
+}
+
+button.spotify:hover {
+  color: #1cb955;
+  background: #fff;
+}
+
+button.melon:hover {
+  color: #04cd3b;
+  background: #fff;
+}
+
+button.bugs:hover {
+  color: #ff3b28;
+  background: #fff;
+}
+
+footer {
+  padding: 8px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0px;
+  font-size: 0.8rem;
+  color: #ffffff22;
+  text-align: center;
+}
+
+footer a {
+  display: inline;
+  text-decoration: underline;
 }
 
 .description {
@@ -213,3 +323,5 @@ button:hover {
     font-weight: 300;
   }
 }
+
+/** Search Container *******************************/
