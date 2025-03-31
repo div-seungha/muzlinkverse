@@ -268,6 +268,16 @@ button.bugs:hover {
   background: #fff;
 }
 
+button.naver {
+  background: #4900b0;
+  color: #fff;
+}
+
+button.naver:hover {
+  background: #fff;
+  color: #4900b0;
+}
+
 footer {
   padding: 8px;
   position: absolute;
@@ -289,6 +299,9 @@ footer a {
   color: #ffffffaa;
   font-weight: 200;
   margin: 8px 0;
+}
+
+.link-box {
 }
 
 /** Index ******************************/

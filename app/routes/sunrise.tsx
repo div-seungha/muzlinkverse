@@ -1,6 +1,7 @@
 import { MetaFunction } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { FaSpotify, FaYoutube } from "react-icons/fa";
+import { FaCirclePlay } from "react-icons/fa6";
 import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
 import { TbMusicShare } from "react-icons/tb";
 
@@ -13,6 +14,7 @@ const youtubeMusic =
 // const youtubeMusicId = "3VQjL9_VzRg";
 const melon = "https://kko.kakao.com/R7FS2yvnTo";
 const bugs = "https://music.bugs.co.kr/track/33468444";
+const naver = "https://naver.me/FFGZybFK";
 
 // const melonTrackId = "38723311";
 // const bugsTrackId = "33468444";
@@ -58,40 +60,47 @@ export default function Index() {
         <div className="link-container">
           <a href={youtubeMusic} target="_blank" rel="noreferrer">
             <button className="youtube-music">
-              <SiYoutubemusic fontSize={20} />
+              <SiYoutubemusic fontSize={28} />
               Youtube Music
             </button>
           </a>
           <a href={youtubeLink} target="_blank" rel="noreferrer">
             <button className="youtube">
-              <FaYoutube fontSize={20} />
+              <FaYoutube fontSize={30} />
               Youtube
             </button>
           </a>
           <a href={melon} target="_blank" rel="noreferrer">
             <button className="melon">
-              <TbMusicShare fontSize={20} />
+              <TbMusicShare fontSize={30} />
               Melon
             </button>
           </a>
           <a href={apple} target="_blank" rel="noreferrer">
             <button className="apple">
-              <SiApplemusic fontSize={20} />
+              <SiApplemusic fontSize={28} />
               Apple Music
             </button>
           </a>
           <a href={spotify} target="_blank" rel="noreferrer">
             <button className="spotify">
-              <FaSpotify fontSize={20} />
+              <FaSpotify fontSize={30} />
               Spotify
             </button>
           </a>
           <a href={bugs} target="_blank" rel="noreferrer">
             <button className="bugs">
-              <TbMusicShare fontSize={20} />
+              <TbMusicShare fontSize={30} />
               Bugs
             </button>
           </a>
+          <a href={naver} target="_blank" rel="noreferrer">
+            <button className="naver">
+              <FaCirclePlay fontSize={26} />
+              Naver Vibe
+            </button>
+          </a>
+
           {/* <a href={genie} target="_blank" rel="noreferrer">
         <button>Youtube</button>
       </a> */}

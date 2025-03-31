@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Search() {
-  const handleSubmit = (param) => {
+  const handleSubmit = (param: any) => {
     console.log("param", param);
   };
   return (
