@@ -51,8 +51,9 @@ export default function Index() {
       <img className="cover" src="/cover.webp" alt="송병도, sunrise" />
       <div className="header-container">
         <div className="flex flex-col-reverse text-right">
+          <p className="description">싱글 - 2025</p>
           <h1>Sunrise</h1>
-          <p>송병도</p>
+          <p>송병도 (Song beyoung doe)</p>
         </div>
       </div>
       <div className="link-container">

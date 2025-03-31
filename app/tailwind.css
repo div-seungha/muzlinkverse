@@ -122,8 +122,8 @@ h1 {
 
 p {
   color: #ffffff;
-  margin: 0;
-  font-weight: 700;
+  margin: 4px 0;
+  font-weight: 600;
   font-size: 1.1rem;
   /* color: #1f1f1d; */
   text-align: right;
@@ -172,4 +172,11 @@ button {
 button:hover {
   background: #fff;
   color: #1d1d1f;
+}
+
+.description {
+  font-size: 0.8rem;
+  color: #ffffffaa;
+  font-weight: 200;
+  margin: 8px 0;
 }
