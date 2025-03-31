@@ -54,7 +54,7 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div className="content-box">
+      <div className="content-box pb-[80px]">
         <div className="link-container">
           <a href={youtubeMusic} target="_blank" rel="noreferrer">
             <button className="youtube-music">
