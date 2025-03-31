@@ -190,4 +190,26 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 40px;
+}
+
+.under-construction {
+  width: 500px;
+
+  @media screen and (max-width: 340px) {
+    width: 140px;
+  }
+}
+
+.index-container h1 {
+  @media screen and (max-width: 340px) {
+    font-size: 32px;
+  }
+}
+
+.index-container p {
+  @media screen and (max-width: 340px) {
+    font-size: 14px;
+    font-weight: 300;
+  }
 }
