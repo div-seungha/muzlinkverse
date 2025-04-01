@@ -53,7 +53,17 @@
 
 @layer base {
   :root {
-    --text-primary: #1de1d1f;
+    --text-primary: #1d1d1f;
+    --youtube-primary: #ff0032;
+    --youtube-secondary: #000000;
+    --spotify-primary: #1cb955;
+    --spotify-secondary: #121212;
+    --bugs-primary: #ff3b28;
+    --melon-primary: #04cd3b;
+    --naver-vibe-primary: #4900b0;
+    --naver-vibe-secondary: #ff0050;
+    --flo-primary: #5450ff;
+    --apple-primary: #f9243b;
   }
   .dark {
     --text-primary: #ffffff;
@@ -211,71 +221,81 @@ button:hover {
 }
 
 button.apple {
-  background: #f9243b;
+  background: var(--apple-primary);
   color: #fff;
 }
 
-button.youtube:hover {
+button.youtube {
   background: #fff;
-  color: #ff0032;
+  color: var(--youtube-primary);
 }
 button.youtube-music {
   background: #000;
-  color: #ff0032;
+  color: var(--youtube-primary);
 }
 
 button.spotify {
-  background: #1cb955;
+  background: var(--spotify-primary);
   color: #fff;
 }
 
 button.melon {
-  background: #04cd3b;
+  background: var(--melon-primary);
   color: #fff;
 }
 
 button.bugs {
-  background: #ff3b28;
+  background: var(--bugs-primary);
   color: #fff;
 }
 
 button.apple:hover {
-  color: #f9243b;
+  color: var(--apple-primary);
   background: #fff;
 }
 
-button.youtube {
-  background: #ff0032;
+button.youtube:hover {
+  background: var(--youtube-primary);
   color: #000;
 }
 button.youtube-music:hover {
   color: #fff;
-  background: #ff0032;
+  background: var(--youtube-primary);
 }
 
 button.spotify:hover {
-  color: #1cb955;
+  color: var(--spotify-primary);
   background: #fff;
 }
 
 button.melon:hover {
-  color: #04cd3b;
+  color: var(--melon-primary);
   background: #fff;
 }
 
 button.bugs:hover {
-  color: #ff3b28;
+  color: var(--bugs-primary);
   background: #fff;
 }
 
 button.naver {
-  background: #4900b0;
+  background: var(--naver-vibe-primary);
   color: #fff;
 }
 
 button.naver:hover {
   background: #fff;
-  color: #4900b0;
+  color: var(--naver-vibe-primary);
+}
+
+button.flo {
+  background: var(--flo-primary);
+  color: #fff;
+}
+
+button.flo:hover {
+  background: #fff;
+  color: var(--flo-primary);
 }
 
 footer {

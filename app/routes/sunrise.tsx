@@ -4,6 +4,8 @@ import { FaSpotify, FaYoutube } from "react-icons/fa";
 import { FaCirclePlay } from "react-icons/fa6";
 import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
 import { TbMusicShare } from "react-icons/tb";
+import { PiPlayCircleBold } from "react-icons/pi";
+import { RiMusicAiFill } from "react-icons/ri";
 
 const spotifyAlbumId = "7INnDLNxqOZcF03uxHiBoA"; // 앨범 ID
 // const appleTrackId = "1801387819";
@@ -15,6 +17,7 @@ const youtubeMusic =
 const melon = "https://kko.kakao.com/R7FS2yvnTo";
 const bugs = "https://music.bugs.co.kr/track/33468444";
 const naver = "https://naver.me/FFGZybFK";
+const flo = "https://flomuz.io/s/b.Kb3wF";
 
 // const melonTrackId = "38723311";
 // const bugsTrackId = "33468444";
@@ -72,7 +75,7 @@ export default function Index() {
           </a>
           <a href={melon} target="_blank" rel="noreferrer">
             <button className="melon">
-              <TbMusicShare fontSize={30} />
+              <PiPlayCircleBold fontSize={30} />
               Melon
             </button>
           </a>
@@ -98,6 +101,12 @@ export default function Index() {
             <button className="naver">
               <FaCirclePlay fontSize={26} />
               Naver Vibe
+            </button>
+          </a>
+          <a href={flo} target="_blank" rel="noreferrer">
+            <button className="flo">
+              <RiMusicAiFill fontSize={26} />
+              FLO
             </button>
           </a>
 
