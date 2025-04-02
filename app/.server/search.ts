@@ -117,7 +117,7 @@ export const getSearchResult = async (params: SearchParams) => {
         appleMusicResult.data[0].attributes.artwork.url.replace(
           /\.jpg\/.*$/,
           ".jpg"
-        ) + "/120x120bb.jpg",
+        ) + "/500x500bb.jpg",
       spotifyUrl: spotifyResult[0].id,
       appleMusicUrl: appleMusicResult.data[0].attributes.url,
       youtubeUrl: youtubeVideoResult,
