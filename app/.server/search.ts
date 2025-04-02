@@ -52,6 +52,8 @@ const APPLE_KEY_ID = process.env.APPLE_KEY_ID;
 const APPLE_PRIVATE_KEY =
   process.env.APPLE_PRIVATE_KEY?.replace(/\\n/g, "\n") || "";
 
+console.log(APPLE_PRIVATE_KEY);
+
 const appleAccessToken = jwt.sign({}, APPLE_PRIVATE_KEY, {
   algorithm: "ES256",
   expiresIn: "180d", // 최대 6개월까지
