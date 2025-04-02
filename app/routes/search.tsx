@@ -5,6 +5,7 @@ import { LuSearch } from "react-icons/lu";
 // import { BsFillShareFill } from "react-icons/bs";
 import LinkContainer from "~/components/LinkContainer";
 
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Muzlinkverse" },
@@ -72,6 +73,7 @@ export default function Search() {
           />
         </div>
       )}
+
     </div>
   );
 }

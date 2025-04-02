@@ -1,10 +1,14 @@
 import { captureRemixErrorBoundaryError } from "@sentry/remix";
 import {
-Links, Meta, Outlet, // Scripts,
-ScrollRestoration, useRouteError
+  Links,
+  Meta,
+  Outlet, // Scripts,
+  ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
 
 import "./tailwind.css";
+import Footer from "./components/Footer";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -31,6 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <ScrollRestoration />
+        <Footer />
       </body>
     </html>
   );

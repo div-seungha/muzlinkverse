@@ -1,8 +1,8 @@
 import { FaSpotify, FaYoutube } from "react-icons/fa";
 import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
-import Footer from "./Footer";
 import { useEffect, useState } from "react";
 import { BsFillShareFill } from "react-icons/bs";
+import { ToastContainer, toast } from "react-toastify";
 // import { FaCirclePlay } from "react-icons/fa6";
 // import { PiPlayCircleBold } from "react-icons/pi";
 // import { RiMusicAiFill } from "react-icons/ri";
@@ -49,8 +49,7 @@ const LinkContainer = (props: LinkContainerProps) => {
     const url = `https://muzlinkverse.com/${id}`;
 
     window.navigator.clipboard.writeText(url);
-    console.log("복사");
-    alert("공유 링크가 복사되었습니다! 📋");
+    toast("공유 링크가 복사되었습니다.");
   };
 
   useEffect(() => {
@@ -64,6 +63,10 @@ const LinkContainer = (props: LinkContainerProps) => {
         setSpotify(`https://open.spotify.com/track/${spotifyId}`);
       }
     }
+  }, []);
+
+  useEffect(() => {
+    toast("공유 링크가 복사되었습니다.");
   }, []);
 
   return (
@@ -163,7 +166,16 @@ const LinkContainer = (props: LinkContainerProps) => {
               </a> */}
         </div>
       </div>
-      <Footer />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={true}
+        closeOnClick={true}
+        rtl={false}
+        pauseOnFocusLoss
+        theme="colored"
+      />
     </div>
   );
 };

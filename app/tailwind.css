@@ -66,6 +66,7 @@
     --apple-primary: #f9243b;
     --search-input-button: #ff5745;
     --background: #1d1d1f;
+    --success: #1fd024;
   }
   .dark {
     --text-primary: #ffffff;
@@ -76,6 +77,8 @@ html,
 body {
   background: var(--background);
   font-size: 16px;
+  position: relative;
+  min-height: 100svh;
 }
 
 .content-container {
@@ -316,7 +319,7 @@ button.flo:hover {
 }
 
 footer {
-  padding: 8px;
+  padding: 16px 2px;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -381,7 +384,7 @@ footer a {
   max-width: 800px;
   margin: 0 auto;
   background: var(--background);
-  padding: 0;
+  padding: 0px 0px 60px 0px;
 }
 
 .search-container .search-form {
@@ -437,6 +440,7 @@ footer a {
 .search-result-container {
   position: relative;
   margin-top: 40px;
+  padding-bottom: 100px;
   z-index: 1000;
 }
 
@@ -456,4 +460,16 @@ footer a {
 
 .search-result-container .content-box {
   top: 0px;
+}
+
+.Toastify__toast {
+  border-radius: 8px;
+  background: var(--success);
+  color: var(--background);
+  font-weight: 400;
+  font-size: 14px;
+  width: calc(100svw - 20px);
+  text-align: left;
+  padding: 12px;
+  box-sizing: border-box;
 }
