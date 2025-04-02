@@ -44,7 +44,7 @@ const LinkContainer = (props: LinkContainerProps) => {
       const isMobile = /iphone|ipod|android/i.test(userAgent);
 
       if (isMobile) {
-        setSpotify(`spotify://album/${spotifyId}`);
+        setSpotify(`spotify://track/${spotifyId}`);
       } else {
         setSpotify(`https://open.spotify.com/track/${spotifyId}`);
       }
