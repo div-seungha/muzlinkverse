@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import LinkContainer from "~/components/LinkContainer";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  console.log(params);
   const id = Number(params.id);
 
   if (isNaN(id)) {
@@ -39,7 +38,9 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 const SearchResultPage = () => {
   const data = useLoaderData<SearchResultPage>();
 
-  const [spotify, setSpotify] = useState("");
+  const [spotify, setSpotify] = useState(
+    `https://open.spotify.com/track/${data.spotifyUrl}`
+  );
 
   const releaseDate = data.releaseDate;
   const apple = data.appleMusicUrl;
@@ -60,9 +61,9 @@ const SearchResultPage = () => {
     if (isMobile) {
       setSpotify(`spotify://album/${data.spotifyUrl}`);
     } else {
-      setSpotify(`https://open.spotify.com/album/${data.spotifyUrl}`);
+      setSpotify(`https://open.spotify.com/track/${data.spotifyUrl}`);
     }
-  }, []);
+  }, [data]);
 
   return (
     <LinkContainer
@@ -72,7 +73,7 @@ const SearchResultPage = () => {
       bgColor={data.bgColor}
       youtubeLink={youtubeLink}
       apple={apple}
-      spotify={spotify}
+      spotifyId={spotify}
       releaseDate={releaseDate}
       youtubeMusic={youtubeMusic}
       youtubeUrl={youtubeUrl}

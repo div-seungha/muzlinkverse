@@ -2,7 +2,7 @@ import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { Form, json, useActionData } from "@remix-run/react";
 import { getSearchResult } from "~/.server/search";
 import { LuSearch } from "react-icons/lu";
-import { BsFillShareFill } from "react-icons/bs";
+// import { BsFillShareFill } from "react-icons/bs";
 import LinkContainer from "~/components/LinkContainer";
 
 export const meta: MetaFunction = () => {
@@ -28,15 +28,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function Search() {
   const data = useActionData<SearchResultPage>();
 
-  const handleCopy = () => {
-    console.log("?????");
+  // const handleCopy = () => {
+  //   console.log("?????");
 
-    const url = `https://muzlinkverse.com/${data?.id}`;
+  //   const url = `https://muzlinkverse.com/${data?.id}`;
 
-    window.navigator.clipboard.writeText(url);
-    console.log("복사");
-    alert("공유 링크가 복사되었습니다! 📋");
-  };
+  //   window.navigator.clipboard.writeText(url);
+  //   console.log("복사");
+  //   alert("공유 링크가 복사되었습니다! 📋");
+  // };
 
   return (
     <div className="search-container">
@@ -68,20 +68,20 @@ export default function Search() {
         <div className="search-result-container">
           <div className="confirm-container">
             <p>찾으시는 곡이 맞으신가요?</p>
-            <button
+            {/* <button
               type="button"
               className="search-result-share"
               onClick={handleCopy}
             >
               <BsFillShareFill fontSize={20} />
               공유하기
-            </button>
+            </button> */}
             <p>
-              공유 버튼이 실행되지 않으면
-              <br />
+              {/* 공유 버튼이 실행되지 않으면
+              <br /> */}
               https://muzlinkverse.com/{data.id}
-              <br />위 URL을 직접 공유하실 수 있습니다
             </p>
+            <p>위 URL을 복사하여 공유하실 수 있습니다</p>
             <iframe
               width="90%"
               height="90%"
@@ -99,7 +99,7 @@ export default function Search() {
             bgColor={data.bgColor}
             youtubeLink={`https://www.youtube.com/watch?v=${data.youtubeUrl}`}
             apple={data.appleMusicUrl}
-            spotify={data.spotifyUrl}
+            spotifyId={data.spotifyUrl}
             releaseDate={data.releaseDate}
             youtubeMusic={`https://music.youtube.com/watch?v=${data.youtubeUrl}`}
             youtubeUrl={data.youtubeUrl}

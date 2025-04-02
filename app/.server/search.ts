@@ -1,6 +1,4 @@
 import axios from "axios";
-import jwt from "jsonwebtoken";
-// import fs from "fs";
 import { prisma } from "./db";
 
 type SearchParams = {
@@ -47,37 +45,21 @@ export const getSpotify = async (params: SearchParams) => {
   return res.data.tracks.items;
 };
 
-const APPLE_TEAM_ID = process.env.APPLE_TEAM_ID;
-const APPLE_KEY_ID = process.env.APPLE_KEY_ID;
-const rawKey = process.env.APPLE_PRIVATE_KEY;
-
-// const APPLE_PRIVATE_KEY = JSON.parse(process.env.APPLE_PRIVATE_KEY);
-
-if (!rawKey) {
-  throw new Error("APPLE_PRIVATE_KEY is missing");
-}
-
-const privateKey = rawKey.replace(/\\n/g, "\n");
-
-// console.log(process.env.APPLE_PRIVATE_KEY);
-// console.log(APPLE_PRIVATE_KEY);
-
-const appleAccessToken = jwt.sign({}, privateKey, {
-  algorithm: "ES256",
-  expiresIn: "180d", // 최대 6개월까지
-  issuer: APPLE_TEAM_ID,
-  header: {
-    alg: "ES256",
-    kid: APPLE_KEY_ID,
-  },
-});
+const getAppleTokenFromLambda = async () => {
+  const res = await fetch(
+    "https://jmj1zlude4.execute-api.ap-northeast-2.amazonaws.com/default/apple-token-generator"
+  );
+  const data = await res.json();
+  return data.token;
+};
 
 const getAppleMusic = async (query: string) => {
   const url = `https://api.music.apple.com/v1/catalog/kr/search`;
+  const token = await getAppleTokenFromLambda();
 
   const response = await axios.get(url, {
     headers: {
-      Authorization: `Bearer ${appleAccessToken}`,
+      Authorization: `Bearer ${token}`,
     },
     params: {
       term: query,

@@ -1,6 +1,7 @@
 import { FaSpotify, FaYoutube } from "react-icons/fa";
 import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
 import Footer from "./Footer";
+import { useEffect, useState } from "react";
 // import { FaCirclePlay } from "react-icons/fa6";
 // import { PiPlayCircleBold } from "react-icons/pi";
 // import { RiMusicAiFill } from "react-icons/ri";
@@ -15,7 +16,7 @@ type LinkContainerProps = {
   youtubeMusic: string;
   youtubeLink: string;
   youtubeUrl: string;
-  spotify: string;
+  spotifyId: string;
   apple: string;
 };
 
@@ -29,9 +30,26 @@ const LinkContainer = (props: LinkContainerProps) => {
     youtubeMusic,
     youtubeLink,
     // youtubeUrl,
-    spotify,
+    spotifyId,
     apple,
   } = props;
+
+  const [spotify, setSpotify] = useState(
+    `https://open.spotify.com/track/${spotifyId}`
+  );
+
+  useEffect(() => {
+    if (window) {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      const isMobile = /iphone|ipod|android/i.test(userAgent);
+
+      if (isMobile) {
+        setSpotify(`spotify://album/${spotifyId}`);
+      } else {
+        setSpotify(`https://open.spotify.com/track/${spotifyId}`);
+      }
+    }
+  }, []);
 
   return (
     <div className="content-container">

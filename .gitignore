@@ -6,3 +6,5 @@ node_modules
 
 # Apple Music private key
 AuthKey_*.p8
+
+/lambda

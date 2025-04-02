@@ -173,7 +173,7 @@ p {
 
 .link-container {
   display: flex;
-  margin-top: 520px;
+  margin-top: 380px;
   /* position: absolute;
   top: 440px;
   left: 50%;
@@ -182,6 +182,10 @@ p {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+}
+
+.search-container .link-container {
+  margin-top: 480px;
 }
 
 .link-container > a {
@@ -438,7 +442,13 @@ footer a {
   width: 60%;
   margin: 20px auto;
   color: #fff;
+  position: relative;
   z-index: 10000;
+}
+
+.search-result-container .search-result-share:hover {
+  background: #fff;
+  color: #0009b3;
 }
 
 .search-result-container .content-box {
