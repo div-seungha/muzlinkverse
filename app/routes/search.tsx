@@ -137,6 +137,9 @@ export const ErrorBoundary = () => {
         style={{ fontWeight: 200 }}
       >
         문제가 계속되면 아래로 연락 주세요!
+        <br />
+        커스텀 웹 페이지가 필요하시다면
+        <br />그 또한 아래로 연락주세요!
       </p>
       <p
         className="text-center text-[12px] mb-[40px]"
