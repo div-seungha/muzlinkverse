@@ -49,8 +49,10 @@ export const getSpotify = async (params: SearchParams) => {
 
 const APPLE_TEAM_ID = process.env.APPLE_TEAM_ID;
 const APPLE_KEY_ID = process.env.APPLE_KEY_ID;
-const APPLE_PRIVATE_KEY =
-  process.env.APPLE_PRIVATE_KEY?.replace(/\\n/g, "\n") || "";
+// const APPLE_PRIVATE_KEY =
+//   process.env.APPLE_PRIVATE_KEY?.replace(/\\n/g, "\n") || "";
+
+const APPLE_PRIVATE_KEY = JSON.parse(`"${process.env.APPLE_PRIVATE_KEY}"`);
 
 console.log(APPLE_PRIVATE_KEY);
 
