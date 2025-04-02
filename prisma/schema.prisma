@@ -1,0 +1,25 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Song {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  title         String
+  artist        String
+  artwork       String?
+  bgColor       String?
+  releaseDate   String?
+  spotifyUrl    String?
+  appleMusicUrl String?
+  youtubeUrl    String?
+
+  @@unique([title, artist])
+}
