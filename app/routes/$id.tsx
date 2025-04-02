@@ -67,6 +67,8 @@ const SearchResultPage = () => {
 
   return (
     <LinkContainer
+      isSearch={false}
+      id={data.id}
       title={data.title}
       artist={data.artist}
       coverImgUrl={coverImgUrl}

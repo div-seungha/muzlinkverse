@@ -28,16 +28,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function Search() {
   const data = useActionData<SearchResultPage>();
 
-  // const handleCopy = () => {
-  //   console.log("?????");
-
-  //   const url = `https://muzlinkverse.com/${data?.id}`;
-
-  //   window.navigator.clipboard.writeText(url);
-  //   console.log("복사");
-  //   alert("공유 링크가 복사되었습니다! 📋");
-  // };
-
   return (
     <div className="search-container">
       <Form action="/search" method="post" className="search-form">
@@ -66,33 +56,9 @@ export default function Search() {
 
       {data && (
         <div className="search-result-container">
-          <div className="confirm-container">
-            <p>찾으시는 곡이 맞으신가요?</p>
-            {/* <button
-              type="button"
-              className="search-result-share"
-              onClick={handleCopy}
-            >
-              <BsFillShareFill fontSize={20} />
-              공유하기
-            </button> */}
-            <p>
-              {/* 공유 버튼이 실행되지 않으면
-              <br /> */}
-              https://muzlinkverse.com/{data.id}
-            </p>
-            <p>위 URL을 복사하여 공유하실 수 있습니다</p>
-            <iframe
-              width="90%"
-              height="90%"
-              style={{ margin: "20px auto" }}
-              src={`https://www.youtube.com/embed/${data.youtubeUrl}`}
-              title={data.title + "-" + data.artist}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
           <LinkContainer
+            id={data.id}
+            isSearch={true}
             title={data.title}
             artist={data.artist}
             coverImgUrl={data.artwork}
