@@ -44,12 +44,12 @@ const LinkContainer = (props: LinkContainerProps) => {
   );
 
   const handleCopy = () => {
-    console.log("?????");
-
     const url = `https://muzlinkverse.com/${id}`;
 
-    window.navigator.clipboard.writeText(url);
-    toast("공유 링크가 복사되었습니다.");
+    if (window) {
+      window.navigator.clipboard.writeText(url);
+      toast("공유 링크가 복사되었습니다.");
+    }
   };
 
   useEffect(() => {
@@ -63,10 +63,6 @@ const LinkContainer = (props: LinkContainerProps) => {
         setSpotify(`https://open.spotify.com/track/${spotifyId}`);
       }
     }
-  }, []);
-
-  useEffect(() => {
-    toast("공유 링크가 복사되었습니다.");
   }, []);
 
   return (
