@@ -49,15 +49,20 @@ export const getSpotify = async (params: SearchParams) => {
 
 const APPLE_TEAM_ID = process.env.APPLE_TEAM_ID;
 const APPLE_KEY_ID = process.env.APPLE_KEY_ID;
-const APPLE_PRIVATE_KEY = process.env.APPLE_PRIVATE_KEY
-  ? process.env.APPLE_PRIVATE_KEY.replace(/\\n/g, "\n")
-  : "";
+const rawKey = process.env.APPLE_PRIVATE_KEY;
 
-// const APPLE_PRIVATE_KEY = JSON.parse(`"${process.env.APPLE_PRIVATE_KEY}"`);
+// const APPLE_PRIVATE_KEY = JSON.parse(process.env.APPLE_PRIVATE_KEY);
 
-console.log(APPLE_PRIVATE_KEY);
+if (!rawKey) {
+  throw new Error("APPLE_PRIVATE_KEY is missing");
+}
 
-const appleAccessToken = jwt.sign({}, APPLE_PRIVATE_KEY, {
+const privateKey = rawKey.replace(/\\n/g, "\n");
+
+// console.log(process.env.APPLE_PRIVATE_KEY);
+// console.log(APPLE_PRIVATE_KEY);
+
+const appleAccessToken = jwt.sign({}, privateKey, {
   algorithm: "ES256",
   expiresIn: "180d", // 최대 6개월까지
   issuer: APPLE_TEAM_ID,
