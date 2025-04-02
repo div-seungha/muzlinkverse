@@ -10,17 +10,17 @@ import { ToastContainer, toast } from "react-toastify";
 
 type LinkContainerProps = {
   id?: number;
-  isSearch: boolean;
-  bgColor: string;
-  coverImgUrl: string;
-  title: string;
-  artist: string;
-  releaseDate: string;
-  youtubeMusic: string;
-  youtubeLink: string;
-  youtubeUrl: string;
-  spotifyId: string;
-  apple: string;
+  isSearch?: boolean;
+  bgColor?: string;
+  coverImgUrl?: string;
+  title?: string;
+  artist?: string;
+  releaseDate?: string;
+  youtubeMusic?: string;
+  youtubeLink?: string;
+  youtubeUrl?: string;
+  spotifyId?: string;
+  apple?: string;
 };
 
 const LinkContainer = (props: LinkContainerProps) => {
@@ -43,12 +43,18 @@ const LinkContainer = (props: LinkContainerProps) => {
     `https://open.spotify.com/track/${spotifyId}`
   );
 
-  const handleCopy = () => {
+  const handleCopy = (e: MouseEvent) => {
+    e.stopPropagation();
+    console.log("asdfasdf");
     const url = `https://muzlinkverse.com/${id}`;
 
-    if (window) {
-      window.navigator.clipboard.writeText(url);
-      toast("공유 링크가 복사되었습니다.");
+    if (window && window.navigator && window.navigator.clipboard) {
+      navigator.clipboard
+        .writeText(url)
+        .then(() => toast("공유 링크가 복사되었습니다."))
+        .catch(() => toast("복사에 실패했습니다. 다시 시도해 주세요."));
+    } else {
+      toast("이 기기에서는 복사 기능이 지원되지 않습니다.");
     }
   };
 
@@ -85,31 +91,34 @@ const LinkContainer = (props: LinkContainerProps) => {
         </div>
       </div>
       <div className="content-box pb-[80px]">
-        {isSearch && (
-          <div className="confirm-container">
-            <p>찾으시는 곡이 맞으신가요?</p>
-            <button
-              type="button"
-              className="search-result-share"
-              onClick={handleCopy}
-            >
-              <BsFillShareFill fontSize={20} />
-              공유하기
-            </button>
-            <p>공유 버튼이 실행되지 않으면</p>
-            <p style={{ fontWeight: 800 }}>https://muzlinkverse.com/{id}</p>
-            <p>위 URL을 복사하여 직접 공유하실 수 있습니다.</p>
-            <iframe
-              width="90%"
-              height="90%"
-              style={{ margin: "20px auto" }}
-              src={`https://www.youtube.com/embed/${youtubeUrl}`}
-              title={title + "-" + artist}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        )}
+        <div
+          className="confirm-container"
+          style={{ display: isSearch ? "block" : "none" }}
+        >
+          <p>찾으시는 곡이 맞으신가요?</p>
+          <button
+            type="button"
+            className="search-result-share"
+            onClick={(e) => handleCopy(e)}
+            disabled
+          >
+            <BsFillShareFill fontSize={20} />
+            공유하기
+          </button>
+          <p>공유하기 버튼 기능은 현재 개발 중입니다.🥲</p>
+          <p style={{ fontWeight: 800 }}>https://muzlinkverse.com/{id}</p>
+          <p>위 URL을 복사하여 직접 공유하실 수 있습니다.</p>
+          <iframe
+            width="90%"
+            height="90%"
+            style={{ margin: "20px auto" }}
+            src={`https://www.youtube.com/embed/${youtubeUrl}`}
+            title={title + "-" + artist}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+
         <div className="link-container">
           <a href={apple} target="_blank" rel="noreferrer">
             <button className="apple">

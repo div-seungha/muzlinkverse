@@ -42,9 +42,43 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export const ErrorBoundary = () => {
-  const error = useRouteError();
-  captureRemixErrorBoundaryError(error);
-  return <div>Something went wrong</div>;
+  const error: any = useRouteError();
+
+  return (
+    <div className="py-[60px] px-[20px]">
+      <img
+        src="/error.webp"
+        alt="에러 발생"
+        width={200}
+        style={{ margin: "20px auto" }}
+      />
+      <h2
+        className="text-center text-[24px] my-[20px]"
+        style={{ fontWeight: 800, color: "#fff" }}
+      >
+        Oops! Something is wrong...
+      </h2>
+      <p
+        className="text-center text-[12px] mt-[24px]"
+        style={{ fontWeight: 200 }}
+      >
+        문제가 계속되면 아래로 연락 주세요!
+      </p>
+      <p
+        className="text-center text-[12px] mb-[40px]"
+        style={{ fontWeight: 200 }}
+      >
+        serendipity@beonanotherplanet.com
+      </p>
+
+      <p className="text-center text-[12px]" style={{ fontWeight: 600 }}>
+        Error Code: {error.status}
+      </p>
+      <p className="text-center text-[12px]" style={{ fontWeight: 600 }}>
+        {error.statusText}
+      </p>
+    </div>
+  );
 };
 
 export default function App() {

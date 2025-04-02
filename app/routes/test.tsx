@@ -35,7 +35,6 @@ const Error = () => {
       <p className="text-center text-[12px]" style={{ fontWeight: 200 }}>
         serendipity@beonanotherplanet.com
       </p>
-      {/* {error.status} - {error.statusText} */}
     </div>
   );
 };

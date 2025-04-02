@@ -1,10 +1,17 @@
 import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { Form, json, useActionData, useRouteError } from "@remix-run/react";
+import {
+  Form,
+  json,
+  Link,
+  useActionData,
+  useRouteError,
+} from "@remix-run/react";
 import { getSearchResult } from "~/.server/search";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { LuSearch } from "react-icons/lu";
+import { useFetcher } from "@remix-run/react";
 // import { BsFillShareFill } from "react-icons/bs";
 import LinkContainer from "~/components/LinkContainer";
-
 
 export const meta: MetaFunction = () => {
   return [
@@ -29,9 +36,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function Search() {
   const data = useActionData<SearchResultPage>();
 
+  const fetcher = useFetcher();
+  const isSubmitting = fetcher.state === "submitting";
+
   return (
     <div className="search-container">
-      <Form action="/search" method="post" className="search-form">
+      <fetcher.Form action="/search" method="post" className="search-form">
         <p className="search-input-form-text">
           찾으시는 곡의 이름이 무엇인가요?
         </p>
@@ -51,29 +61,35 @@ export default function Search() {
           placeholder="아티스트의 이름을 정확히 입력해주세요"
         />
         <button className="search-input-button" type="submit">
-          <LuSearch fontSize={20} />
+          {isSubmitting ? (
+            <span className="loading">
+              <AiOutlineLoading3Quarters fontSize={20} />
+            </span>
+          ) : (
+            <LuSearch fontSize={20} />
+          )}
         </button>
-      </Form>
+      </fetcher.Form>
 
-      {data && (
-        <div className="search-result-container">
-          <LinkContainer
-            id={data.id}
-            isSearch={true}
-            title={data.title}
-            artist={data.artist}
-            coverImgUrl={data.artwork}
-            bgColor={data.bgColor}
-            youtubeLink={`https://www.youtube.com/watch?v=${data.youtubeUrl}`}
-            apple={data.appleMusicUrl}
-            spotifyId={data.spotifyUrl}
-            releaseDate={data.releaseDate}
-            youtubeMusic={`https://music.youtube.com/watch?v=${data.youtubeUrl}`}
-            youtubeUrl={data.youtubeUrl}
-          />
-        </div>
-      )}
-
+      <div
+        className="search-result-container"
+        style={{ display: data ? "block" : "none" }}
+      >
+        <LinkContainer
+          id={data?.id}
+          isSearch={true}
+          title={data?.title}
+          artist={data?.artist}
+          coverImgUrl={data?.artwork}
+          bgColor={data?.bgColor}
+          youtubeLink={`https://www.youtube.com/watch?v=${data?.youtubeUrl}`}
+          apple={data?.appleMusicUrl}
+          spotifyId={data?.spotifyUrl}
+          releaseDate={data?.releaseDate}
+          youtubeMusic={`https://music.youtube.com/watch?v=${data?.youtubeUrl}`}
+          youtubeUrl={data?.youtubeUrl}
+        />
+      </div>
     </div>
   );
 }
@@ -95,7 +111,10 @@ export const ErrorBoundary = () => {
       >
         Oops! Something is wrong...
       </h2>
-      <p className="text-center text-[14px]" style={{ fontWeight: 600 }}>
+      <p
+        className="text-center text-[14px] my-[24px]"
+        style={{ fontWeight: 700 }}
+      >
         입력한 내용을 다시 확인해주세요.
       </p>
       <p className="text-center text-[14px]" style={{ fontWeight: 400 }}>
@@ -104,16 +123,34 @@ export const ErrorBoundary = () => {
       <p className="text-center text-[14px]" style={{ fontWeight: 400 }}>
         아티스트 입력 칸에는 아티스트 이름을...
       </p>
+      <Link to="/search" viewTransition>
+        <button
+          className="w-[200px] my-[24px]"
+          style={{ margin: "24px auto" }}
+          type="button"
+        >
+          돌아가기
+        </button>
+      </Link>
       <p
         className="text-center text-[12px] mt-[24px]"
         style={{ fontWeight: 200 }}
       >
         문제가 계속되면 아래로 연락 주세요!
       </p>
-      <p className="text-center text-[12px]" style={{ fontWeight: 200 }}>
+      <p
+        className="text-center text-[12px] mb-[40px]"
+        style={{ fontWeight: 200 }}
+      >
         serendipity@beonanotherplanet.com
       </p>
-      {error.status} - {error.statusText}
+
+      <p className="text-center text-[12px]" style={{ fontWeight: 600 }}>
+        Error Code: {error.status}
+      </p>
+      <p className="text-center text-[12px]" style={{ fontWeight: 600 }}>
+        {error.statusText}
+      </p>
     </div>
   );
 };
