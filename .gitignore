@@ -8,3 +8,7 @@ node_modules
 AuthKey_*.p8
 
 /lambda
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
