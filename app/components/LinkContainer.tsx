@@ -106,7 +106,9 @@ const LinkContainer = (props: LinkContainerProps) => {
             공유하기
           </button>
           <p>공유하기 버튼 기능은 현재 개발 중입니다.🥲</p>
-          <p style={{ fontWeight: 800 }}>https://muzlinkverse.com/{id}</p>
+          <p style={{ fontWeight: 800, fontSize: 22 }}>
+            https://muzlinkverse.com/{id}
+          </p>
           <p>위 URL을 복사하여 직접 공유하실 수 있습니다.</p>
           <iframe
             width="90%"

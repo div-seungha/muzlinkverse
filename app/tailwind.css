@@ -98,6 +98,15 @@ body {
 
 .search-container .content-container {
   min-height: calc(100svh + 400px);
+  @media screen and (max-width: 360px) {
+    padding: 20px;
+  }
+}
+
+.search-container .link-container {
+  @media screen and (max-width: 360px) {
+    padding: 20px;
+  }
 }
 
 .content-box {
@@ -138,8 +147,9 @@ body {
   background-size: cover;
   background-position: bottom; */
 
-  @media screen and (max-width: 340px) {
+  @media screen and (max-width: 360px) {
     background-position: center;
+    width: 100%;
   }
 }
 
