@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { Link } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,6 +24,11 @@ export default function Index() {
         <h1 className="text-[24px] mb-[20px]">Under Construction...</h1>
         <p className="text-[14px]" style={{ fontWeight: 200 }}>
           현재 작업 중인 웹 사이트입니다.
+        </p>
+        <p className="mb-[32px]">
+          <Link to="/search" viewTransition className="underline text-[#fff]">
+            음원 공유 페이지 바로가기
+          </Link>
         </p>
         <p className="text-[14px]" style={{ fontWeight: 200 }}>
           문의사항 -
