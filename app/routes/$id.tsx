@@ -53,10 +53,19 @@ const SearchResultPage = () => {
   const coverImgUrl = data.artwork;
 
   useEffect(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isMobile = /iphone|ipod|android/i.test(userAgent);
+    const ua = navigator.userAgent.toLowerCase();
+    // 모바일 기기 감지
+    const isMobile =
+      /iphone|ipod|ipad|android|windows phone|blackberry|bb10|mini|mobile|touch/.test(
+        ua
+      );
+    // 카카오톡 인앱 브라우저 감지
+    const isKakaoWebview = /kakaotalk/.test(ua);
 
-    if (isMobile) {
+    // 최종 판단
+    const isMobileOrWebview = isMobile || isKakaoWebview;
+
+    if (isMobileOrWebview) {
       setSpotify(`spotify://track/${data.spotifyUrl}`);
     } else {
       setSpotify(`https://open.spotify.com/track/${data.spotifyUrl}`);
