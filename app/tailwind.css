@@ -494,19 +494,6 @@ footer a {
 .search-result-container .content-box {
   top: 0px;
 }
-
-.Toastify__toast {
-  border-radius: 8px;
-  background: var(--success);
-  color: var(--background);
-  font-weight: 400;
-  font-size: 14px;
-  width: calc(100svw - 20px);
-  text-align: left;
-  padding: 12px;
-  box-sizing: border-box;
-}
-
 .loading {
   animation: spin 1s linear infinite;
 }

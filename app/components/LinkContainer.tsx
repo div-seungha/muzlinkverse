@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
 import { FaSpotify, FaYoutube } from "react-icons/fa";
 import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
-import { useEffect, useState } from "react";
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import { BsFillShareFill } from "react-icons/bs";
-import { ToastContainer, toast } from "react-toastify";
 // import { FaCirclePlay } from "react-icons/fa6";
 // import { PiPlayCircleBold } from "react-icons/pi";
 // import { RiMusicAiFill } from "react-icons/ri";
@@ -39,22 +39,29 @@ const LinkContainer = (props: LinkContainerProps) => {
     apple,
   } = props;
 
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
   const [spotify, setSpotify] = useState(
     `https://open.spotify.com/track/${spotifyId}`
   );
 
   const handleCopy = (e: MouseEvent) => {
     e.stopPropagation();
+    console.log(e);
     console.log("asdfasdf");
+
     const url = `https://muzlinkverse.com/${id}`;
 
     if (window && window.navigator && window.navigator.clipboard) {
       navigator.clipboard
         .writeText(url)
-        .then(() => toast("공유 링크가 복사되었습니다."))
-        .catch(() => toast("복사에 실패했습니다. 다시 시도해 주세요."));
+        .then(() => setSnackbarMessage("공유 링크가 복사되었습니다."))
+        .catch(() =>
+          setSnackbarMessage("복사에 실패했습니다. 다시 시도해 주세요.")
+        );
     } else {
-      toast("이 기기에서는 복사 기능이 지원되지 않습니다.");
+      setSnackbarMessage("이 기기에서는 복사 기능이 지원되지 않습니다.");
     }
   };
 
@@ -73,6 +80,12 @@ const LinkContainer = (props: LinkContainerProps) => {
 
   return (
     <div className="content-container">
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={isSnackbarOpen}
+        onClose={() => setIsSnackbarOpen(false)}
+        message={snackbarMessage}
+      />
       <div
         className="cover-bg"
         style={{
@@ -97,10 +110,10 @@ const LinkContainer = (props: LinkContainerProps) => {
         >
           <p>찾으시는 곡이 맞으신가요?</p>
           <button
-            type="button"
+            type="submit"
             className="search-result-share"
-            onClick={(e) => handleCopy(e)}
-            disabled
+            onClick={(e) => console.log("dddd")}
+            // disabled
           >
             <BsFillShareFill fontSize={20} />
             공유하기
@@ -122,30 +135,38 @@ const LinkContainer = (props: LinkContainerProps) => {
         </div>
 
         <div className="link-container">
-          <a href={apple} target="_blank" rel="noreferrer">
-            <button className="apple">
-              <SiApplemusic fontSize={28} />
-              <span className="button-link-name">Apple Music</span>
-            </button>
-          </a>
-          <a href={spotify} target="_blank" rel="noreferrer">
-            <button className="spotify">
-              <FaSpotify fontSize={30} />
-              <span className="button-link-name">Spotify</span>
-            </button>
-          </a>
-          <a href={youtubeMusic} target="_blank" rel="noreferrer">
-            <button className="youtube-music">
-              <SiYoutubemusic fontSize={28} />
-              <span className="button-link-name">Youtube Music</span>
-            </button>
-          </a>
-          <a href={youtubeLink} target="_blank" rel="noreferrer">
-            <button className="youtube">
-              <FaYoutube fontSize={30} />
-              <span className="button-link-name">Youtube</span>
-            </button>
-          </a>
+          {apple && (
+            <a href={apple} target="_blank" rel="noreferrer">
+              <button className="apple">
+                <SiApplemusic fontSize={28} />
+                <span className="button-link-name">Apple Music</span>
+              </button>
+            </a>
+          )}
+          {spotifyId && (
+            <a href={spotify} target="_blank" rel="noreferrer">
+              <button className="spotify">
+                <FaSpotify fontSize={30} />
+                <span className="button-link-name">Spotify</span>
+              </button>
+            </a>
+          )}
+          {youtubeUrl && (
+            <a href={youtubeMusic} target="_blank" rel="noreferrer">
+              <button className="youtube-music">
+                <SiYoutubemusic fontSize={28} />
+                <span className="button-link-name">Youtube Music</span>
+              </button>
+            </a>
+          )}
+          {youtubeUrl && (
+            <a href={youtubeLink} target="_blank" rel="noreferrer">
+              <button className="youtube">
+                <FaYoutube fontSize={30} />
+                <span className="button-link-name">Youtube</span>
+              </button>
+            </a>
+          )}
           {/* <a href={melon} target="_blank" rel="noreferrer">
                 <button className="melon">
                   <PiPlayCircleBold fontSize={30} />
@@ -173,16 +194,6 @@ const LinkContainer = (props: LinkContainerProps) => {
               </a> */}
         </div>
       </div>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={true}
-        newestOnTop={true}
-        closeOnClick={true}
-        rtl={false}
-        pauseOnFocusLoss
-        theme="colored"
-      />
     </div>
   );
 };

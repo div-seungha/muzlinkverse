@@ -111,16 +111,17 @@ export const getSearchResult = async (params: SearchParams) => {
     data: {
       title,
       artist,
-      bgColor: appleMusicResult.data[0].attributes.artwork.bgColor,
-      releaseDate: appleMusicResult.data[0].attributes.releaseDate,
-      artwork:
-        appleMusicResult.data[0].attributes.artwork.url.replace(
-          /\.jpg\/.*$/,
-          ".jpg"
-        ) + "/500x500bb.jpg",
-      spotifyUrl: spotifyResult[0].id,
-      appleMusicUrl: appleMusicResult.data[0].attributes.url,
-      youtubeUrl: youtubeVideoResult,
+      bgColor: appleMusicResult.data[0]?.attributes?.artwork?.bgColor || "",
+      releaseDate: appleMusicResult.data[0]?.attributes?.releaseDate || "",
+      artwork: appleMusicResult.data[0]?.attributes?.artwork?.url
+        ? appleMusicResult.data[0].attributes.artwork.url.replace(
+            /\.jpg\/.*$/,
+            ".jpg"
+          ) + "/500x500bb.jpg"
+        : "",
+      spotifyUrl: spotifyResult[0]?.id || "",
+      appleMusicUrl: appleMusicResult.data[0]?.attributes?.url || "",
+      youtubeUrl: youtubeVideoResult || "",
     },
   });
 
