@@ -3,6 +3,7 @@ import { FaSpotify, FaYoutube } from "react-icons/fa";
 import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import { BsFillShareFill } from "react-icons/bs";
+import { Alert } from "@mui/material";
 // import { FaCirclePlay } from "react-icons/fa6";
 // import { PiPlayCircleBold } from "react-icons/pi";
 // import { RiMusicAiFill } from "react-icons/ri";
@@ -41,27 +42,44 @@ const LinkContainer = (props: LinkContainerProps) => {
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const [spotify, setSpotify] = useState(
     `https://open.spotify.com/track/${spotifyId}`
   );
 
-  const handleCopy = (e: MouseEvent) => {
-    e.stopPropagation();
-    console.log(e);
-    console.log("asdfasdf");
-
+  const handleShare = () => {
     const url = `https://muzlinkverse.com/${id}`;
 
-    if (window && window.navigator && window.navigator.clipboard) {
+    // if (window.navigator.canShare()) {
+    //   window.navigator.share({
+    //     title: artist + "-" + "title",
+    //     text: "좋은 음악은 같이 나눠요!",
+    //     url,
+    //   });
+    // } else {
+    //   setIsSuccess(false);
+    //   setSnackbarMessage("이 기기에서는 공유 기능이 지원되지 않습니다.");
+    //   setIsSnackbarOpen(true);
+    // }
+
+    try {
       navigator.clipboard
         .writeText(url)
-        .then(() => setSnackbarMessage("공유 링크가 복사되었습니다."))
-        .catch(() =>
-          setSnackbarMessage("복사에 실패했습니다. 다시 시도해 주세요.")
-        );
-    } else {
+        .then(() => {
+          setIsSuccess(true);
+          setIsSnackbarOpen(true);
+          setSnackbarMessage("공유 링크가 복사되었습니다.");
+        })
+        .catch(() => {
+          setIsSuccess(false);
+          setSnackbarMessage("복사에 실패했습니다. 다시 시도해 주세요.");
+          setIsSnackbarOpen(true);
+        });
+    } catch (err) {
+      setIsSuccess(false);
       setSnackbarMessage("이 기기에서는 복사 기능이 지원되지 않습니다.");
+      setIsSnackbarOpen(true);
     }
   };
 
@@ -80,12 +98,6 @@ const LinkContainer = (props: LinkContainerProps) => {
 
   return (
     <div className="content-container">
-      <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        open={isSnackbarOpen}
-        onClose={() => setIsSnackbarOpen(false)}
-        message={snackbarMessage}
-      />
       <div
         className="cover-bg"
         style={{
@@ -110,14 +122,14 @@ const LinkContainer = (props: LinkContainerProps) => {
         >
           <p>찾으시는 곡이 맞으신가요?</p>
           <button
-            type="submit"
+            type="button"
             className="search-result-share"
-            onClick={(e) => console.log("dddd")}
-            disabled
+            onClick={handleShare}
           >
             <BsFillShareFill fontSize={20} />
             공유하기
           </button>
+
           <p>공유하기 버튼 기능은 현재 개발 중입니다.🥲</p>
           <p style={{ fontWeight: 800, fontSize: 22 }}>
             https://muzlinkverse.com/{id}
@@ -194,6 +206,32 @@ const LinkContainer = (props: LinkContainerProps) => {
               </a> */}
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={isSnackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setIsSnackbarOpen(false)}
+      >
+        {isSuccess ? (
+          <Alert
+            severity="success"
+            className="snackbar-success"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            {snackbarMessage}
+          </Alert>
+        ) : (
+          <Alert
+            severity="error"
+            className="snackbar-error"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            {snackbarMessage}
+          </Alert>
+        )}
+      </Snackbar>
     </div>
   );
 };

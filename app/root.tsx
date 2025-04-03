@@ -10,8 +10,29 @@ import {
 
 import "./tailwind.css";
 import Footer from "./components/Footer";
+import { useEffect } from "react";
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") {
+      // 외부 GA 스크립트 삽입
+      const script = document.createElement("script");
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-LJRQ5HGF2Z";
+      script.async = true;
+      document.head.appendChild(script);
+
+      // gtag 초기화 코드 삽입
+      const inlineScript = document.createElement("script");
+      inlineScript.innerHTML = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LJRQ5HGF2Z');
+      `;
+      document.head.appendChild(inlineScript);
+    }
+  }, []);
+
   return (
     <html lang="ko">
       <head>
@@ -19,29 +40,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
-        {process.env.NODE_ENV === "production" && (
-          <>
-            {" "}
-            <script
-              async
-              src="https://www.googletagmanager.com/gtag/js?id=G-LJRQ5HGF2Z"
-            ></script>
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-
-                  gtag('config', 'G-LJRQ5HGF2Z');`,
-              }}
-            />
-          </>
-        )}
       </head>
       <body>
         {children}
         <ScrollRestoration />
         <Footer />
+        <Scripts />
       </body>
     </html>
   );
@@ -91,5 +95,7 @@ export const ErrorBoundary = () => {
 };
 
 export default function App() {
-  return <Outlet />;
+  return (
+      <Outlet />
+  );
 }

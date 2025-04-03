@@ -9,28 +9,38 @@ import { RemixBrowser, useLocation, useMatches } from "@remix-run/react";
 import { startTransition, StrictMode, useEffect } from "react";
 import { hydrateRoot } from "react-dom/client";
 
-Sentry.init({
-    dsn: "https://5e7e55894bf57e110d3ce9479610f16f@o4508897373519872.ingest.us.sentry.io/4509085287120896",
-    tracesSampleRate: 1,
+import { CacheProvider } from "@emotion/react";
+import createEmotionCache from "./CreateEmotionCache";
 
-    integrations: [Sentry.browserTracingIntegration({
+const emotionCache = createEmotionCache();
+
+Sentry.init({
+  dsn: "https://5e7e55894bf57e110d3ce9479610f16f@o4508897373519872.ingest.us.sentry.io/4509085287120896",
+  tracesSampleRate: 1,
+
+  integrations: [
+    Sentry.browserTracingIntegration({
       useEffect,
       useLocation,
-      useMatches
-    }), Sentry.replayIntegration({
-        maskAllText: true,
-        blockAllMedia: true
-    })],
+      useMatches,
+    }),
+    Sentry.replayIntegration({
+      maskAllText: true,
+      blockAllMedia: true,
+    }),
+  ],
 
-    replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1
-})
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1,
+});
 
 startTransition(() => {
   hydrateRoot(
     document,
     <StrictMode>
-      <RemixBrowser />
+      <CacheProvider value={emotionCache}>
+        <RemixBrowser />
+      </CacheProvider>
     </StrictMode>
   );
 });

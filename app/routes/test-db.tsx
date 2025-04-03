@@ -8,7 +8,7 @@ export const loader = async () => {
   try {
     const data = await prisma.$queryRaw`SELECT NOW()`;
     return json({ dbStatus: "connected", now: data });
-  } catch (err) {
+  } catch (err: any) {
     return json({ dbStatus: "error", error: err.message }, { status: 500 });
   }
 };

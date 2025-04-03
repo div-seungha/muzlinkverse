@@ -1,10 +1,4 @@
 import * as Sentry from "@sentry/remix";
-/**
- * By default, Remix will handle generating the HTTP Response for you.
- * You are free to delete this file if you'd like to, but if you ever want it revealed again, you can run `npx remix reveal` ✨
- * For more information, see https://remix.run/file-conventions/entry.server
- */
-
 import { PassThrough } from "node:stream";
 
 import type { AppLoadContext, EntryContext } from "@remix-run/node";
@@ -13,9 +7,15 @@ import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 
-export const handleError = Sentry.wrapHandleErrorWithSentry((error, { request }) => {
-  // Custom handleError implementation
-});
+import createEmotionServer from "@emotion/server/create-instance";
+import { CacheProvider } from "@emotion/react";
+import createEmotionCache from "./createEmotionCache"; // 경로 확인
+
+export const handleError = Sentry.wrapHandleErrorWithSentry(
+  (error, { request }) => {
+    // Custom handleError implementation
+  }
+);
 
 const ABORT_DELAY = 5_000;
 
@@ -24,9 +24,6 @@ export default function handleRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  // This is ignored so we can keep it in the template for visibility.  Feel
-  // free to delete this parameter in your app if you're not using it!
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadContext: AppLoadContext
 ) {
   return isbot(request.headers.get("user-agent") || "")
@@ -50,17 +47,23 @@ function handleBotRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks, constructStyleTagsFromChunks } =
+    createEmotionServer(cache);
+
   return new Promise((resolve, reject) => {
-    let shellRendered = false;
+    let didError = false;
+
+    let html = "";
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
+      <CacheProvider value={cache}>
+        <RemixServer context={remixContext} url={request.url} />
+      </CacheProvider>,
       {
         onAllReady() {
-          shellRendered = true;
+          const chunks = extractCriticalToChunks(html);
+          const styles = constructStyleTagsFromChunks(chunks);
+
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
 
@@ -68,24 +71,19 @@ function handleBotRequest(
 
           resolve(
             new Response(stream, {
+              status: didError ? 500 : responseStatusCode,
               headers: responseHeaders,
-              status: responseStatusCode,
             })
           );
 
           pipe(body);
         },
-        onShellError(error: unknown) {
+        onShellError(error) {
           reject(error);
         },
-        onError(error: unknown) {
-          responseStatusCode = 500;
-          // Log streaming rendering errors from inside the shell.  Don't log
-          // errors encountered during initial shell rendering since they'll
-          // reject and get logged in handleDocumentRequest.
-          if (shellRendered) {
-            console.error(error);
-          }
+        onError(error) {
+          didError = true;
+          console.error(error);
         },
       }
     );
@@ -100,46 +98,57 @@ function handleBrowserRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks, constructStyleTagsFromChunks } =
+    createEmotionServer(cache);
+
   return new Promise((resolve, reject) => {
-    let shellRendered = false;
+    let didError = false;
+
+    const body = new PassThrough();
+    const stream = createReadableStreamFromReadable(body);
+
+    let styles: string;
+
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
+      <CacheProvider value={cache}>
+        <RemixServer context={remixContext} url={request.url} />
+      </CacheProvider>,
       {
         onShellReady() {
-          shellRendered = true;
-          const body = new PassThrough();
-          const stream = createReadableStreamFromReadable(body);
+          const htmlChunks: string[] = [];
+          const originalWrite = body.write.bind(body);
+
+          body.write = (chunk: any, ...args: any[]) => {
+            htmlChunks.push(chunk.toString());
+            return originalWrite(chunk, ...args);
+          };
+
+          const chunks = extractCriticalToChunks(htmlChunks.join(""));
+          styles = constructStyleTagsFromChunks(chunks);
+
+          body.write(styles);
 
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
             new Response(stream, {
+              status: didError ? 500 : responseStatusCode,
               headers: responseHeaders,
-              status: responseStatusCode,
             })
           );
-
-          pipe(body);
         },
-        onShellError(error: unknown) {
+        onShellError(error) {
           reject(error);
         },
-        onError(error: unknown) {
-          responseStatusCode = 500;
-          // Log streaming rendering errors from inside the shell.  Don't log
-          // errors encountered during initial shell rendering since they'll
-          // reject and get logged in handleDocumentRequest.
-          if (shellRendered) {
-            console.error(error);
-          }
+        onError(error) {
+          didError = true;
+          console.error(error);
         },
       }
     );
 
+    pipe(body);
     setTimeout(abort, ABORT_DELAY);
   });
 }

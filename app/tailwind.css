@@ -66,7 +66,8 @@
     --apple-primary: #f9243b;
     --search-input-button: #ff5745;
     --background: #1d1d1f;
-    --success: #1fd024;
+    --success: #20a824;
+    --error: #a82020;
   }
   .dark {
     --text-primary: #ffffff;
@@ -441,12 +442,11 @@ footer a {
   top: 360px;
   height: 400px;
   width: 100%;
-  z-index: 20;
+  z-index: 10;
   text-align: center;
   font-family: Pretendard;
   font-size: 14px;
   font-weight: 400;
-  z-index: 50;
 }
 
 .confirm-container p {
@@ -461,7 +461,7 @@ footer a {
   margin-top: 40px;
   padding-bottom: 100px;
   font-family: Pretendard;
-  z-index: 1000;
+  z-index: 10;
 }
 
 .search-result-container .search-result-share {
@@ -470,7 +470,7 @@ footer a {
   margin: 20px auto;
   color: #fff;
   position: relative;
-  z-index: 10000;
+  z-index: 10;
   pointer-events: auto;
 }
 
@@ -509,4 +509,40 @@ footer a {
 
 :focus-visible {
   outline: none;
+}
+
+.MuiSnackbar-root {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.MuiSnackbar-root .MuiPaper-Root {
+  color: #fff;
+  width: 100%;
+  min-width: calc(100svw - 40px);
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 4px;
+  gap: 4px;
+}
+
+.snackbar-success {
+  background: var(--success);
+}
+
+.snackbar-error {
+  background: var(--error);
+}
+
+.MuiSnackbar-root .MuiSvgIcon-root {
+  width: 20px !important;
+  height: 20px !important;
+  fill: #fff;
+}
+.MuiSnackbar-root button {
+  display: none;
 }

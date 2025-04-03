@@ -1,17 +1,10 @@
 import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import {
-  Form,
-  json,
-  Link,
-  useActionData,
-  useRouteError,
-} from "@remix-run/react";
+import { json, Link, useRouteError, useFetcher } from "@remix-run/react";
 import { getSearchResult } from "~/.server/search";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { LuSearch } from "react-icons/lu";
-import { useFetcher } from "@remix-run/react";
-// import { BsFillShareFill } from "react-icons/bs";
 import LinkContainer from "~/components/LinkContainer";
+// import { BsFillShareFill } from "react-icons/bs";
 
 export const meta: MetaFunction = () => {
   return [
@@ -34,10 +27,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export default function Search() {
-  const data = useActionData<SearchResultPage>();
-
   const fetcher = useFetcher();
+  const data = fetcher.data as SearchResultPage;
   const isSubmitting = fetcher.state === "submitting";
+
+  console.log(data);
 
   return (
     <div className="search-container">
@@ -71,25 +65,24 @@ export default function Search() {
         </button>
       </fetcher.Form>
 
-      <div
-        className="search-result-container"
-        style={{ display: data ? "block" : "none" }}
-      >
-        <LinkContainer
-          id={data?.id}
-          isSearch={true}
-          title={data?.title}
-          artist={data?.artist}
-          coverImgUrl={data?.artwork}
-          bgColor={data?.bgColor}
-          youtubeLink={`https://www.youtube.com/watch?v=${data?.youtubeUrl}`}
-          apple={data?.appleMusicUrl}
-          spotifyId={data?.spotifyUrl}
-          releaseDate={data?.releaseDate}
-          youtubeMusic={`https://music.youtube.com/watch?v=${data?.youtubeUrl}`}
-          youtubeUrl={data?.youtubeUrl}
-        />
-      </div>
+      {fetcher.state === "idle" && data && (
+        <div className="search-result-container">
+          <LinkContainer
+            id={data?.id}
+            isSearch={true}
+            title={data?.title}
+            artist={data?.artist}
+            coverImgUrl={data?.artwork}
+            bgColor={data?.bgColor}
+            youtubeLink={`https://www.youtube.com/watch?v=${data?.youtubeUrl}`}
+            apple={data?.appleMusicUrl}
+            spotifyId={data?.spotifyUrl}
+            releaseDate={data?.releaseDate}
+            youtubeMusic={`https://music.youtube.com/watch?v=${data?.youtubeUrl}`}
+            youtubeUrl={data?.youtubeUrl}
+          />
+        </div>
+      )}
     </div>
   );
 }

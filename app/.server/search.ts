@@ -31,6 +31,8 @@ export const getSpotify = async (params: SearchParams) => {
   const { title, artist } = params;
   const url = "https://api.spotify.com/v1/search";
 
+  console.log(accessToken);
+
   const res = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -107,10 +109,41 @@ export const getSearchResult = async (params: SearchParams) => {
   const appleMusicResult = await getAppleMusic(`${artist} ${title}`);
   const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
 
+  console.log(spotifyResult);
+
+  let titleResult = title;
+  let artistResult = artist;
+
+  if (appleMusicResult.data[0]?.attributes?.name) {
+    if (title !== appleMusicResult.data[0]?.attributes?.name) {
+      titleResult = appleMusicResult.data[0]?.attributes?.name;
+    }
+  }
+  if (appleMusicResult.data[0]?.attributes?.artistName) {
+    if (artist !== appleMusicResult.data[0]?.attributes?.artistName) {
+      artistResult = appleMusicResult.data[0]?.attributes?.artistName;
+    }
+  }
+
+  if (title !== titleResult || artist !== artistResult) {
+    const existingSong = await prisma.song.findFirst({
+      where: {
+        title: titleResult,
+        artist: artistResult,
+      },
+    });
+
+    if (existingSong) {
+      return existingSong;
+    }
+
+    // 코드 추가
+  }
+
   const songInfo = await prisma.song.create({
     data: {
-      title,
-      artist,
+      title: titleResult,
+      artist: artistResult,
       bgColor: appleMusicResult.data[0]?.attributes?.artwork?.bgColor || "",
       releaseDate: appleMusicResult.data[0]?.attributes?.releaseDate || "",
       artwork: appleMusicResult.data[0]?.attributes?.artwork?.url
