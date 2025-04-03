@@ -46,7 +46,10 @@ export default function Index() {
   }, []);
 
   return (
-    <div className="content-container">
+    <div
+      className="content-container"
+      style={{ minHeight: "calc(100svh + 200px)" }}
+    >
       <div className="cover-bg"></div>
       <div className="cover-box">
         <img className="cover" src="/cover.webp" alt="송병도, sunrise" />
@@ -115,14 +118,6 @@ export default function Index() {
       </a> */}
         </div>
       </div>
-      <footer>
-        &copy; {year} Published by{" "}
-        <a className="footer-link" href="https://beonanotherplanet.com">
-          {" "}
-          beonanotherplanet
-        </a>
-        . All rights reserved
-      </footer>
     </div>
   );
 }

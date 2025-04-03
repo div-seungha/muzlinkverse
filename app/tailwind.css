@@ -86,7 +86,7 @@ body {
   width: 100%;
   display: block;
   position: relative;
-  min-height: 100svh;
+  min-height: calc(100svh + 120px);
   font-family: Pretendard;
   background: var(--background);
   /* display: flex;
