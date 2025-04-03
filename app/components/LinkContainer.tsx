@@ -130,7 +130,7 @@ const LinkContainer = (props: LinkContainerProps) => {
             공유하기
           </button>
 
-          <p>공유하기 버튼 기능은 현재 개발 중입니다.🥲</p>
+          <p>공유하기 버튼이 작동하지 않는다면 🥲</p>
           <p style={{ fontWeight: 800, fontSize: 22 }}>
             https://muzlinkverse.com/{id}
           </p>
