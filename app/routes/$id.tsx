@@ -38,9 +38,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 const SearchResultPage = () => {
   const data = useLoaderData<SearchResultPage>();
 
-  const [spotify, setSpotify] = useState(
-    `https://open.spotify.com/track/${data.spotifyUrl}`
-  );
+  const [spotify, setSpotify] = useState(`spotify://track/${data.spotifyUrl}`);
 
   const releaseDate = data.releaseDate;
   const apple = data.appleMusicUrl;
@@ -59,7 +57,7 @@ const SearchResultPage = () => {
     const isMobile = /iphone|ipod|android/i.test(userAgent);
 
     if (isMobile) {
-      setSpotify(`spotify://album/${data.spotifyUrl}`);
+      setSpotify(`spotify://track/${data.spotifyUrl}`);
     } else {
       setSpotify(`https://open.spotify.com/track/${data.spotifyUrl}`);
     }
