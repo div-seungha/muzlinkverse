@@ -9,7 +9,7 @@ import { renderToPipeableStream } from "react-dom/server";
 
 import createEmotionServer from "@emotion/server/create-instance";
 import { CacheProvider } from "@emotion/react";
-import createEmotionCache from "./createEmotionCache"; // 경로 확인
+import createEmotionCache from "./CreateEmotionCache"; // 경로 확인
 
 export const handleError = Sentry.wrapHandleErrorWithSentry(
   (error, { request }) => {
