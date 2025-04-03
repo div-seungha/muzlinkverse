@@ -113,7 +113,7 @@ const LinkContainer = (props: LinkContainerProps) => {
             type="submit"
             className="search-result-share"
             onClick={(e) => console.log("dddd")}
-            // disabled
+            disabled
           >
             <BsFillShareFill fontSize={20} />
             공유하기
