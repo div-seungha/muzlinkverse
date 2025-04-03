@@ -84,15 +84,22 @@ const LinkContainer = (props: LinkContainerProps) => {
   };
 
   useEffect(() => {
-    if (window) {
-      const userAgent = window.navigator.userAgent.toLowerCase();
-      const isMobile = /iphone|ipod|android/i.test(userAgent);
+    const ua = navigator.userAgent.toLowerCase();
+    // 모바일 기기 감지
+    const isMobile =
+      /iphone|ipod|ipad|android|windows phone|blackberry|bb10|mini|mobile|touch/.test(
+        ua
+      );
+    // 카카오톡 인앱 브라우저 감지
+    const isKakaoWebview = /kakaotalk/.test(ua);
 
-      if (isMobile) {
-        setSpotify(`spotify://track/${spotifyId}`);
-      } else {
-        setSpotify(`https://open.spotify.com/track/${spotifyId}`);
-      }
+    // 최종 판단
+    const isMobileOrWebview = isMobile || isKakaoWebview;
+
+    if (isMobileOrWebview) {
+      setSpotify(`spotify://track/${spotifyId}`);
+    } else {
+      setSpotify(`https://open.spotify.com/track/${spotifyId}`);
     }
   }, []);
 

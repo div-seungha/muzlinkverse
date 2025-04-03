@@ -38,8 +38,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 const SearchResultPage = () => {
   const data = useLoaderData<SearchResultPage>();
 
-  const [spotify, setSpotify] = useState(`spotify://track/${data.spotifyUrl}`);
-
   const releaseDate = data.releaseDate;
   const apple = data.appleMusicUrl;
   const youtubeUrl = data.youtubeUrl;
@@ -52,26 +50,6 @@ const SearchResultPage = () => {
 
   const coverImgUrl = data.artwork;
 
-  useEffect(() => {
-    const ua = navigator.userAgent.toLowerCase();
-    // 모바일 기기 감지
-    const isMobile =
-      /iphone|ipod|ipad|android|windows phone|blackberry|bb10|mini|mobile|touch/.test(
-        ua
-      );
-    // 카카오톡 인앱 브라우저 감지
-    const isKakaoWebview = /kakaotalk/.test(ua);
-
-    // 최종 판단
-    const isMobileOrWebview = isMobile || isKakaoWebview;
-
-    if (isMobileOrWebview) {
-      setSpotify(`spotify://track/${data.spotifyUrl}`);
-    } else {
-      setSpotify(`https://open.spotify.com/track/${data.spotifyUrl}`);
-    }
-  }, [data]);
-
   return (
     <LinkContainer
       isSearch={false}
@@ -82,7 +60,7 @@ const SearchResultPage = () => {
       bgColor={data.bgColor}
       youtubeLink={youtubeLink}
       apple={apple}
-      spotifyId={spotify}
+      spotifyId={data.spotifyUrl}
       releaseDate={releaseDate}
       youtubeMusic={youtubeMusic}
       youtubeUrl={youtubeUrl}
