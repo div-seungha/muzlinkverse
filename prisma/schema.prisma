@@ -20,6 +20,7 @@ model Song {
   spotifyUrl    String?
   appleMusicUrl String?
   youtubeUrl    String?
+  popularity    Int?
 
   @@unique([title, artist])
 }

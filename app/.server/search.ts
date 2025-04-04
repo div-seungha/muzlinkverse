@@ -9,7 +9,16 @@ type SearchParams = {
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 
+let cachedToken: string | null = null;
+let tokenExpiresAt: number | null = null;
+
 const getSpotifyAccessToken = async () => {
+  const now = Date.now();
+
+  if (cachedToken && tokenExpiresAt && now < tokenExpiresAt) {
+    return cachedToken;
+  }
+
   const response = await axios.post(
     "https://accounts.spotify.com/api/token",
     new URLSearchParams({ grant_type: "client_credentials" }),
@@ -23,7 +32,12 @@ const getSpotifyAccessToken = async () => {
     }
   );
 
-  return response.data.access_token;
+  const { access_token, expires_in } = response.data;
+
+  cachedToken = access_token;
+  tokenExpiresAt = now + expires_in * 1000 - 60 * 1000; // 1분 여유를 두고 만료로 간주
+
+  return cachedToken;
 };
 
 export const getSpotify = async (params: SearchParams) => {
@@ -144,6 +158,7 @@ export const getSearchResult = async (params: SearchParams) => {
     data: {
       title: titleResult,
       artist: artistResult,
+      popularity: spotifyResult[0]?.popularity || null,
       bgColor: appleMusicResult.data[0]?.attributes?.artwork?.bgColor || "",
       releaseDate: appleMusicResult.data[0]?.attributes?.releaseDate || "",
       artwork: appleMusicResult.data[0]?.attributes?.artwork?.url
