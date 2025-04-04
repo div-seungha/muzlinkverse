@@ -9,15 +9,11 @@ type SearchParams = {
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 
-let cachedToken: string | null = null;
+let spotifyToken: string | null = null;
 let tokenExpiresAt: number | null = null;
 
 const getSpotifyAccessToken = async () => {
   const now = Date.now();
-
-  if (cachedToken && tokenExpiresAt && now < tokenExpiresAt) {
-    return cachedToken;
-  }
 
   const response = await axios.post(
     "https://accounts.spotify.com/api/token",
@@ -34,14 +30,22 @@ const getSpotifyAccessToken = async () => {
 
   const { access_token, expires_in } = response.data;
 
-  cachedToken = access_token;
-  tokenExpiresAt = now + expires_in * 1000 - 60 * 1000; // 1분 여유를 두고 만료로 간주
+  // 토큰과 만료 시간 저장
+  spotifyToken = access_token;
+  tokenExpiresAt = now + expires_in * 1000 - 60 * 1000; // 1분
 
-  return cachedToken;
+  return response.data.access_token;
 };
 
+setInterval(getSpotifyAccessToken, 3600000);
+
 export const getSpotify = async (params: SearchParams) => {
-  const accessToken = await getSpotifyAccessToken();
+  let accessToken;
+  const now = Date.now();
+  if (!accessToken || !tokenExpiresAt || now >= tokenExpiresAt) {
+    accessToken = await getSpotifyAccessToken();
+  }
+
   const { title, artist } = params;
   const url = "https://api.spotify.com/v1/search";
 
