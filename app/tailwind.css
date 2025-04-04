@@ -459,7 +459,7 @@ footer a {
 .search-result-container {
   position: relative;
   margin-top: 40px;
-  padding-bottom: 100px;
+  margin-bottom: 100px;
   font-family: Pretendard;
   z-index: 10;
 }
@@ -545,4 +545,48 @@ footer a {
 }
 .MuiSnackbar-root button {
   display: none;
+}
+
+.footer-search-link {
+  color: #ffffffaa;
+  width: 120px;
+  height: 40px;
+  padding: 12px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin: 0 auto 40px;
+}
+
+.MuiPopper-root {
+  position: absolute;
+  z-index: 10000000;
+  /* width: 200px; */
+  /* height: 240px; */
+  top: 0px;
+}
+
+.content-container ~ .MuiPopper-root {
+  position: absolute;
+  width: 400px;
+  height: 160px;
+}
+
+.content-container ~ .MuiPopper-root .MuiTooltip-tooltip {
+  position: absolute;
+  left: 50%;
+}
+
+.MuiTooltip-tooltip {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--youtube-secondary);
 }

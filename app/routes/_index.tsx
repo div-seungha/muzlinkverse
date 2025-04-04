@@ -6,7 +6,7 @@ export const meta: MetaFunction = () => {
     { title: "Muzlinkverse" },
     {
       name: "description",
-      content: "Share the music you listening with us :)",
+      content: "자유롭게 음원 공유 링크를 생성하세요! :)",
     },
   ];
 };

@@ -1,7 +1,6 @@
 import { prisma } from "~/.server/db";
-import { json, LoaderFunctionArgs } from "@remix-run/node";
+import { json, LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { MetaFunction, useLoaderData, useRouteError } from "@remix-run/react";
-import { useEffect, useState } from "react";
 import LinkContainer from "~/components/LinkContainer";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
@@ -19,6 +18,16 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   return json({ ...data });
+};
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "canonical",
+      href: "https://muzlinkverse.com/search",
+      type: "image/png",
+    },
+  ];
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

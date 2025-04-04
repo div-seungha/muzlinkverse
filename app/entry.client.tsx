@@ -14,25 +14,27 @@ import createEmotionCache from "./CreateEmotionCache";
 
 const emotionCache = createEmotionCache();
 
-Sentry.init({
-  dsn: "https://5e7e55894bf57e110d3ce9479610f16f@o4508897373519872.ingest.us.sentry.io/4509085287120896",
-  tracesSampleRate: 1,
+if (process.env.NODE_ENV === "production") {
+  Sentry.init({
+    dsn: "https://5e7e55894bf57e110d3ce9479610f16f@o4508897373519872.ingest.us.sentry.io/4509085287120896",
+    tracesSampleRate: 1,
 
-  integrations: [
-    Sentry.browserTracingIntegration({
-      useEffect,
-      useLocation,
-      useMatches,
-    }),
-    Sentry.replayIntegration({
-      maskAllText: true,
-      blockAllMedia: true,
-    }),
-  ],
+    integrations: [
+      Sentry.browserTracingIntegration({
+        useEffect,
+        useLocation,
+        useMatches,
+      }),
+      Sentry.replayIntegration({
+        maskAllText: true,
+        blockAllMedia: true,
+      }),
+    ],
 
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1,
-});
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1,
+  });
+}
 
 startTransition(() => {
   hydrateRoot(

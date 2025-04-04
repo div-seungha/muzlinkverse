@@ -57,10 +57,6 @@ const LinkContainer = (props: LinkContainerProps) => {
     //     text: "좋은 음악은 같이 나눠요!",
     //     url,
     //   });
-    // } else {
-    //   setIsSuccess(false);
-    //   setSnackbarMessage("이 기기에서는 공유 기능이 지원되지 않습니다.");
-    //   setIsSnackbarOpen(true);
     // }
 
     try {
@@ -68,8 +64,8 @@ const LinkContainer = (props: LinkContainerProps) => {
         .writeText(url)
         .then(() => {
           setIsSuccess(true);
-          setIsSnackbarOpen(true);
           setSnackbarMessage("공유 링크가 복사되었습니다.");
+          setIsSnackbarOpen(true);
         })
         .catch(() => {
           setIsSuccess(false);
@@ -139,7 +135,14 @@ const LinkContainer = (props: LinkContainerProps) => {
 
           <p>공유하기 버튼이 작동하지 않는다면 🥲</p>
           <p style={{ fontWeight: 800, fontSize: 22 }}>
-            https://muzlinkverse.com/{id}
+            <a
+              href={`https://muzlinkverse.com/${id}`}
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              https://muzlinkverse.com/{id}
+            </a>
           </p>
           <p>위 URL을 복사하여 직접 공유하실 수 있습니다.</p>
           <iframe

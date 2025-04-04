@@ -1,17 +1,62 @@
-import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LinksFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, Link, useRouteError, useFetcher } from "@remix-run/react";
 import { getSearchResult } from "~/.server/search";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { LuSearch } from "react-icons/lu";
 import LinkContainer from "~/components/LinkContainer";
+import { Dialog } from "@mui/material";
+import { useRef, useState } from "react";
 // import { BsFillShareFill } from "react-icons/bs";
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "canonical",
+      href: "https://muzlinkverse.com/search",
+      type: "image/png",
+    },
+  ];
+};
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Muzlinkverse" },
     {
       name: "description",
-      content: "Share the music you listening with us :)",
+      content: "자유롭게 음원 공유 링크를 생성하세요! :)",
+    },
+    {
+      name: "author",
+      content: "Kim Seungha, beonanotherplanet",
+    },
+    {
+      property: "og:site_name",
+      content: "Muzlinkverse - 음원 공유 링크 생성기",
+    },
+    {
+      property: "og:title",
+      content: "음원 공유 링크 생성기",
+    },
+    {
+      property: "og:locale",
+      content: "ko_KR",
+    },
+    {
+      property: "og:url",
+      content: "https://muzlinkverse.com/search",
+    },
+    {
+      property: "og:description",
+      content: "음원 링크를 활용하여 자유롭게 음악을 소개하고 공유하세요!",
+    },
+    {
+      name: "keywords",
+      content:
+        "음원 공유, 음악, 인디뮤직, 음원, 음원 발매, 신보, 신보 발배, 스포티파이, 애플뮤직, 애플, 애플 뮤직, 유튜브 뮤직, 유튜브뮤직, 유튜브, 멜론, 벅스, flo, 네이버 바이브, naver vibe, youtube, youtube music, spotify, apple music",
     },
   ];
 };
@@ -26,16 +71,84 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return json({ ...data });
 };
 
+// const FormValidationPopup = ({
+//   open,
+//   onClose,
+//   onConfirm,
+// }: {
+//   open: boolean;
+//   onClose: () => void;
+//   onConfirm: () => void;
+// }) => {
+//   return (
+//     <Dialog onClose={onClose} open={open}>
+//       <p>
+//         찾으시는 곡명과 아티스트명을 정확히 알려주셔야 <br /> 보다 정확한 검색이
+//         가능합니다.
+//       </p>
+//       {/* <p>
+//         {item.map((v: string, i: number) => {
+//           if (i === item.length - 1) {
+//             return <span key={i}>{v}</span>;
+//           } else return <span key={i}>{v},</span>;
+//         })}
+//         가 비어있어요.
+//       </p> */}
+//       <p>이대로 검색하실 건가요?</p>
+//       <button onClick={onClose}>아니요</button>
+//       <button onClick={onConfirm}>네</button>
+//     </Dialog>
+//   );
+// };
+
 export default function Search() {
   const fetcher = useFetcher();
   const data = fetcher.data as SearchResultPage;
   const isSubmitting = fetcher.state === "submitting";
 
-  console.log(data);
+  // const [formItem, setFormItem] = useState<string[]>([]);
+  // const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // const [shouldSubmitAnyway, setShouldSubmitAnyway] = useState(false);
+  // const formRef = useRef<HTMLFormElement>(null);
+
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   const form = event.currentTarget;
+  //   const title = form.title.trim();
+  //   const artist = form.artist.trim();
+
+  //   console.log(event);
+
+  //   if (!title || !artist) {
+  //     if (!shouldSubmitAnyway) {
+  //       event.preventDefault(); // 기본 제출 막기
+  //       setIsDialogOpen(true); // 팝업 띄우기
+  //     }
+  //   }
+  // };
+
+  // const handleClickOk = () => {
+  //   setIsDialogOpen(false);
+  //   setShouldSubmitAnyway(true);
+
+  //   // 폼 수동 제출
+  //   if (formRef.current) {
+  //     formRef.current.requestSubmit();
+  //   }
+
+  //   // 다시 원래 상태로 리셋
+  //   setTimeout(() => setShouldSubmitAnyway(false), 100);
+  // };
 
   return (
     <div className="search-container">
-      <fetcher.Form action="/search" method="post" className="search-form">
+      <fetcher.Form
+        action="/search"
+        method="post"
+        className="search-form"
+        // onSubmit={handleSubmit}
+        // ref={formRef}
+      >
         <p className="search-input-form-text">
           찾으시는 곡의 이름이 무엇인가요?
         </p>
@@ -83,6 +196,11 @@ export default function Search() {
           />
         </div>
       )}
+      {/* <FormValidationPopup
+        open={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onConfirm={handleClickOk}
+      /> */}
     </div>
   );
 }
