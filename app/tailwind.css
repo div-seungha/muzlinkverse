@@ -80,6 +80,9 @@ body {
   font-size: 16px;
   position: relative;
   min-height: 100svh;
+  @media screen and (max-width: 768px) {
+    min-height: calc(100svh + 400px);
+  }
 }
 
 .content-container {
@@ -395,6 +398,9 @@ footer a {
   margin: 0 auto;
   background: var(--background);
   padding: 0px 0px 60px 0px;
+  @media screen and (max-width: 340px) {
+    width: 100%;
+  }
 }
 
 .search-container .search-form {
@@ -545,7 +551,7 @@ footer a {
 }
 
 .footer-search-link {
-  color: #ffffffaa;
+  color: #ffffff66;
   width: 120px;
   height: 40px;
   padding: 12px;
@@ -554,7 +560,7 @@ footer a {
   justify-content: center;
   align-items: center;
   gap: 4px;
-  margin: 0 auto 40px;
+  margin: 0 auto 20px;
 }
 
 .MuiPopper-root {

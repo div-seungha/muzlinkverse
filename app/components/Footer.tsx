@@ -26,7 +26,6 @@ const Footer = () => {
             style={{ zIndex: 100000 }}
           >
             <div className="footer-search-link text-center">
-              <FaLink fontSize={20} />
               <FaExternalLinkAlt fontSize={20} />
             </div>
           </Tooltip>
