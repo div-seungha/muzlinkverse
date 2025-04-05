@@ -25,7 +25,23 @@ const flo = "https://flomuz.io/s/b.Kb3wF";
 export const meta: MetaFunction = () => {
   return [
     { title: "송병도 - Sunrise" },
-    { name: "description", content: "송병도 - Sunrise" },
+    {
+      name: "description",
+      content: "송병도 - Sunrise",
+    },
+    {
+      property: "og:title",
+      content: "Sunrise",
+    },
+    {
+      property: "og:description",
+      content: "송병도 - Sunrise (2025)",
+    },
+    {
+      name: "keywords",
+      content:
+        "송병도, sunrise, 싱글, 록, 밴드, 버스킹, 인디음악, 인디, beyoung doe, song, 보컬, 보컬리스트, 인디 보컬, 인디밴드, 스포티파이, 유튜브, 유튜브뮤직, 유튜브 뮤직, 애플 뮤직",
+    },
     { property: "og:image", content: "/cover.webp" },
   ];
 };
