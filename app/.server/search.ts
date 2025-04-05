@@ -189,7 +189,7 @@ export const getSearchResult = async (params: SearchParams) => {
     bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
     releaseDate: appleMusicResult?.attributes?.releaseDate
       ? appleMusicResult?.attributes?.releaseDate
-      : spotifyResult.album.release_date
+      : spotifyResult?.album?.release_date
       ? spotifyResult.album.release_date
       : "",
     rawArtwork:
@@ -202,8 +202,8 @@ export const getSearchResult = async (params: SearchParams) => {
         : spotifyResult?.album?.images[0]?.url
         ? spotifyResult.album.images[0].url
         : "",
-    spotifyUrl: spotifyResult.id || "",
-    appleMusicUrl: appleMusicResult.attributes?.url || "",
+    spotifyUrl: spotifyResult?.id || "",
+    appleMusicUrl: appleMusicResult?.attributes?.url || "",
     youtubeUrl: youtubeVideoResult || "",
   });
 

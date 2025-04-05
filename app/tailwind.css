@@ -66,6 +66,7 @@
     --apple-primary: #f9243b;
     --search-input-button: #ff5745;
     --background: #1d1d1f;
+    --link-share-background: #4d4d4f;
     --success: #20a824;
     --error: #a82020;
   }
@@ -77,6 +78,7 @@
 html,
 body {
   background: var(--background);
+  /* background: transparent; */
   font-size: 16px;
   position: relative;
   min-height: 100svh;
@@ -113,6 +115,11 @@ body {
   }
 }
 
+.search-result-container .cover-bg {
+  height: 360px;
+  position: absolute;
+}
+
 .content-box {
   position: relative;
   top: 320px;
@@ -139,12 +146,12 @@ body {
 }
 
 .cover-bg {
-  position: absolute;
+  position: fixed;
   z-index: 0;
   top: 0;
   left: 0;
   width: 100%;
-  height: 360px;
+  height: 100svh;
   background: linear-gradient(to bottom, #a80f00, #1d1d1f);
   /* background-image: url(/cover.webp);
   background-repeat: no-repeat;

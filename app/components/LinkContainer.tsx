@@ -4,6 +4,7 @@ import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import { BsFillShareFill } from "react-icons/bs";
 import { Alert } from "@mui/material";
+import { TinyColor } from "@ctrl/tinycolor";
 // import { FaCirclePlay } from "react-icons/fa6";
 // import { PiPlayCircleBold } from "react-icons/pi";
 // import { RiMusicAiFill } from "react-icons/ri";
@@ -22,6 +23,14 @@ type LinkContainerProps = {
   youtubeUrl?: string;
   spotifyId?: string;
   apple?: string;
+};
+
+const getGradientColors = (hex: string): string[] => {
+  const color = new TinyColor(hex);
+
+  // 색상 조화: 유사색 + 밝기 조절로 부드러운 그라데이션
+  const analogous = color.analogous(5, 10); // 5개, 각도 간격 12도
+  return analogous.map((c) => c.toHexString());
 };
 
 const LinkContainer = (props: LinkContainerProps) => {
@@ -47,6 +56,8 @@ const LinkContainer = (props: LinkContainerProps) => {
   const [spotify, setSpotify] = useState(
     `https://open.spotify.com/track/${spotifyId}`
   );
+
+  const gradientColors = getGradientColors(bgColor || "D8EFFF"); // '#ff6600' 같은 HEX 입력
 
   const handleShare = () => {
     const url = `https://muzlinkverse.com/${id}`;
@@ -104,8 +115,19 @@ const LinkContainer = (props: LinkContainerProps) => {
       <div
         className="cover-bg"
         style={{
-          background: `linear-gradient(to bottom, #${bgColor}, #1d1d1f)`,
+          background: isSearch
+            ? `linear-gradient(to bottom, #${bgColor}, #1d1d1f)`
+            : `radial-gradient(
+          ellipse at left, ${
+            (gradientColors[3], gradientColors[1])
+          }, transparent),
+          radial-gradient(ellipse at bottom, ${
+            (gradientColors[2], gradientColors[4])
+          }, transparent)`,
         }}
+        // style={{
+        //   background: `linear-gradient(to bottom, #${bgColor}, #1d1d1f)`,
+        // }}
       ></div>
       <div className="cover-box">
         <img className="cover" src={coverImgUrl} alt={title + "," + artist} />
