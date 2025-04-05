@@ -40,11 +40,7 @@ const getSpotifyAccessToken = async () => {
 setInterval(getSpotifyAccessToken, 3600000);
 
 export const getSpotify = async (params: SearchParams) => {
-  let accessToken;
-  const now = Date.now();
-  if (!accessToken || !tokenExpiresAt || now >= tokenExpiresAt) {
-    accessToken = await getSpotifyAccessToken();
-  }
+  const accessToken = await getSpotifyAccessToken();
 
   const { title, artist } = params;
   const url = "https://api.spotify.com/v1/search";
@@ -122,22 +118,11 @@ export const getSearchResult = async (params: SearchParams) => {
   }
 
   const spotifyResult = await getSpotify(params);
-  const appleMusicResult = await getAppleMusic(`${artist} ${title}`);
+  let appleMusicResult = await getAppleMusic(`${artist} ${title}`);
   const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
 
-  let titleResult = title;
-  let artistResult = artist;
-
-  if (appleMusicResult.data[0]?.attributes?.name) {
-    if (title !== appleMusicResult.data[0]?.attributes?.name) {
-      titleResult = appleMusicResult.data[0]?.attributes?.name;
-    }
-  }
-  if (appleMusicResult.data[0]?.attributes?.artistName) {
-    if (artist !== appleMusicResult.data[0]?.attributes?.artistName) {
-      artistResult = appleMusicResult.data[0]?.attributes?.artistName;
-    }
-  }
+  let titleResult = capitalizeFirstLetter(title);
+  let artistResult = capitalizeFirstLetter(artist);
 
   if (title !== titleResult || artist !== artistResult) {
     const existingSong = await prisma.song.findFirst({
@@ -150,8 +135,6 @@ export const getSearchResult = async (params: SearchParams) => {
     if (existingSong) {
       return existingSong;
     }
-
-    // 코드 추가
   }
 
   const songInfo = await prisma.song.create({
@@ -161,12 +144,16 @@ export const getSearchResult = async (params: SearchParams) => {
       popularity: spotifyResult[0]?.popularity || null,
       bgColor: appleMusicResult.data[0]?.attributes?.artwork?.bgColor || "",
       releaseDate: appleMusicResult.data[0]?.attributes?.releaseDate || "",
-      rawArtwork: appleMusicResult.data[0]?.attributes?.artwork?.url
-        ? appleMusicResult.data[0].attributes.artwork.url.replace(
-            /\.jpg\/.*$/,
-            ".jpg"
-          ) + "/500x500bb.jpg"
-        : "",
+      rawArtwork:
+        appleMusicResult.data[0]?.attributes?.artwork?.url &
+        appleMusicResult.data[0]?.attributes?.artwork?.url.endsWith("jpg")
+          ? appleMusicResult.data[0].attributes.artwork.url.replace(
+              /\.jpg\/.*$/,
+              ".jpg"
+            ) + "/500x500bb.jpg"
+          : spotifyResult[0].album.images[0].url
+          ? spotifyResult[0].album.images[0].url
+          : "",
       spotifyUrl: spotifyResult[0]?.id || "",
       appleMusicUrl: appleMusicResult.data[0]?.attributes?.url || "",
       youtubeUrl: youtubeVideoResult || "",
@@ -175,3 +162,7 @@ export const getSearchResult = async (params: SearchParams) => {
 
   return songInfo;
 };
+
+function capitalizeFirstLetter(sentence: string) {
+  return sentence.replace(/(^\s*[a-zA-Z])/, (match) => match.toUpperCase());
+}
