@@ -39,7 +39,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     {
       property: "og:image",
-      content: data?.artwork,
+      content: data?.rawArtwork,
     },
   ];
 };

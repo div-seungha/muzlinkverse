@@ -116,7 +116,7 @@ interface SearchResultPage {
   createdAt: string;
   title: string;
   artist: string;
-  artwork: string;
+  rawArtwork: string;
   bgColor: string;
   releaseDate: string;
   spotifyUrl: string;

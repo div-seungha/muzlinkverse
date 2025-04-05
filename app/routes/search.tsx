@@ -185,7 +185,7 @@ export default function Search() {
             isSearch={true}
             title={data?.title}
             artist={data?.artist}
-            coverImgUrl={data?.artwork}
+            coverImgUrl={data?.rawArtwork}
             bgColor={data?.bgColor}
             youtubeLink={`https://www.youtube.com/watch?v=${data?.youtubeUrl}`}
             apple={data?.appleMusicUrl}
