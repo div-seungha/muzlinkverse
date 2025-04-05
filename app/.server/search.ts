@@ -137,6 +137,9 @@ export const getSearchResult = async (params: SearchParams) => {
     }
   }
 
+  // console.log(spotifyResult);
+  // console.log(appleMusicResult);
+
   const songInfo = await prisma.song.create({
     data: {
       title: titleResult,
@@ -157,7 +160,6 @@ export const getSearchResult = async (params: SearchParams) => {
       spotifyUrl: spotifyResult[0]?.id || "",
       appleMusicUrl: appleMusicResult.data[0]?.attributes?.url || "",
       youtubeUrl: youtubeVideoResult || "",
-      isLocal: spotifyResult[0]?.isLocal,
     },
   });
 
