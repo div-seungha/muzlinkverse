@@ -52,11 +52,30 @@ export const getSpotify = async (params: SearchParams) => {
     params: {
       q: `track:${title}, artist:${artist}`,
       type: "track",
-      limit: 5,
+      limit: 10,
     },
   });
+  const tracks = res.data.tracks.items;
 
-  return res.data.tracks.items;
+  const normalize = (str: string) =>
+    str
+      .toLowerCase()
+      .replace(/[\s\-’'".,!?]/g, "")
+      .trim();
+
+  const normalizedTitle = normalize(title);
+  const normalizedArtist = normalize(artist);
+
+  const matched = tracks.find((track: any) => {
+    const trackTitle = normalize(track.name);
+    const trackArtist = normalize(track.artists[0]?.name || "");
+    return (
+      trackTitle.includes(normalizedTitle) &&
+      trackArtist.includes(normalizedArtist)
+    );
+  });
+
+  return matched ? [matched] : tracks.flat(Infinity)[0];
 };
 
 const getAppleTokenFromLambda = async () => {
@@ -67,9 +86,11 @@ const getAppleTokenFromLambda = async () => {
   return data.token;
 };
 
-const getAppleMusic = async (query: string) => {
+const getAppleMusic = async (title: string, artist: string) => {
   const url = `https://api.music.apple.com/v1/catalog/kr/search`;
   const token = await getAppleTokenFromLambda();
+
+  const query = `${artist} ${title}`;
 
   const response = await axios.get(url, {
     headers: {
@@ -78,11 +99,31 @@ const getAppleMusic = async (query: string) => {
     params: {
       term: query,
       types: "songs",
-      limit: 5,
+      limit: 10,
     },
   });
 
-  return response.data.results.songs;
+  const songs = response.data.results.songs?.data || [];
+
+  const normalize = (str: string) =>
+    str
+      .toLowerCase()
+      .replace(/[\s\-]+/g, "")
+      .trim();
+
+  const normalizedTitle = normalize(title);
+  const normalizedArtist = normalize(artist);
+
+  const matched = songs.find((song: any) => {
+    const songTitle = normalize(song.attributes.name);
+    const songArtist = normalize(song.attributes.artistName);
+    return (
+      songTitle.includes(normalizedTitle) &&
+      songArtist.includes(normalizedArtist)
+    );
+  });
+
+  return matched || songs[0];
 };
 
 const getYoutubeVideo = async (query: string) => {
@@ -118,7 +159,7 @@ export const getSearchResult = async (params: SearchParams) => {
   }
 
   const spotifyResult = await getSpotify(params);
-  let appleMusicResult = await getAppleMusic(`${artist} ${title}`);
+  let appleMusicResult = await getAppleMusic(title, artist);
   const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
 
   let titleResult = capitalizeFirstLetter(title);
@@ -139,26 +180,54 @@ export const getSearchResult = async (params: SearchParams) => {
 
   // console.log(spotifyResult);
   // console.log(appleMusicResult);
+  // console.log(youtubeVideoResult);
+
+  console.log("result", {
+    title: titleResult,
+    artist: artistResult,
+    popularity: spotifyResult?.popularity || null,
+    bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
+    releaseDate: appleMusicResult?.attributes?.releaseDate
+      ? appleMusicResult?.attributes?.releaseDate
+      : spotifyResult.album.release_date
+      ? spotifyResult.album.release_date
+      : "",
+    rawArtwork:
+      appleMusicResult?.attributes?.artwork?.url &
+      appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
+        ? appleMusicResult.attributes.artwork.url.replace(
+            /\.jpg\/.*$/,
+            ".jpg"
+          ) + "/500x500bb.jpg"
+        : spotifyResult?.album?.images[0]?.url
+        ? spotifyResult.album.images[0].url
+        : "",
+    spotifyUrl: spotifyResult.id || "",
+    appleMusicUrl: appleMusicResult.attributes?.url || "",
+    youtubeUrl: youtubeVideoResult || "",
+  });
+
+  // console.log(spotifyResult.album.images[0]);
 
   const songInfo = await prisma.song.create({
     data: {
       title: titleResult,
       artist: artistResult,
-      popularity: spotifyResult[0]?.popularity || null,
-      bgColor: appleMusicResult.data[0]?.attributes?.artwork?.bgColor || "",
-      releaseDate: appleMusicResult.data[0]?.attributes?.releaseDate || "",
+      popularity: spotifyResult?.popularity || null,
+      bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
+      releaseDate: appleMusicResult?.attributes?.release_date || "",
       rawArtwork:
-        appleMusicResult.data[0]?.attributes?.artwork?.url &
-        appleMusicResult.data[0]?.attributes?.artwork?.url.endsWith("jpg")
-          ? appleMusicResult.data[0].attributes.artwork.url.replace(
+        appleMusicResult?.attributes?.artwork?.url &
+        appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
+          ? appleMusicResult.attributes.artwork.url.replace(
               /\.jpg\/.*$/,
               ".jpg"
             ) + "/500x500bb.jpg"
-          : spotifyResult[0].album.images[0].url
-          ? spotifyResult[0].album.images[0].url
+          : spotifyResult?.album?.images[0]?.url
+          ? spotifyResult.album.images[0].url
           : "",
-      spotifyUrl: spotifyResult[0]?.id || "",
-      appleMusicUrl: appleMusicResult.data[0]?.attributes?.url || "",
+      spotifyUrl: spotifyResult.id || "",
+      appleMusicUrl: appleMusicResult.attributes?.url || "",
       youtubeUrl: youtubeVideoResult || "",
     },
   });

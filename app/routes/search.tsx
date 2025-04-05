@@ -234,6 +234,9 @@ export const ErrorBoundary = () => {
       <p className="text-center text-[14px]" style={{ fontWeight: 400 }}>
         아티스트 입력 칸에는 아티스트 이름을...
       </p>
+      <p className="text-center text-[14px]" style={{ fontWeight: 400 }}>
+        (곡과 일치하는 정보를 정확히 입력해주셔야 검색이 됩니다...)
+      </p>
       <Link to="/search" viewTransition>
         <button
           className="w-[200px] my-[24px]"
