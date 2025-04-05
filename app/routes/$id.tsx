@@ -57,7 +57,7 @@ const SearchResultPage = () => {
   // const melon = "";
   // const bugs = "";
 
-  const coverImgUrl = data.artwork;
+  const coverImgUrl = data.rawArtwork;
 
   return (
     <LinkContainer

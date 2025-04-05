@@ -49,8 +49,6 @@ export const getSpotify = async (params: SearchParams) => {
   const { title, artist } = params;
   const url = "https://api.spotify.com/v1/search";
 
-  console.log(accessToken);
-
   const res = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -127,8 +125,6 @@ export const getSearchResult = async (params: SearchParams) => {
   const appleMusicResult = await getAppleMusic(`${artist} ${title}`);
   const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
 
-  console.log(spotifyResult);
-
   let titleResult = title;
   let artistResult = artist;
 
@@ -165,7 +161,7 @@ export const getSearchResult = async (params: SearchParams) => {
       popularity: spotifyResult[0]?.popularity || null,
       bgColor: appleMusicResult.data[0]?.attributes?.artwork?.bgColor || "",
       releaseDate: appleMusicResult.data[0]?.attributes?.releaseDate || "",
-      artwork: appleMusicResult.data[0]?.attributes?.artwork?.url
+      rawArtwork: appleMusicResult.data[0]?.attributes?.artwork?.url
         ? appleMusicResult.data[0].attributes.artwork.url.replace(
             /\.jpg\/.*$/,
             ".jpg"

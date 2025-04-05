@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,13 +12,21 @@ model Song {
   createdAt     DateTime @default(now())
   title         String
   artist        String
-  artwork       String?
   bgColor       String?
+  rawArtwork    String?
   releaseDate   String?
   spotifyUrl    String?
   appleMusicUrl String?
   youtubeUrl    String?
   popularity    Int?
+  artworkId     Int?     @unique
+  Artwork       Artwork? @relation(fields: [artworkId], references: [id])
 
   @@unique([title, artist])
+}
+
+model Artwork {
+  id    Int    @id @unique @default(autoincrement())
+  s3Url String
+  Song  Song?
 }
