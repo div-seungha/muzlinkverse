@@ -7,35 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Song {
-  id              Int       @id @default(autoincrement())
-  created_at      DateTime? @db.Timestamp(6)
-  title           String?
-  artist          String?
-  bg_color        String?
-  raw_artwork     String?
-  release_date    DateTime? @db.Date
-  spotify_url     String?
-  apple_music_url String?
-  youtube_url     String?
-  melon_url       String?
-  bugs_url        String?
-  naver_vibe_url  String?
-  genie_url       String?
-  flo_url         String?
-  is_local        Boolean?
-  popularity      Int?
-  artwork_id      Int? @unique
-  rawArtwork      String?
-  artwork         Artwork? @relation(fields: [artwork_id], references: [id])
-
-  @@map("songs")
-  @@unique([title, artist])
-}
-
 model Artwork {
-  id    Int    @id @unique
+  id    Int    @id @unique @default(autoincrement())
   s3Url String
   Song  Song?
 }
 
+model Song {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  title         String
+  artist        String
+  bgColor       String?
+  releaseDate   String?
+  spotifyUrl    String?
+  appleMusicUrl String?
+  youtubeUrl    String?
+  popularity    Int?
+  artworkId     Int?     @unique
+  rawArtwork    String?
+  Artwork       Artwork? @relation(fields: [artworkId], references: [id])
+
+  @@unique([title, artist])
+}
