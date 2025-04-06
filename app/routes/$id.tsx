@@ -54,7 +54,7 @@ const SearchResultPage = () => {
   const youtubeMusic = `https://music.youtube.com/watch?v=${data.youtubeUrl}`;
   // const flo = "";
   // const naver = "";
-  // const melon = "";
+  const melonUrl = data.melonUrl;
   // const bugs = "";
 
   const coverImgUrl = data.rawArtwork;
@@ -73,6 +73,7 @@ const SearchResultPage = () => {
       releaseDate={releaseDate}
       youtubeMusic={youtubeMusic}
       youtubeUrl={youtubeUrl}
+      melonUrl={melonUrl}
     />
   );
 };
