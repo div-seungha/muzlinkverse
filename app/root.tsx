@@ -11,6 +11,7 @@ import {
 import "./tailwind.css";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
+import Header from "./components/Header";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -42,6 +43,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <Header />
         {children}
         <ScrollRestoration />
         <Footer />

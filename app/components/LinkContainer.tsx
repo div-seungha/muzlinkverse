@@ -5,8 +5,8 @@ import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import { BsFillShareFill } from "react-icons/bs";
 import { Alert } from "@mui/material";
 import { TinyColor } from "@ctrl/tinycolor";
+import { PiPlayCircleBold } from "react-icons/pi";
 // import { FaCirclePlay } from "react-icons/fa6";
-// import { PiPlayCircleBold } from "react-icons/pi";
 // import { RiMusicAiFill } from "react-icons/ri";
 // import { TbMusicShare } from "react-icons/tb";
 
@@ -23,6 +23,10 @@ type LinkContainerProps = {
   youtubeUrl?: string;
   spotifyId?: string;
   apple?: string;
+  melonUrl?: string;
+  bugsUrl?: string;
+  naverVibeUrl?: string;
+  floUrl?: string;
 };
 
 const getGradientColors = (hex: string): string[] => {
@@ -46,6 +50,7 @@ const LinkContainer = (props: LinkContainerProps) => {
     youtubeLink,
     youtubeUrl,
     spotifyId,
+    melonUrl,
     apple,
   } = props;
 
@@ -213,12 +218,14 @@ const LinkContainer = (props: LinkContainerProps) => {
               </button>
             </a>
           )}
-          {/* <a href={melon} target="_blank" rel="noreferrer">
-                <button className="melon">
-                  <PiPlayCircleBold fontSize={30} />
-                  <span className="button-link-name">Melon</span>
-                </button>
-              </a> */}
+          {melonUrl && (
+            <a href={melonUrl} target="_blank" rel="noreferrer">
+              <button className="melon">
+                <PiPlayCircleBold fontSize={30} />
+                <span className="button-link-name">Melon</span>
+              </button>
+            </a>
+          )}
 
           {/* <a href={bugs} target="_blank" rel="noreferrer">
                 <button className="bugs">

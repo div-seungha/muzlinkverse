@@ -71,74 +71,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return json({ ...data });
 };
 
-// const FormValidationPopup = ({
-//   open,
-//   onClose,
-//   onConfirm,
-// }: {
-//   open: boolean;
-//   onClose: () => void;
-//   onConfirm: () => void;
-// }) => {
-//   return (
-//     <Dialog onClose={onClose} open={open}>
-//       <p>
-//         찾으시는 곡명과 아티스트명을 정확히 알려주셔야 <br /> 보다 정확한 검색이
-//         가능합니다.
-//       </p>
-//       {/* <p>
-//         {item.map((v: string, i: number) => {
-//           if (i === item.length - 1) {
-//             return <span key={i}>{v}</span>;
-//           } else return <span key={i}>{v},</span>;
-//         })}
-//         가 비어있어요.
-//       </p> */}
-//       <p>이대로 검색하실 건가요?</p>
-//       <button onClick={onClose}>아니요</button>
-//       <button onClick={onConfirm}>네</button>
-//     </Dialog>
-//   );
-// };
-
 export default function Search() {
   const fetcher = useFetcher();
   const data = fetcher.data as SearchResultPage;
   const isSubmitting = fetcher.state === "submitting";
-
-  // const [formItem, setFormItem] = useState<string[]>([]);
-  // const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  // const [shouldSubmitAnyway, setShouldSubmitAnyway] = useState(false);
-  // const formRef = useRef<HTMLFormElement>(null);
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   const form = event.currentTarget;
-  //   const title = form.title.trim();
-  //   const artist = form.artist.trim();
-
-  //   console.log(event);
-
-  //   if (!title || !artist) {
-  //     if (!shouldSubmitAnyway) {
-  //       event.preventDefault(); // 기본 제출 막기
-  //       setIsDialogOpen(true); // 팝업 띄우기
-  //     }
-  //   }
-  // };
-
-  // const handleClickOk = () => {
-  //   setIsDialogOpen(false);
-  //   setShouldSubmitAnyway(true);
-
-  //   // 폼 수동 제출
-  //   if (formRef.current) {
-  //     formRef.current.requestSubmit();
-  //   }
-
-  //   // 다시 원래 상태로 리셋
-  //   setTimeout(() => setShouldSubmitAnyway(false), 100);
-  // };
 
   return (
     <div className="search-container">
@@ -193,6 +129,7 @@ export default function Search() {
             releaseDate={data?.releaseDate}
             youtubeMusic={`https://music.youtube.com/watch?v=${data?.youtubeUrl}`}
             youtubeUrl={data?.youtubeUrl}
+            melonUrl={data?.melonUrl}
           />
         </div>
       )}

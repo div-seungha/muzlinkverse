@@ -122,4 +122,5 @@ interface SearchResultPage {
   spotifyUrl: string;
   youtubeUrl: string;
   appleMusicUrl: string;
+  melonUrl: string;
 }

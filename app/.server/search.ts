@@ -142,6 +142,22 @@ const getYoutubeVideo = async (query: string) => {
   return video ? video.id.videoId : null;
 };
 
+const getMelonUrl = async (title: string, artist: string) => {
+  const result = await prisma.melon_crawling.findFirst({
+    where: {
+      title,
+      artists: {
+        has: artist,
+      },
+    },
+    select: {
+      url: true,
+    },
+  });
+
+  return result?.url ?? null;
+};
+
 export const getSearchResult = async (params: SearchParams) => {
   const { title, artist } = params;
 
@@ -178,36 +194,37 @@ export const getSearchResult = async (params: SearchParams) => {
     }
   }
 
+  const melonUrl = await getMelonUrl(title, artist);
+
+  console.log(melonUrl);
   // console.log(spotifyResult);
   // console.log(appleMusicResult);
   // console.log(youtubeVideoResult);
 
-  console.log("result", {
-    title: titleResult,
-    artist: artistResult,
-    popularity: spotifyResult?.popularity || null,
-    bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
-    releaseDate: appleMusicResult?.attributes?.releaseDate
-      ? appleMusicResult?.attributes?.releaseDate
-      : spotifyResult?.album?.release_date
-      ? spotifyResult.album.release_date
-      : "",
-    rawArtwork:
-      appleMusicResult?.attributes?.artwork?.url &
-      appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
-        ? appleMusicResult.attributes.artwork.url.replace(
-            /\.jpg\/.*$/,
-            ".jpg"
-          ) + "/500x500bb.jpg"
-        : spotifyResult?.album?.images[0]?.url
-        ? spotifyResult.album.images[0].url
-        : "",
-    spotifyUrl: spotifyResult?.id || "",
-    appleMusicUrl: appleMusicResult?.attributes?.url || "",
-    youtubeUrl: youtubeVideoResult || "",
-  });
-
-  // console.log(spotifyResult.album.images[0]);
+  // console.log("result", {
+  //   title: titleResult,
+  //   artist: artistResult,
+  //   popularity: spotifyResult?.popularity || null,
+  //   bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
+  //   releaseDate: appleMusicResult?.attributes?.releaseDate
+  //     ? appleMusicResult?.attributes?.releaseDate
+  //     : spotifyResult?.album?.release_date
+  //     ? spotifyResult.album.release_date
+  //     : "",
+  //   rawArtwork:
+  //     appleMusicResult?.attributes?.artwork?.url &
+  //     appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
+  //       ? appleMusicResult.attributes.artwork.url.replace(
+  //           /\.jpg\/.*$/,
+  //           ".jpg"
+  //         ) + "/500x500bb.jpg"
+  //       : spotifyResult?.album?.images[0]?.url
+  //       ? spotifyResult.album.images[0].url
+  //       : "",
+  //   spotifyUrl: spotifyResult?.id || "",
+  //   appleMusicUrl: appleMusicResult?.attributes?.url || "",
+  //   youtubeUrl: youtubeVideoResult || "",
+  // });
 
   const songInfo = await prisma.song.create({
     data: {
@@ -229,6 +246,7 @@ export const getSearchResult = async (params: SearchParams) => {
       spotifyUrl: spotifyResult.id || "",
       appleMusicUrl: appleMusicResult.attributes?.url || "",
       youtubeUrl: youtubeVideoResult || "",
+      melonUrl: melonUrl || "",
     },
   });
 
