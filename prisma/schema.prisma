@@ -7,15 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Artwork {
-  id    Int    @id @unique @default(autoincrement())
+model artwork_data {
+  id    Int    @id(map: "Artwork_pkey") @unique(map: "Artwork_id_key") @default(autoincrement())
   s3Url String
-  Song  Song?
+  song  song?
 }
 
-model Song {
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
+model melon_crawling {
+  song_id String   @id
+  title   String
+  artists String[]
+  url     String
+}
+
+model song {
+  id            Int           @id(map: "Song_pkey") @default(autoincrement())
+  createdAt     DateTime      @default(now())
   title         String
   artist        String
   bgColor       String?
@@ -24,9 +31,14 @@ model Song {
   appleMusicUrl String?
   youtubeUrl    String?
   popularity    Int?
-  artworkId     Int?     @unique
+  artworkId     Int?          @unique(map: "Song_artworkId_key")
   rawArtwork    String?
-  Artwork       Artwork? @relation(fields: [artworkId], references: [id])
+  melonUrl      String?
+  bugsUrl       String?
+  naverVibeUrl  String?
+  floUrl        String?
+  genieUrl      String?
+  artwork_data  artwork_data? @relation(fields: [artworkId], references: [id], map: "Song_artworkId_fkey")
 
-  @@unique([title, artist])
+  @@unique([title, artist], map: "Song_title_artist_key")
 }
