@@ -133,7 +133,9 @@ const LinkContainer = (props: LinkContainerProps) => {
         <img className="cover" src={coverImgUrl} alt={title + "," + artist} />
         <div className="header-container">
           <div className="flex flex-col-reverse items-end text-right">
-            <p className="description">Released on {releaseDate}</p>
+            {releaseDate && (
+              <p className="description">Released on {releaseDate}</p>
+            )}
             <h1>{title}</h1>
             <p>{artist}</p>
             {/* <img src="/profile.webp" alt="송병도" className="profile" /> */}
