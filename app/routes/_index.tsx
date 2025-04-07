@@ -3,6 +3,8 @@ import { prisma } from "~/.server/db";
 import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState, useRef } from "react";
 import { findMostContrastingColor } from "~/module/calcualte-color";
+import { FaShare } from "react-icons/fa";
+import { LuLink } from "react-icons/lu";
 
 type Data = {
   id: number;
@@ -164,6 +166,11 @@ const SongList = () => {
           <div ref={loaderRef} className="song-card-wrapper"></div>
         </div>
       </InfiniteScroller>
+      <Link to="/search" viewTransition>
+        <div className="index-floating-button-container">
+          <LuLink fontSize={20} color="#ededef" />
+        </div>
+      </Link>
     </div>
   );
 };

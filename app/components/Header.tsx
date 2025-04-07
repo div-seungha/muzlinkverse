@@ -7,7 +7,11 @@ const Header = () => {
     return <></>;
   }
   return (
-    <header>
+    <header
+      style={{
+        background: location.pathname === "/search" ? "#19181a" : "transparent",
+      }}
+    >
       <div>
         <Link to="/" viewTransition>
           <Logo />
