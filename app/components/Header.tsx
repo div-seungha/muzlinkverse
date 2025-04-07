@@ -1,4 +1,4 @@
-import { useLocation } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import Logo from "~/svgs/Logo";
 
 const Header = () => {
@@ -9,7 +9,9 @@ const Header = () => {
   return (
     <header>
       <div>
-        <Logo />
+        <Link to="/" viewTransition>
+          <Logo />
+        </Link>
       </div>
     </header>
   );

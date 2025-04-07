@@ -108,6 +108,19 @@ body {
   }
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+}
+
+.error-title {
+  color: var(--text-primary);
+}
+
 .content-container {
   width: 100%;
   display: block;
@@ -647,4 +660,65 @@ header {
   z-index: 10000000;
   background: #dfefef22;
   backdrop-filter: blur(10px);
+}
+
+/** Main Song List *******************************/
+
+.song-list-container {
+  display: flex;
+  height: fit-content;
+  flex-wrap: wrap;
+  padding-top: 30px;
+  width: 100svw;
+  justify-content: center;
+  padding-bottom: 100px;
+  /* @media screen and (min-width: 1920px) {
+    width: 1880px;
+  } */
+  /* @media screen and (min-width: 1640px) {
+    width: 1600px;
+  }
+  @media screen and (min-width: 1440px) {
+    width: 1360px;
+  } */
+}
+
+.song-card-wrapper {
+  display: flex;
+  width: 400px;
+  height: 200px;
+  box-sizing: border-box;
+  opacity: 0.5;
+  transition: all 0.5s;
+  filter: saturate(30%);
+  @media screen and (max-width: 400px) {
+    width: 100%;
+  }
+}
+
+.song-card-wrapper:hover {
+  opacity: 1;
+  filter: saturate(100%);
+}
+
+.song-card-cover-img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  @media screen and (max-width: 400px) {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.song-card {
+  width: 209px;
+  font-family: Pretendard;
+  height: 200px;
+  padding: 12px;
+  box-sizing: border-box;
+  @media screen and (max-width: 400px) {
+    width: 150px;
+    height: 150px;
+  }
 }

@@ -6,6 +6,7 @@ import { BsFillShareFill } from "react-icons/bs";
 import { Alert } from "@mui/material";
 import { TinyColor } from "@ctrl/tinycolor";
 import { PiPlayCircleBold } from "react-icons/pi";
+import { getGradientColors, getTextColor } from "~/module/calcualte-color";
 // import { FaCirclePlay } from "react-icons/fa6";
 // import { RiMusicAiFill } from "react-icons/ri";
 // import { TbMusicShare } from "react-icons/tb";
@@ -27,28 +28,6 @@ type LinkContainerProps = {
   bugsUrl?: string;
   naverVibeUrl?: string;
   floUrl?: string;
-};
-
-const getGradientColors = (hex: string): string[] => {
-  const color = new TinyColor(hex);
-
-  // 색상 조화: 유사색 + 밝기 조절로 부드러운 그라데이션
-  const analogous = color.analogous(5, 12); // 5개, 각도 간격 12도
-  return analogous.map((c) => c.toHexString());
-};
-
-const getTextColor = (bgColor: string) => {
-  if (!bgColor) {
-    return "#18191a";
-  }
-
-  const r = parseInt(bgColor.slice(0, 2), 16);
-  const g = parseInt(bgColor.slice(2, 4), 16);
-  const b = parseInt(bgColor.slice(4, 6), 16);
-
-  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
-  return brightness > 128 ? "#18191a" : "#fff";
 };
 
 const LinkContainer = (props: LinkContainerProps) => {

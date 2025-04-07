@@ -47,10 +47,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body
-        className={path === "/" || "/search" || "sunrise" ? "dark" : ""}
+        className={
+          path === "/" || path === "/search" || path === "/sunrise"
+            ? "dark"
+            : ""
+        }
         style={{
           background:
-            path === "/" || "/search" || "/sunrise" ? "#18191a" : "#ededef",
+            path === "/" || path === "/search" || path === "/sunrise"
+              ? "#18191a"
+              : "#ededef",
         }}
       >
         <Header />
@@ -75,8 +81,8 @@ export const ErrorBoundary = () => {
         style={{ margin: "20px auto" }}
       />
       <h2
-        className="text-center text-[24px] my-[20px]"
-        style={{ fontWeight: 800, color: "#fff" }}
+        className="error-title text-center text-[24px] my-[20px]"
+        style={{ fontWeight: 800 }}
       >
         Oops! Something is wrong...
       </h2>

@@ -92,8 +92,8 @@ export const ErrorBoundary = () => {
         style={{ margin: "20px auto" }}
       />
       <h2
-        className="text-center text-[24px] my-[20px]"
-        style={{ fontWeight: 800, color: "#fff" }}
+        className="error-title text-center text-[24px] my-[20px]"
+        style={{ fontWeight: 800 }}
       >
         Oops! Something is wrong...
       </h2>
