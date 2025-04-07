@@ -176,7 +176,7 @@ export const getSearchResult = async (params: SearchParams) => {
 
   const spotifyResult = await getSpotify(params);
   let appleMusicResult = await getAppleMusic(title, artist);
-  // const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
+  const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
 
   let titleResult = capitalizeFirstLetter(title);
   let artistResult = capitalizeFirstLetter(artist);
@@ -215,8 +215,7 @@ export const getSearchResult = async (params: SearchParams) => {
           : "",
       spotifyUrl: spotifyResult.id || "",
       appleMusicUrl: appleMusicResult.attributes?.url || "",
-      youtubeUrl: "",
-      // youtubeUrl: youtubeVideoResult || "",
+      youtubeUrl: youtubeVideoResult || "",
       melonUrl: melonUrl || "",
     },
   });
