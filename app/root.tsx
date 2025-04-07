@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts, // Scripts,
   ScrollRestoration,
+  useLocation,
   useRouteError,
 } from "@remix-run/react";
 
@@ -34,6 +35,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const location = useLocation();
+  const path = location.pathname;
+
   return (
     <html lang="ko">
       <head>
@@ -42,7 +46,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body
+        className={path === "/" || "/search" || "sunrise" ? "dark" : ""}
+        style={{
+          background:
+            path === "/" || "/search" || "/sunrise" ? "#18191a" : "#ededef",
+        }}
+      >
         <Header />
         {children}
         <ScrollRestoration />

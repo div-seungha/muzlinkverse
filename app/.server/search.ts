@@ -63,8 +63,11 @@ export const getSpotify = async (params: SearchParams) => {
       .replace(/[\s\-’'".,!?]/g, "")
       .trim();
 
-  const normalizedTitle = normalize(title);
-  const normalizedArtist = normalize(artist);
+  // const normalizedTitle = normalize(title);
+  // const normalizedArtist = normalize(artist);
+
+  const normalizedTitle = title;
+  const normalizedArtist = artist;
 
   const matched = tracks.find((track: any) => {
     const trackTitle = normalize(track.name);
@@ -164,19 +167,41 @@ export const getSearchResult = async (params: SearchParams) => {
   // DB에 이미 저장된 곡이 있는지 먼저 확인
   const existingSong = await prisma.song.findFirst({
     where: {
-      title,
-      artist,
+      title: {
+        equals: title,
+        mode: "insensitive",
+      },
+      artist: {
+        equals: artist,
+        mode: "insensitive",
+      },
     },
   });
 
-  // 있으면 바로 반환
   if (existingSong) {
     return existingSong;
   }
 
-  const spotifyResult = await getSpotify(params);
-  let appleMusicResult = await getAppleMusic(title, artist);
-  const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
+  // 외부 API 요청들 병렬 처리
+  const [spotifyRes, appleMusicRes, melonRes, youtubeRes] =
+    await Promise.allSettled([
+      getSpotify(params),
+      getAppleMusic(title, artist),
+      getMelonUrl(title, artist),
+      getYoutubeVideo(`${artist} ${title}`),
+    ]);
+
+  const spotifyResult =
+    spotifyRes.status === "fulfilled" ? spotifyRes.value : null;
+  const appleMusicResult =
+    appleMusicRes.status === "fulfilled" ? appleMusicRes.value : null;
+  const melonUrl = melonRes.status === "fulfilled" ? melonRes.value : "";
+  const youtubeVideoResult =
+    youtubeRes.status === "fulfilled" ? youtubeRes.value : "";
+
+  // const spotifyResult = await getSpotify(params);
+  // let appleMusicResult = await getAppleMusic(title, artist);
+  // // const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
 
   let titleResult = capitalizeFirstLetter(title);
   let artistResult = capitalizeFirstLetter(artist);
@@ -194,7 +219,7 @@ export const getSearchResult = async (params: SearchParams) => {
     }
   }
 
-  const melonUrl = await getMelonUrl(title, artist);
+  // const melonUrl = await getMelonUrl(title, artist);
 
   const songInfo = await prisma.song.create({
     data: {
@@ -202,7 +227,10 @@ export const getSearchResult = async (params: SearchParams) => {
       artist: artistResult,
       popularity: spotifyResult?.popularity || null,
       bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
-      releaseDate: appleMusicResult?.attributes?.release_date || "",
+      releaseDate:
+        appleMusicResult?.attributes?.release_date ||
+        spotifyResult.album.release_date ||
+        "",
       rawArtwork:
         appleMusicResult?.attributes?.artwork?.url &
         appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
@@ -216,6 +244,7 @@ export const getSearchResult = async (params: SearchParams) => {
       spotifyUrl: spotifyResult.id || "",
       appleMusicUrl: appleMusicResult.attributes?.url || "",
       youtubeUrl: youtubeVideoResult || "",
+      // youtubeUrl: "",
       melonUrl: melonUrl || "",
     },
   });

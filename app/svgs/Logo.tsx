@@ -1,7 +1,7 @@
 const Logo = ({
   width = 120,
   height = 30,
-  color = "#ffffff88",
+  color = "#18181744",
 }: {
   width?: number;
   height?: number;
@@ -35,19 +35,19 @@ const Logo = ({
         d="M329 174L457 119"
         stroke={color}
         strokeWidth="30"
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
       <path
         d="M329 202L457 147"
         stroke={color}
         strokeWidth="30"
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
       <path
         d="M329 273L457 218"
         stroke={color}
         strokeWidth="30"
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
       <path
         d="M640 235.156H689.453L733.281 342.031H735.156L778.984 235.156H828.438V404.844H789.531V299.375H788.125L746.875 403.906H721.562L680.312 298.906H678.906V404.844H640V235.156Z"

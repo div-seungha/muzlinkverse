@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaSpotify, FaYoutube } from "react-icons/fa";
 import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
@@ -33,8 +33,22 @@ const getGradientColors = (hex: string): string[] => {
   const color = new TinyColor(hex);
 
   // 색상 조화: 유사색 + 밝기 조절로 부드러운 그라데이션
-  const analogous = color.analogous(5, 9); // 5개, 각도 간격 12도
+  const analogous = color.analogous(5, 12); // 5개, 각도 간격 12도
   return analogous.map((c) => c.toHexString());
+};
+
+const getTextColor = (bgColor: string) => {
+  if (!bgColor) {
+    return "#18191a";
+  }
+
+  const r = parseInt(bgColor.slice(0, 2), 16);
+  const g = parseInt(bgColor.slice(2, 4), 16);
+  const b = parseInt(bgColor.slice(4, 6), 16);
+
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+  return brightness > 128 ? "#18191a" : "#fff";
 };
 
 const LinkContainer = (props: LinkContainerProps) => {
@@ -63,6 +77,7 @@ const LinkContainer = (props: LinkContainerProps) => {
   );
 
   const gradientColors = getGradientColors(bgColor || "D8EFFF"); // '#ff6600' 같은 HEX 입력
+  const textColor = isSearch ? "#fff" : getTextColor(bgColor || "");
 
   const handleShare = () => {
     const url = `https://muzlinkverse.com/${id}`;
@@ -95,6 +110,16 @@ const LinkContainer = (props: LinkContainerProps) => {
     }
   };
 
+  const marginTop = useMemo(() => {
+    if (isSearch && youtubeUrl) {
+      return 480;
+    }
+    if (isSearch && !youtubeUrl) {
+      return 240;
+    }
+    return 0;
+  }, [isSearch, youtubeUrl]);
+
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
     // 모바일 기기 감지
@@ -124,7 +149,7 @@ const LinkContainer = (props: LinkContainerProps) => {
         className="cover-bg"
         style={{
           background: isSearch
-            ? `linear-gradient(to bottom, #${bgColor}, #1d1d1f)`
+            ? `linear-gradient(to top, transparent, #${bgColor})`
             : // : `linear-gradient(to bottom, #${bgColor}, ${gradientColors[2]}, transparent)`,
               `radial-gradient(
           ellipse at right, ${
@@ -139,14 +164,27 @@ const LinkContainer = (props: LinkContainerProps) => {
         // }}
       ></div>
       <div className="cover-box">
-        <img className="cover" src={coverImgUrl} alt={title + "," + artist} />
+        {coverImgUrl ? (
+          <img className="cover" src={coverImgUrl} alt={title + "," + artist} />
+        ) : (
+          <img
+            src="/dummy-album.png"
+            alt="이미지를 불러오는 데 실패하였습니다"
+            className="cover"
+          />
+        )}
         <div className="header-container">
-          <div className="flex flex-col-reverse items-end text-right">
+          <div
+            className="flex flex-col-reverse items-end text-right"
+            style={{ color: textColor }}
+          >
             {releaseDate && (
-              <p className="description">Released on {releaseDate}</p>
+              <p style={{ color: textColor }} className="description">
+                Released on {releaseDate}
+              </p>
             )}
-            <h1>{title}</h1>
-            <p>{artist}</p>
+            <h1 style={{ color: textColor }}>{title}</h1>
+            <p style={{ color: textColor }}>{artist}</p>
             {/* <img src="/profile.webp" alt="송병도" className="profile" /> */}
           </div>
         </div>
@@ -178,18 +216,20 @@ const LinkContainer = (props: LinkContainerProps) => {
             </a>
           </p>
           <p>위 URL을 복사하여 직접 공유하실 수 있습니다.</p>
-          <iframe
-            width="90%"
-            height="90%"
-            style={{ margin: "20px auto" }}
-            src={`https://www.youtube.com/embed/${youtubeUrl}`}
-            title={title + "-" + artist}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          {youtubeUrl && (
+            <iframe
+              width="90%"
+              height="90%"
+              style={{ margin: "20px auto" }}
+              src={`https://www.youtube.com/embed/${youtubeUrl}`}
+              title={title + "-" + artist}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
         </div>
 
-        <div className="link-container">
+        <div className="link-container" style={{ marginTop }}>
           {melonUrl && (
             <a href={melonUrl} target="_blank" rel="noreferrer">
               <button className="melon">

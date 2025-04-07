@@ -53,8 +53,8 @@
 
 @layer base {
   :root {
-    --text-primary: #ffffff;
-    --text-secondary: #18191a;
+    --text-primary: #18191a;
+    --text-secondary: #ffffff;
     --youtube-primary: #ff0032;
     --youtube-secondary: #000000;
     --spotify-primary: #1cb955;
@@ -66,10 +66,11 @@
     --flo-primary: #5450ff;
     --apple-primary: #f9243b;
     --search-input-button: #ff5745;
-    --background: #18191a;
+    --background: #ededef;
     --link-share-background: #81919f;
     --success: #20a824;
     --error: #a82020;
+    --button-default-background: #c3c6cf;
     --text-primary-rgb: 24, 25, 26;
     --youtube-primary-rgb: 255, 0, 50;
     --youtube-secondary-rgb: 0, 0, 0;
@@ -86,9 +87,12 @@
     --link-share-background-rgb: 130, 145, 159;
     --success-rgb: 32, 168, 36;
     --error-rgb: 168, 32, 32;
+    --button-box-shadow: #a2a2a255;
   }
   .dark {
     --text-primary: #ffffff;
+    --background: #18191a;
+    --button-box-shadow: #00000055;
   }
 }
 
@@ -111,7 +115,6 @@ body {
   top: 30px;
   min-height: calc(100svh + 120px);
   font-family: Pretendard;
-  background: var(--background);
   /* display: flex;
   flex-direction: column; */
   /* background: radial-gradient(ellipse at top, #a80f00, transparent),
@@ -266,7 +269,7 @@ button {
   height: 48px;
   padding: 12px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--button-default-background);
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
@@ -274,7 +277,7 @@ button {
   border-radius: 12px;
   transition: all 300ms;
   /* border: 1px solid #ffffffaa; */
-  box-shadow: 2px 2px 8px #00000055;
+  box-shadow: 2px 2px 8px var(--button-box-shadow);
 }
 
 button:hover {
@@ -438,7 +441,7 @@ footer a {
   font-family: Pretendard;
   max-width: 800px;
   margin: 0 auto;
-  background: var(--background);
+  /* background: var(--background); */
   padding: 0px 0px 60px 0px;
   @media screen and (max-width: 340px) {
     width: 100%;
@@ -485,7 +488,7 @@ footer a {
 .confirm-container {
   position: relative;
   top: 360px;
-  height: 400px;
+  height: 240px;
   width: 100%;
   z-index: 10;
   text-align: center;
@@ -642,6 +645,6 @@ header {
   top: 0;
   left: 0;
   z-index: 10000000;
-  background: #ffffff22;
+  background: #dfefef22;
   backdrop-filter: blur(10px);
 }
