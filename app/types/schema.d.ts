@@ -123,4 +123,5 @@ interface SearchResultPage {
   youtubeUrl: string;
   appleMusicUrl: string;
   melonUrl: string;
+  s3_url?: string;
 }

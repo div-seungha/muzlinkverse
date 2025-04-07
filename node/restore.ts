@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 async function main() {
   const data = JSON.parse(await fs.readFile("backup.json", "utf8"));
 
-  for (const song of data.songs) {
-    await prisma.song.create({ data: song });
+  for (const item of data.songs) {
+    await prisma.song.create({ data: item });
   }
 
   console.log("✅ 데이터 복원 완료!");

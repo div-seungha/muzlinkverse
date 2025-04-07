@@ -143,7 +143,7 @@ const getYoutubeVideo = async (query: string) => {
 };
 
 const getMelonUrl = async (title: string, artist: string) => {
-  const result = await prisma.melon_crawling.findFirst({
+  const result = await prisma.melonCrawling.findFirst({
     where: {
       title,
       artists: {
@@ -176,7 +176,7 @@ export const getSearchResult = async (params: SearchParams) => {
 
   const spotifyResult = await getSpotify(params);
   let appleMusicResult = await getAppleMusic(title, artist);
-  const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
+  // const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
 
   let titleResult = capitalizeFirstLetter(title);
   let artistResult = capitalizeFirstLetter(artist);
@@ -195,36 +195,6 @@ export const getSearchResult = async (params: SearchParams) => {
   }
 
   const melonUrl = await getMelonUrl(title, artist);
-
-  console.log(melonUrl);
-  // console.log(spotifyResult);
-  // console.log(appleMusicResult);
-  // console.log(youtubeVideoResult);
-
-  // console.log("result", {
-  //   title: titleResult,
-  //   artist: artistResult,
-  //   popularity: spotifyResult?.popularity || null,
-  //   bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
-  //   releaseDate: appleMusicResult?.attributes?.releaseDate
-  //     ? appleMusicResult?.attributes?.releaseDate
-  //     : spotifyResult?.album?.release_date
-  //     ? spotifyResult.album.release_date
-  //     : "",
-  //   rawArtwork:
-  //     appleMusicResult?.attributes?.artwork?.url &
-  //     appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
-  //       ? appleMusicResult.attributes.artwork.url.replace(
-  //           /\.jpg\/.*$/,
-  //           ".jpg"
-  //         ) + "/500x500bb.jpg"
-  //       : spotifyResult?.album?.images[0]?.url
-  //       ? spotifyResult.album.images[0].url
-  //       : "",
-  //   spotifyUrl: spotifyResult?.id || "",
-  //   appleMusicUrl: appleMusicResult?.attributes?.url || "",
-  //   youtubeUrl: youtubeVideoResult || "",
-  // });
 
   const songInfo = await prisma.song.create({
     data: {
@@ -245,7 +215,73 @@ export const getSearchResult = async (params: SearchParams) => {
           : "",
       spotifyUrl: spotifyResult.id || "",
       appleMusicUrl: appleMusicResult.attributes?.url || "",
-      youtubeUrl: youtubeVideoResult || "",
+      youtubeUrl: "",
+      // youtubeUrl: youtubeVideoResult || "",
+      melonUrl: melonUrl || "",
+    },
+  });
+
+  return songInfo;
+};
+
+export const getMelonSearchResult = async (
+  params: SearchParams & { melonUrl: string }
+) => {
+  const { title, artist, melonUrl } = params;
+  // DB에 이미 저장된 곡이 있는지 먼저 확인
+  const existingSong = await prisma.song.findFirst({
+    where: {
+      title,
+      artist,
+    },
+  });
+
+  // 있으면 바로 반환
+  if (existingSong) {
+    return existingSong;
+  }
+
+  const spotifyResult = await getSpotify(params);
+  let appleMusicResult = await getAppleMusic(title, artist);
+  // const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
+
+  let titleResult = capitalizeFirstLetter(title);
+  let artistResult = capitalizeFirstLetter(artist);
+
+  if (title !== titleResult || artist !== artistResult) {
+    const existingSong = await prisma.song.findFirst({
+      where: {
+        title: titleResult,
+        artist: artistResult,
+      },
+    });
+
+    if (existingSong) {
+      return existingSong;
+    }
+  }
+
+  const songInfo = await prisma.song.create({
+    data: {
+      title: titleResult,
+      artist: artistResult,
+      popularity: spotifyResult?.popularity || null,
+      bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
+      releaseDate: appleMusicResult?.attributes?.release_date || "",
+      rawArtwork:
+        appleMusicResult?.attributes?.artwork?.url &
+        appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
+          ? appleMusicResult.attributes.artwork.url.replace(
+              /\.jpg\/.*$/,
+              ".jpg"
+            ) + "/500x500bb.jpg"
+          : spotifyResult?.album?.images[0]?.url
+          ? spotifyResult.album.images[0].url
+          : "",
+      spotifyUrl: spotifyResult.id || "",
+      appleMusicUrl: appleMusicResult.attributes?.url || "",
+      youtubeUrl: "",
+      // youtubeUrl: youtubeVideoResult || "",
       melonUrl: melonUrl || "",
     },
   });

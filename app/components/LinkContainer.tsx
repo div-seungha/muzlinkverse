@@ -33,7 +33,7 @@ const getGradientColors = (hex: string): string[] => {
   const color = new TinyColor(hex);
 
   // 색상 조화: 유사색 + 밝기 조절로 부드러운 그라데이션
-  const analogous = color.analogous(5, 10); // 5개, 각도 간격 12도
+  const analogous = color.analogous(5, 9); // 5개, 각도 간격 12도
   return analogous.map((c) => c.toHexString());
 };
 
@@ -116,17 +116,21 @@ const LinkContainer = (props: LinkContainerProps) => {
   }, []);
 
   return (
-    <div className="content-container">
+    <div
+      className="content-container"
+      // style={{ background: gradientColors[3] }}
+    >
       <div
         className="cover-bg"
         style={{
           background: isSearch
             ? `linear-gradient(to bottom, #${bgColor}, #1d1d1f)`
-            : `radial-gradient(
-          ellipse at left, ${
+            : // : `linear-gradient(to bottom, #${bgColor}, ${gradientColors[2]}, transparent)`,
+              `radial-gradient(
+          ellipse at right, ${
             (gradientColors[3], gradientColors[1])
           }, transparent),
-          radial-gradient(ellipse at bottom, ${
+          radial-gradient(ellipse at left, ${
             (gradientColors[2], gradientColors[4])
           }, transparent)`,
         }}
@@ -186,6 +190,14 @@ const LinkContainer = (props: LinkContainerProps) => {
         </div>
 
         <div className="link-container">
+          {melonUrl && (
+            <a href={melonUrl} target="_blank" rel="noreferrer">
+              <button className="melon">
+                <PiPlayCircleBold fontSize={30} />
+                <span className="button-link-name">Melon</span>
+              </button>
+            </a>
+          )}
           {apple && (
             <a href={apple} target="_blank" rel="noreferrer">
               <button className="apple">
@@ -215,14 +227,6 @@ const LinkContainer = (props: LinkContainerProps) => {
               <button className="youtube">
                 <FaYoutube fontSize={30} />
                 <span className="button-link-name">Youtube</span>
-              </button>
-            </a>
-          )}
-          {melonUrl && (
-            <a href={melonUrl} target="_blank" rel="noreferrer">
-              <button className="melon">
-                <PiPlayCircleBold fontSize={30} />
-                <span className="button-link-name">Melon</span>
               </button>
             </a>
           )}

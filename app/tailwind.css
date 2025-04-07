@@ -53,7 +53,8 @@
 
 @layer base {
   :root {
-    --text-primary: #1d1d1f;
+    --text-primary: #ffffff;
+    --text-secondary: #18191a;
     --youtube-primary: #ff0032;
     --youtube-secondary: #000000;
     --spotify-primary: #1cb955;
@@ -65,10 +66,26 @@
     --flo-primary: #5450ff;
     --apple-primary: #f9243b;
     --search-input-button: #ff5745;
-    --background: #1d1d1f;
-    --link-share-background: #4d4d4f;
+    --background: #18191a;
+    --link-share-background: #81919f;
     --success: #20a824;
     --error: #a82020;
+    --text-primary-rgb: 24, 25, 26;
+    --youtube-primary-rgb: 255, 0, 50;
+    --youtube-secondary-rgb: 0, 0, 0;
+    --spotify-primary-rgb: 28, 185, 85;
+    --spotify-secondary-rgb: 18, 18, 18;
+    --bugs-primary-rgb: 255, 59, 40;
+    --melon-primary-rgb: 4, 205, 59;
+    --naver-vibe-primary-rgb: #4900b0;
+    --naver-vibe-secondary-rgb: #ff0050;
+    --flo-primary-rgb: 73, 0, 176;
+    --apple-primary-rgb: 249, 36, 59;
+    --search-input-button-rgb: 255, 87, 69;
+    --background-rgb: 24, 25, 26;
+    --link-share-background-rgb: 130, 145, 159;
+    --success-rgb: 32, 168, 36;
+    --error-rgb: 168, 32, 32;
   }
   .dark {
     --text-primary: #ffffff;
@@ -91,6 +108,7 @@ body {
   width: 100%;
   display: block;
   position: relative;
+  top: 30px;
   min-height: calc(100svh + 120px);
   font-family: Pretendard;
   background: var(--background);
@@ -148,11 +166,12 @@ body {
 .cover-bg {
   position: fixed;
   z-index: 0;
-  top: 0;
+  top: 0px;
   left: 0;
   width: 100%;
+  /* height: 360px; */
   height: calc(100svh + 110px);
-  background: linear-gradient(to bottom, #a80f00, #1d1d1f);
+  /* background: linear-gradient(to bottom, #a80f00, #1d1d1f); */
   /* background-image: url(/cover.webp);
   background-repeat: no-repeat;
   background-size: cover;
@@ -179,17 +198,23 @@ body {
   }
 }
 
-h1 {
+.header-container h1 {
   font-family: Pretendard;
   font-weight: 900;
   font-size: 3rem;
-  color: #ffffff;
+  color: var(--text-primary);
   /* color: #1f1f1d; */
   line-height: 1;
+  height: fit-content;
+  max-height: 150px;
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 }
 
 p {
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 4px 0;
   font-weight: 600;
   font-size: 1.1rem;
@@ -260,30 +285,36 @@ button:hover {
 button.apple {
   background: var(--apple-primary);
   color: #fff;
+  /* box-shadow: 2px 2px 8px rgba(var(--apple-primary-rgb), 0.5); */
 }
 
 button.youtube {
   background: #fff;
   color: var(--youtube-primary);
+  /* box-shadow: 2px 2px 8px rgba(var(--youtube-primary-rgb), 0.5); */
 }
 button.youtube-music {
   background: #000;
   color: var(--youtube-primary);
+  /* box-shadow: 2px 2px 8px rgba(var(--youtube-primary-rgb), 0.5); */
 }
 
 button.spotify {
   background: var(--spotify-primary);
   color: #fff;
+  /* box-shadow: 2px 2px 8px rgba(var(--spotify-primary-rgb), 0.5); */
 }
 
 button.melon {
   background: var(--melon-primary);
   color: #fff;
+  /* box-shadow: 2px 2px 8px rgba(var(--melon-primary-rgb), 0.5); */
 }
 
 button.bugs {
   background: var(--bugs-primary);
-  color: #fff;
+  /* color: #fff;
+  box-shadow: 2px 2px 8px rgba(var(--bugs-primary-rgb), 0.5); */
 }
 
 button.apple:hover {
@@ -318,6 +349,7 @@ button.bugs:hover {
 button.naver {
   background: var(--naver-vibe-primary);
   color: #fff;
+  /* box-shadow: 2px 2px 8px rgba(var(--naver-vibe-primary-rgb), 0.5); */
 }
 
 button.naver:hover {
@@ -602,4 +634,14 @@ footer a {
   justify-content: center;
   align-items: center;
   background: var(--youtube-secondary);
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10000000;
+  background: #ffffff22;
+  backdrop-filter: blur(10px);
 }

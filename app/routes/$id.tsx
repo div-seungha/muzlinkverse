@@ -39,7 +39,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     {
       property: "og:image",
-      content: data?.rawArtwork,
+      content: data?.s3_url || data?.rawArtwork,
     },
   ];
 };
@@ -57,7 +57,7 @@ const SearchResultPage = () => {
   const melonUrl = data.melonUrl;
   // const bugs = "";
 
-  const coverImgUrl = data.rawArtwork;
+  const coverImgUrl = data.s3_url || data.rawArtwork;
 
   return (
     <LinkContainer

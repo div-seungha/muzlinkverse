@@ -8,9 +8,6 @@ import { getSearchResult } from "~/.server/search";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { LuSearch } from "react-icons/lu";
 import LinkContainer from "~/components/LinkContainer";
-import { Dialog } from "@mui/material";
-import { useRef, useState } from "react";
-// import { BsFillShareFill } from "react-icons/bs";
 
 export const links: LinksFunction = () => {
   return [
@@ -81,9 +78,7 @@ export default function Search() {
       <fetcher.Form
         action="/search"
         method="post"
-        className="search-form"
-        // onSubmit={handleSubmit}
-        // ref={formRef}
+        className="search-form mt-[30px]"
       >
         <p className="search-input-form-text">
           찾으시는 곡의 이름이 무엇인가요?
@@ -133,11 +128,6 @@ export default function Search() {
           />
         </div>
       )}
-      {/* <FormValidationPopup
-        open={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        onConfirm={handleClickOk}
-      /> */}
     </div>
   );
 }
