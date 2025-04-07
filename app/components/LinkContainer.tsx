@@ -143,26 +143,30 @@ const LinkContainer = (props: LinkContainerProps) => {
         //   background: `linear-gradient(to bottom, #${bgColor}, #1d1d1f)`,
         // }}
       >
-        <div
-          style={{
-            width: "50",
-            height: "100svh",
-            position: "fixed",
-            left: 0,
-            top: 0,
-            background: gradientColors[1],
-          }}
-        ></div>
-        <div
-          style={{
-            width: "50",
-            height: "100svh",
-            position: "fixed",
-            left: 50,
-            top: 0,
-            background: gradientColors[4],
-          }}
-        ></div>
+        {!isSearch && (
+          <>
+            <div
+              style={{
+                width: "50",
+                height: "100svh",
+                position: "fixed",
+                left: 0,
+                top: 0,
+                background: gradientColors[1],
+              }}
+            ></div>
+            <div
+              style={{
+                width: "50",
+                height: "100svh",
+                position: "fixed",
+                left: 50,
+                top: 0,
+                background: gradientColors[4],
+              }}
+            ></div>
+          </>
+        )}
       </div>
       <div className="cover-box">
         {coverImgUrl ? (
