@@ -1,4 +1,4 @@
-import { json, LoaderFunctionArgs } from "@remix-run/node";
+import { json, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { prisma } from "~/.server/db";
 import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState, useRef } from "react";
@@ -15,6 +15,22 @@ type Data = {
 };
 
 type ItemsResponse = { items: Data[]; nextCursor: number };
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    { title: "뮤즈링크버스, 음악으로 이어지는 우리만의 우주" },
+    {
+      name: "keywords",
+      content:
+        "음원, 스트리밍, 음원 공유, 음원 링크, 스포티파이, 애플뮤직, 애플, 멜론, 유튜브, 유튜브 뮤직, 인디, 인디 음악, 소셜, sns, 앨범, 음원 홍보, 음악",
+    },
+    {
+      name: "description",
+      content:
+        "친구에게 바로 들려주고 싶은 음악이 있나요? 링크 한 줄만 공유해보세요! ",
+    },
+  ];
+};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
