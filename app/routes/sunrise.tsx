@@ -63,10 +63,15 @@ export default function Index() {
 
   return (
     <div
-      className="content-container"
+      className="sunrise content-container"
       style={{ minHeight: "calc(100svh + 200px)" }}
     >
-      <div className="cover-bg"></div>
+      <div
+        className="cover-bg"
+        style={{
+          background: "linear-gradient(to bottom, #a80f00, 20%, #18191a)",
+        }}
+      ></div>
       <div className="cover-box">
         <img className="cover" src="/cover.webp" alt="송병도, sunrise" />
         <div className="header-container">
