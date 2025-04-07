@@ -69,80 +69,85 @@ const SongList = () => {
   }, [fetcher.data]);
 
   return (
-    <InfiniteScroller
-      loadNext={() => {
-        const cursor = fetcher.data
-          ? fetcher.data.nextCursor + 1
-          : items.length + 1;
-        const query = `?index&cursor=${cursor}`;
+    <div className="p-[20px]">
+      <h1 className="index-title"></h1>
+      <InfiniteScroller
+        loadNext={() => {
+          const cursor = fetcher.data
+            ? fetcher.data.nextCursor + 1
+            : items.length + 1;
+          const query = `?index&cursor=${cursor}`;
 
-        fetcher.load(query);
-      }}
-      loading={fetcher.state === "loading"}
-    >
-      <div className="song-list-container">
-        {songs.map((song, i) => {
-          const textColor = findMostContrastingColor(song.bgColor || "#000000");
-          if (!song.rawArtwork && !song.s3_url) {
-            return null;
-          }
-          return (
-            <Link to={`/${song.id}`} key={song.id} viewTransition>
-              <div
-                className={`song-card-wrapper ${
-                  i % 2 === 0 ? "flex-row-reverse" : "flex-row"
-                } `}
-              >
-                <img
-                  className="song-card-cover-img"
-                  src={song.s3_url || song.rawArtwork || "/dummy-album.png"}
-                  alt={song.title}
-                />
+          fetcher.load(query);
+        }}
+        loading={fetcher.state === "loading"}
+      >
+        <div className="song-list-container">
+          {songs.map((song, i) => {
+            const textColor = findMostContrastingColor(
+              song.bgColor || "#000000"
+            );
+            if (!song.rawArtwork && !song.s3_url) {
+              return null;
+            }
+            return (
+              <Link to={`/${song.id}`} key={song.id} viewTransition>
                 <div
-                  className="song-card"
-                  style={{
-                    background: `#${song.bgColor}` || "transparent",
-                  }}
+                  className={`song-card-wrapper ${
+                    i % 2 === 0 ? "flex-row-reverse" : "flex-row"
+                  } `}
                 >
-                  <p
+                  <img
+                    className="song-card-cover-img"
+                    src={song.s3_url || song.rawArtwork || "/dummy-album.png"}
+                    alt={song.title}
+                  />
+                  <div
+                    className="song-card"
                     style={{
-                      fontSize: 18,
-                      color: textColor,
-                      fontWeight: 800,
-                      lineHeight: 1,
+                      background: `#${song.bgColor}` || "transparent",
                     }}
                   >
-                    {song.title}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      color: textColor,
-                      fontWeight: 500,
-                      lineHeight: 1,
-                      margin: "8px 0 24px",
-                    }}
-                  >
-                    {song.artist}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 12,
-                      color: textColor,
-                      fontWeight: 200,
-                      lineHeight: 1,
-                    }}
-                  >
-                    {song.releaseDate}
-                  </p>
+                    <p
+                      style={{
+                        fontSize: 18,
+                        color: textColor,
+                        fontWeight: 800,
+                        lineHeight: 1,
+                      }}
+                    >
+                      {song.title}
+                    </p>
+                    <p
+                      style={{
+                        fontSize: 16,
+                        color: textColor,
+                        fontWeight: 500,
+                        lineHeight: 1,
+                        margin: "8px 0 24px",
+                      }}
+                    >
+                      {song.artist}
+                    </p>
+                    <p
+                      style={{
+                        fontSize: 12,
+                        color: textColor,
+                        fontWeight: 200,
+                        lineHeight: 1,
+                      }}
+                    >
+                      {song.releaseDate}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          );
-        })}
-        <div ref={loaderRef} className="song-card-wrapper"></div>
-      </div>
-    </InfiniteScroller>
+              </Link>
+            );
+          })}
+          <div ref={loaderRef} className="song-card-wrapper"></div>
+        </div>
+      </InfiniteScroller>
+    </div>
   );
 };
 
