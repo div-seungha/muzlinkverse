@@ -129,19 +129,41 @@ const LinkContainer = (props: LinkContainerProps) => {
         style={{
           background: isSearch
             ? `linear-gradient(to top, transparent, #${bgColor})`
-            : // : `linear-gradient(to bottom, #${bgColor}, ${gradientColors[2]}, transparent)`,
-              `radial-gradient(
-          ellipse at right, ${
-            (gradientColors[3], gradientColors[1])
-          }, transparent),
-          radial-gradient(ellipse at top, ${
-            (gradientColors[2], gradientColors[4])
-          }, transparent)`,
+            : // : gradientColors[0],
+              `#${bgColor}`,
+          //     `radial-gradient(
+          // ellipse at right, ${
+          //   (gradientColors[3], gradientColors[1])
+          // }, transparent),
+          // radial-gradient(ellipse at top, ${
+          //   (gradientColors[2], gradientColors[4])
+          // }, transparent)`,
         }}
         // style={{
         //   background: `linear-gradient(to bottom, #${bgColor}, #1d1d1f)`,
         // }}
-      ></div>
+      >
+        <div
+          style={{
+            width: "50",
+            height: "100svh",
+            position: "fixed",
+            left: 0,
+            top: 0,
+            background: gradientColors[1],
+          }}
+        ></div>
+        <div
+          style={{
+            width: "50",
+            height: "100svh",
+            position: "fixed",
+            left: 50,
+            top: 0,
+            background: gradientColors[4],
+          }}
+        ></div>
+      </div>
       <div className="cover-box">
         {coverImgUrl ? (
           <img className="cover" src={coverImgUrl} alt={title + "," + artist} />
