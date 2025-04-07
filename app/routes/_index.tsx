@@ -107,55 +107,56 @@ const SongList = () => {
               return null;
             }
             return (
-              <Link to={`/${song.id}`} key={song.id} viewTransition>
+              <Link
+                to={`/${song.id}`}
+                key={song.id}
+                viewTransition
+                className={`song-card-wrapper ${
+                  i % 2 === 0 ? "flex-row-reverse" : "flex-row"
+                } `}
+              >
+                <img
+                  className="song-card-cover-img"
+                  src={song.s3_url || song.rawArtwork || "/dummy-album.png"}
+                  alt={song.title}
+                />
                 <div
-                  className={`song-card-wrapper ${
-                    i % 2 === 0 ? "flex-row-reverse" : "flex-row"
-                  } `}
+                  className="song-card"
+                  style={{
+                    background: `#${song.bgColor}` || "transparent",
+                  }}
                 >
-                  <img
-                    className="song-card-cover-img"
-                    src={song.s3_url || song.rawArtwork || "/dummy-album.png"}
-                    alt={song.title}
-                  />
-                  <div
-                    className="song-card"
+                  <p
                     style={{
-                      background: `#${song.bgColor}` || "transparent",
+                      fontSize: 18,
+                      color: textColor,
+                      fontWeight: 800,
+                      lineHeight: 1,
                     }}
                   >
-                    <p
-                      style={{
-                        fontSize: 18,
-                        color: textColor,
-                        fontWeight: 800,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {song.title}
-                    </p>
-                    <p
-                      style={{
-                        fontSize: 16,
-                        color: textColor,
-                        fontWeight: 500,
-                        lineHeight: 1,
-                        margin: "8px 0 24px",
-                      }}
-                    >
-                      {song.artist}
-                    </p>
-                    <p
-                      style={{
-                        fontSize: 12,
-                        color: textColor,
-                        fontWeight: 200,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {song.releaseDate}
-                    </p>
-                  </div>
+                    {song.title}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: 16,
+                      color: textColor,
+                      fontWeight: 500,
+                      lineHeight: 1,
+                      margin: "8px 0 24px",
+                    }}
+                  >
+                    {song.artist}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: 12,
+                      color: textColor,
+                      fontWeight: 200,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {song.releaseDate}
+                  </p>
                 </div>
               </Link>
             );
