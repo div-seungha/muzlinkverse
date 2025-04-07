@@ -148,7 +148,7 @@ const LinkContainer = (props: LinkContainerProps) => {
             <div
               style={{
                 width: "50",
-                height: "100svh",
+                height: "calc(100svh + 120px)",
                 position: "fixed",
                 left: 0,
                 top: 0,
@@ -158,7 +158,7 @@ const LinkContainer = (props: LinkContainerProps) => {
             <div
               style={{
                 width: "50",
-                height: "100svh",
+                height: "calc(100svh + 120px)",
                 position: "fixed",
                 left: 50,
                 top: 0,
