@@ -134,7 +134,7 @@ const LinkContainer = (props: LinkContainerProps) => {
           ellipse at right, ${
             (gradientColors[3], gradientColors[1])
           }, transparent),
-          radial-gradient(ellipse at left, ${
+          radial-gradient(ellipse at top, ${
             (gradientColors[2], gradientColors[4])
           }, transparent)`,
         }}
