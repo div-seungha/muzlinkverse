@@ -43,7 +43,12 @@ async function main() {
   const errorArtists: { id: string; name?: string; songTitle: string }[] = [];
 
   const songs = await prisma.song.findMany({
-    where: { spotifyUrl: { not: null } },
+    where: {
+      spotifyUrl: { not: null },
+      song_artists: {
+        none: {}, // 아직 연결된 아티스트가 없는 곡만 가져오기
+      },
+    },
   });
 
   for (const song of songs) {

@@ -241,15 +241,50 @@ export const getSearchResult = async (params: SearchParams) => {
           : spotifyResult?.album?.images[0]?.url
           ? spotifyResult.album.images[0].url
           : "",
-      spotifyUrl: spotifyResult.id || "",
-      appleMusicUrl: appleMusicResult.attributes?.url || "",
+      spotifyUrl: spotifyResult?.id || "",
+      appleMusicUrl: appleMusicResult?.attributes?.url || "",
       youtubeUrl: youtubeVideoResult || "",
       // youtubeUrl: "",
       melonUrl: melonUrl || "",
     },
   });
 
-  console.log("prisma", songInfo);
+  if (spotifyResult?.artists?.length > 0) {
+    for (const artist of spotifyResult.artists) {
+      // 아티스트 정보가 DB에 없으면 생성하고, 있으면 그대로 사용
+      const connectedArtist = await prisma.artist.upsert({
+        where: { artistId: artist.id },
+        update: {}, // 이미 존재하면 아무 것도 업데이트 안 함
+        create: {
+          song_id: songInfo.id,
+          artistId: artist.id,
+          name: artist.name,
+          genres: artist.genres ? artist.genres : [],
+          href: artist.href,
+          popularity: artist.popularity,
+          artistUrl: artist.uri,
+          image: artist.images?.[0]?.url || null,
+        },
+      });
+
+      const existingLink = await prisma.song_artists.findFirst({
+        where: {
+          song_id: songInfo.id,
+          artist_id: connectedArtist.id,
+        },
+      });
+
+      // 없으면 연결
+      if (!existingLink) {
+        await prisma.song_artists.create({
+          data: {
+            song_id: songInfo.id,
+            artist_id: connectedArtist.id,
+          },
+        });
+      }
+    }
+  }
 
   return songInfo;
 };
