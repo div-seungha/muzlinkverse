@@ -5,7 +5,7 @@ export const getGradientColors = (hex: string): string[] => {
   const color = new TinyColor(hex);
 
   // 색상 조화: 유사색 + 밝기 조절로 부드러운 그라데이션
-  const analogous = color.analogous(5, 2); // 5개, 각도 간격 12도
+  const analogous = color.analogous(5, 12); // 5개, 각도 간격 12도
   return analogous.map((c) => c.toHexString());
 };
 
