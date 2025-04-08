@@ -91,7 +91,8 @@ const TrackContainer = (props: LinkContainerProps) => {
     `https://open.spotify.com/track/${spotifyId}`
   );
 
-  const [bugs, setBugs] = useState(`https://music.bugs.co.kr/track/${bugsUrl}`);
+  // const [bugs, setBugs] = useState(`https://music.bugs.co.kr/track/${bugsUrl}`);
+  const bugs = `https://music.bugs.co.kr/track/${bugsUrl}`;
 
   const gradientColors = getGradientColors(bgColor || "D8EFFF"); // '#ff6600' 같은 HEX 입력
   const textColor = isSearch ? "#fff" : getTextColor(bgColor || "");
@@ -142,10 +143,10 @@ const TrackContainer = (props: LinkContainerProps) => {
 
     if (isMobileOrWebview) {
       setSpotify(`spotify://track/${spotifyId}`);
-      setBugs("https://m.bugs.co.kr/track/${bugsUrl}");
+      // setBugs("https://m.bugs.co.kr/track/${bugsUrl}");
     } else {
       setSpotify(`https://open.spotify.com/track/${spotifyId}`);
-      setBugs(`https://music.bugs.co.kr/track/${bugsUrl}`);
+      // setBugs(`https://music.bugs.co.kr/track/${bugsUrl}`);
     }
   }, []);
 
