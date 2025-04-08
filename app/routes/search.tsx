@@ -134,7 +134,8 @@ export default function Search() {
             <p className={searchResultText}>
               찾으시는 곡이 맞나요?
               <br />
-              아래의 공유 버튼을 눌러 링크를 복사해 친구에게 공유하세요!
+              아래의 공유 버튼을 눌러 링크를 복사해
+              <br /> 친구에게 공유하세요!
             </p>
             <p className={searchResultTextSecondary}>
               공유 버튼이 동작하지 않는다면
