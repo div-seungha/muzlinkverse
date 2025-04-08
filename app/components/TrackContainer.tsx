@@ -39,9 +39,6 @@ import { FaCirclePlay } from "react-icons/fa6";
 import { RiMusicAiFill } from "react-icons/ri";
 import TrackFooter from "./TrackFooter";
 import { Link } from "@remix-run/react";
-// import { FaCirclePlay } from "react-icons/fa6";
-// import { RiMusicAiFill } from "react-icons/ri";
-// import { TbMusicShare } from "react-icons/tb";
 
 type LinkContainerProps = {
   id?: number;

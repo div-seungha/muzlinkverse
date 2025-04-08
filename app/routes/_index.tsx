@@ -16,7 +16,7 @@ type Data = {
   s3_url: string;
 };
 
-type ItemsResponse = { items: Data[]; nextCursor: number };
+type ItemsResponse = { items: Data[]; nextCursor: { cursorId: number } };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
@@ -37,23 +37,19 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const cursorId = url.searchParams.get("cursorId");
-  const cursorDate = url.searchParams.get("cursorDate");
   const limit = 40;
 
   const items = await prisma.song.findMany({
     take: limit + 1,
-    ...(cursorId && cursorDate
+    ...(cursorId
       ? {
           skip: 1,
           cursor: {
-            releaseDate_id: {
-              releaseDate: cursorDate,
-              id: parseInt(cursorId),
-            },
+            id: parseInt(cursorId),
           },
         }
       : {}),
-    orderBy: [{ releaseDate: "desc" }, { id: "desc" }],
+    orderBy: { id: "asc" },
     select: {
       id: true,
       bgColor: true,
@@ -65,17 +61,20 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     },
   });
 
+  console.log(cursorId);
+
   // 페이지네이션 처리
   const hasNextPage = items.length > limit;
   const result = hasNextPage ? items.slice(0, -1) : items;
   const nextCursor = hasNextPage
     ? {
-        cursorId: result[result.length - 1].id,
-        cursorDate: result[result.length - 1].releaseDate,
+        cursorId: cursorId,
       }
     : null;
 
-  return json({ items, nextCursor });
+  console.log(result.map((v) => v.id));
+
+  return json({ items: result, nextCursor });
 };
 
 const SongList = () => {
@@ -86,6 +85,16 @@ const SongList = () => {
   const [songs, setSongs] = useState(items);
 
   const loaderRef = useRef<HTMLDivElement>(null);
+
+  const loadMore = () => {
+    if (fetcher.state === "loading") return;
+
+    const next = fetcher.data?.nextCursor ?? nextCursor;
+    if (next?.cursorId) {
+      const query = `?cursorId=${next.cursorId}`;
+      fetcher.load(query);
+    }
+  };
 
   useEffect(() => {
     if (!fetcher.data || fetcher.state === "loading") {
@@ -103,10 +112,8 @@ const SongList = () => {
       <h1 className="index-title"></h1>
       <InfiniteScroller
         loadNext={() => {
-          const cursor = fetcher.data
-            ? fetcher.data.nextCursor + 1
-            : items.length + 1;
-          const query = `?index&cursor=${cursor}`;
+          const cursor = songs[songs.length - 1].id;
+          const query = `?index&cursorId=${cursor}`;
 
           fetcher.load(query);
         }}
@@ -123,7 +130,7 @@ const SongList = () => {
             return (
               <Link
                 to={`/${song.id}`}
-                key={song.id}
+                key={i}
                 viewTransition
                 className={`song-card-wrapper ${
                   i % 2 === 0 ? "flex-row-reverse" : "flex-row"

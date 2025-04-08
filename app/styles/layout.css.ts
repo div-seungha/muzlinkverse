@@ -1,6 +1,5 @@
 import { style } from "@vanilla-extract/css";
 import { vars } from "./theme.css";
-import { relative } from "path";
 
 export const footerText = style({
   fontFamily: "Pretendard",

@@ -131,4 +131,7 @@ interface SearchResultPage {
   artist_profile_img_s3_url?: string;
   song_artists?: any[];
   relatedSongs: any[];
+  popularity: number;
+  genieUrl: string;
+  artworkId: number;
 }
