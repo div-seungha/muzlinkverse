@@ -12,7 +12,7 @@ const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 let spotifyToken: string | null = null;
 let tokenExpiresAt: number | null = null;
 
-const getSpotifyAccessToken = async () => {
+export const getSpotifyAccessToken = async () => {
   const now = Date.now();
 
   const response = await axios.post(
@@ -146,7 +146,7 @@ const getYoutubeVideo = async (query: string) => {
 };
 
 const getMelonUrl = async (title: string, artist: string) => {
-  const result = await prisma.melonCrawling.findFirst({
+  const result = await prisma.melon_crawling.findFirst({
     where: {
       title,
       artists: {
@@ -199,18 +199,20 @@ export const getSearchResult = async (params: SearchParams) => {
   const youtubeVideoResult =
     youtubeRes.status === "fulfilled" ? youtubeRes.value : "";
 
-  // const spotifyResult = await getSpotify(params);
-  // let appleMusicResult = await getAppleMusic(title, artist);
-  // // const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
-
   let titleResult = capitalizeFirstLetter(title);
   let artistResult = capitalizeFirstLetter(artist);
 
   if (title !== titleResult || artist !== artistResult) {
     const existingSong = await prisma.song.findFirst({
       where: {
-        title: titleResult,
-        artist: artistResult,
+        title: {
+          equals: titleResult,
+          mode: "insensitive",
+        },
+        artist: {
+          equals: artistResult,
+          mode: "insensitive",
+        },
       },
     });
 
@@ -218,9 +220,6 @@ export const getSearchResult = async (params: SearchParams) => {
       return existingSong;
     }
   }
-
-  // const melonUrl = await getMelonUrl(title, artist);
-
   const songInfo = await prisma.song.create({
     data: {
       title: titleResult,
@@ -228,11 +227,12 @@ export const getSearchResult = async (params: SearchParams) => {
       popularity: spotifyResult?.popularity || null,
       bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
       releaseDate:
-        appleMusicResult?.attributes?.release_date ||
-        spotifyResult.album.release_date ||
+        appleMusicResult?.attributes?.releaseDate ||
+        spotifyResult?.album?.releaseDate ||
         "",
+      // artist_profile_img: spotifyResult?.artists[0]?.images[0]?.uri || "",
       rawArtwork:
-        appleMusicResult?.attributes?.artwork?.url &
+        appleMusicResult?.attributes?.artwork?.url &&
         appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
           ? appleMusicResult.attributes.artwork.url.replace(
               /\.jpg\/.*$/,
@@ -249,73 +249,166 @@ export const getSearchResult = async (params: SearchParams) => {
     },
   });
 
-  return songInfo;
-};
-
-export const getMelonSearchResult = async (
-  params: SearchParams & { melonUrl: string }
-) => {
-  const { title, artist, melonUrl } = params;
-  // DB에 이미 저장된 곡이 있는지 먼저 확인
-  const existingSong = await prisma.song.findFirst({
-    where: {
-      title,
-      artist,
-    },
-  });
-
-  // 있으면 바로 반환
-  if (existingSong) {
-    return existingSong;
-  }
-
-  const spotifyResult = await getSpotify(params);
-  let appleMusicResult = await getAppleMusic(title, artist);
-  // const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
-
-  let titleResult = capitalizeFirstLetter(title);
-  let artistResult = capitalizeFirstLetter(artist);
-
-  if (title !== titleResult || artist !== artistResult) {
-    const existingSong = await prisma.song.findFirst({
-      where: {
-        title: titleResult,
-        artist: artistResult,
-      },
-    });
-
-    if (existingSong) {
-      return existingSong;
-    }
-  }
-
-  const songInfo = await prisma.song.create({
-    data: {
-      title: titleResult,
-      artist: artistResult,
-      popularity: spotifyResult?.popularity || null,
-      bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
-      releaseDate: appleMusicResult?.attributes?.release_date || "",
-      rawArtwork:
-        appleMusicResult?.attributes?.artwork?.url &
-        appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
-          ? appleMusicResult.attributes.artwork.url.replace(
-              /\.jpg\/.*$/,
-              ".jpg"
-            ) + "/500x500bb.jpg"
-          : spotifyResult?.album?.images[0]?.url
-          ? spotifyResult.album.images[0].url
-          : "",
-      spotifyUrl: spotifyResult.id || "",
-      appleMusicUrl: appleMusicResult.attributes?.url || "",
-      youtubeUrl: "",
-      // youtubeUrl: youtubeVideoResult || "",
-      melonUrl: melonUrl || "",
-    },
-  });
+  console.log("prisma", songInfo);
 
   return songInfo;
 };
+
+// export const getMelonSearchResult = async (
+//   params: SearchParams & { melonUrl: string }
+// ) => {
+//   const { title, artist, melonUrl } = params;
+
+//   // DB에 이미 저장된 곡이 있는지 먼저 확인
+//   const existingSong = await prisma.song.findFirst({
+//     where: {
+//       title: {
+//         equals: title,
+//         mode: "insensitive",
+//       },
+//       artist: {
+//         equals: artist,
+//         mode: "insensitive",
+//       },
+//     },
+//   });
+
+//   if (existingSong) {
+//     return existingSong;
+//   }
+
+//   // 외부 API 요청들 병렬 처리
+//   const [spotifyRes, appleMusicRes, melonRes, youtubeRes] =
+//     await Promise.allSettled([
+//       getSpotify(params),
+//       getAppleMusic(title, artist),
+//       getMelonUrl(title, artist),
+//       getYoutubeVideo(`${artist} ${title}`),
+//     ]);
+
+//   const spotifyResult =
+//     spotifyRes.status === "fulfilled" ? spotifyRes.value : null;
+//   const appleMusicResult =
+//     appleMusicRes.status === "fulfilled" ? appleMusicRes.value : null;
+//   // const melonUrl = melonRes.status === "fulfilled" ? melonRes.value : "";
+//   const youtubeVideoResult =
+//     youtubeRes.status === "fulfilled" ? youtubeRes.value : "";
+
+//   let titleResult = capitalizeFirstLetter(title);
+//   let artistResult = capitalizeFirstLetter(artist);
+
+//   if (title !== titleResult || artist !== artistResult) {
+//     const existingSong = await prisma.song.findFirst({
+//       where: {
+//         title: titleResult,
+//         artist: artistResult,
+//       },
+//     });
+
+//     if (existingSong) {
+//       return existingSong;
+//     }
+//   }
+
+//   console.log(spotifyResult);
+//   console.log(appleMusicResult);
+
+//   const songInfo = await prisma.song.create({
+//     data: {
+//       title: titleResult,
+//       artist: artistResult,
+//       popularity: spotifyResult?.popularity || null,
+//       bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
+//       releaseDate:
+//         appleMusicResult?.attributes?.releaseDate ||
+//         spotifyResult?.album?.releaseDate ||
+//         "",
+//       rawArtwork:
+//         appleMusicResult?.attributes?.artwork?.url &
+//         appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
+//           ? appleMusicResult.attributes.artwork.url.replace(
+//               /\.jpg\/.*$/,
+//               ".jpg"
+//             ) + "/500x500bb.jpg"
+//           : spotifyResult?.album?.images[0]?.url
+//           ? spotifyResult.album.images[0].url
+//           : "",
+//       spotifyUrl: spotifyResult.id || "",
+//       appleMusicUrl: appleMusicResult.attributes?.url || "",
+//       youtubeUrl: youtubeVideoResult || "",
+//       // youtubeUrl: "",
+//       melonUrl: melonUrl || "",
+//     },
+//   });
+
+//   return songInfo;
+// };
+
+// const getMelonSearchResult_deprecated = async (
+//   params: SearchParams & { melonUrl: string }
+// ) => {
+//   const { title, artist, melonUrl } = params;
+//   // DB에 이미 저장된 곡이 있는지 먼저 확인
+//   const existingSong = await prisma.song.findFirst({
+//     where: {
+//       title,
+//       artist,
+//     },
+//   });
+
+//   // 있으면 바로 반환
+//   if (existingSong) {
+//     return existingSong;
+//   }
+
+//   const spotifyResult = await getSpotify(params);
+//   let appleMusicResult = await getAppleMusic(title, artist);
+//   // const youtubeVideoResult = await getYoutubeVideo(`${artist} ${title}`);
+
+//   let titleResult = capitalizeFirstLetter(title);
+//   let artistResult = capitalizeFirstLetter(artist);
+
+//   if (title !== titleResult || artist !== artistResult) {
+//     const existingSong = await prisma.song.findFirst({
+//       where: {
+//         title: titleResult,
+//         artist: artistResult,
+//       },
+//     });
+
+//     if (existingSong) {
+//       return existingSong;
+//     }
+//   }
+
+//   const songInfo = await prisma.song.create({
+//     data: {
+//       title: titleResult,
+//       artist: artistResult,
+//       // song_artists: spotifyResult?.artists || [],
+//       popularity: spotifyResult?.popularity || null,
+//       bgColor: appleMusicResult?.attributes?.artwork?.bgColor || "",
+//       releaseDate: appleMusicResult?.attributes?.release_date || "",
+//       rawArtwork:
+//         appleMusicResult?.attributes?.artwork?.url &
+//         appleMusicResult?.attributes?.artwork?.url.endsWith("jpg")
+//           ? appleMusicResult.attributes.artwork.url.replace(
+//               /\.jpg\/.*$/,
+//               ".jpg"
+//             ) + "/500x500bb.jpg"
+//           : spotifyResult?.album?.images[0]?.url
+//           ? spotifyResult.album.images[0].url
+//           : "",
+//       spotifyUrl: spotifyResult.id || "",
+//       appleMusicUrl: appleMusicResult.attributes?.url || "",
+//       youtubeUrl: "",
+//       // youtubeUrl: youtubeVideoResult || "",
+//       melonUrl: melonUrl || "",
+//     },
+//   });
+
+//   return songInfo;
+// };
 
 function capitalizeFirstLetter(sentence: string) {
   return sentence.replace(/(^\s*[a-zA-Z])/, (match) => match.toUpperCase());
