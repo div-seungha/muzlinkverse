@@ -99,7 +99,7 @@ const TrackContainer = (props: LinkContainerProps) => {
   const handleShare = () => {
     const url = `https://muzlinkverse.com/${id}`;
 
-    if (window.navigator.canShare()) {
+    if (window?.navigator?.canShare()) {
       window.navigator.share({
         title: artist + "-" + "title",
         text: "좋은 음악은 같이 나눠요!",
