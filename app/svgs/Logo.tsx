@@ -1,7 +1,7 @@
 const Logo = ({
   width = 120,
   height = 30,
-  color = "#5e5e5e55",
+  color = "#999",
 }: {
   width?: number;
   height?: number;

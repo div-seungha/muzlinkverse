@@ -1,23 +1,68 @@
 import { prisma } from "~/.server/db";
 import { json, LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { MetaFunction, useLoaderData, useRouteError } from "@remix-run/react";
-import LinkContainer from "~/components/LinkContainer";
+import TrackContainer from "~/components/TrackContainer";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const id = Number(params.id);
-
   if (isNaN(id)) {
     throw new Response("Invalid ID", { status: 400 });
   }
+
+  // 현재 곡 + 참여한 아티스트 정보 포함
   const data = await prisma.song.findUnique({
     where: { id },
+    include: {
+      song_artists: {
+        include: {
+          artist: true,
+        },
+      },
+    },
   });
 
   if (!data) {
     throw new Response("Song not found", { status: 404 });
   }
 
-  return json({ ...data });
+  const artistIds = data.song_artists.map((sa) => sa.artist_id);
+
+  // 같은 artist가 참여한 다른 곡의 song_id 목록
+  const relatedSongLinks = await prisma.song_artists.findMany({
+    where: {
+      artist_id: { in: artistIds },
+      song_id: { not: data.id },
+    },
+    select: {
+      song_id: true,
+    },
+    distinct: ["song_id"],
+  });
+
+  const relatedSongIds = relatedSongLinks.map((link) => link.song_id);
+
+  // 관련 곡 정보 가져오기 (최신순 정렬 + 최대 10개)
+  const relatedSongs = await prisma.song.findMany({
+    where: {
+      id: { in: relatedSongIds },
+    },
+    include: {
+      song_artists: {
+        include: {
+          artist: true,
+        },
+      },
+    },
+    orderBy: {
+      releaseDate: "desc",
+    },
+    take: 5,
+  });
+
+  return json({
+    ...data,
+    relatedSongs: relatedSongs ?? [],
+  });
 };
 
 export const links: LinksFunction = () => {
@@ -44,7 +89,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   ];
 };
 
-const SearchResultPage = () => {
+const TrackPage = () => {
   const data = useLoaderData<SearchResultPage>();
 
   const releaseDate = data.releaseDate;
@@ -52,7 +97,7 @@ const SearchResultPage = () => {
   const youtubeUrl = data.youtubeUrl;
   const youtubeLink = `https://www.youtube.com/watch?v=${data.youtubeUrl}`;
   const youtubeMusic = `https://music.youtube.com/watch?v=${data.youtubeUrl}`;
-  // const flo = "";
+  // const flo ="";
   // const naver = "";
   const melonUrl = data.melonUrl;
   // const bugs = "";
@@ -60,11 +105,12 @@ const SearchResultPage = () => {
   const coverImgUrl = data.s3_url || data.rawArtwork;
 
   return (
-    <LinkContainer
+    <TrackContainer
       isSearch={false}
       id={data.id}
       title={data.title}
       artist={data.artist}
+      artistImg={data.artist_profile_img}
       coverImgUrl={coverImgUrl}
       bgColor={data.bgColor}
       youtubeLink={youtubeLink}
@@ -74,11 +120,12 @@ const SearchResultPage = () => {
       youtubeMusic={youtubeMusic}
       youtubeUrl={youtubeUrl}
       melonUrl={melonUrl}
+      relatedSongs={data.relatedSongs}
     />
   );
 };
 
-export default SearchResultPage;
+export default TrackPage;
 
 export const ErrorBoundary = () => {
   const error: any = useRouteError();

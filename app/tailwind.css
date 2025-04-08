@@ -100,8 +100,6 @@
 
 html,
 body {
-  background: var(--background);
-  /* background: transparent; */
   font-size: 16px;
   position: relative;
   min-height: 100svh;
@@ -242,11 +240,6 @@ p {
 
 .link-container {
   display: flex;
-  /* margin-top: 420px; */
-  /* position: absolute;
-  top: 440px;
-  left: 50%;
-  transform: translateY(-50%); */
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -449,114 +442,6 @@ footer a {
   }
 }
 
-/** Search Container *******************************/
-
-.search-container {
-  padding: 40px;
-  font-family: Pretendard;
-  max-width: 800px;
-  margin: 0 auto;
-  /* background: var(--background); */
-  padding: 0px 0px 60px 0px;
-  @media screen and (max-width: 340px) {
-    width: 100%;
-  }
-}
-
-.search-container .search-form {
-  padding: 32px;
-  font-family: Pretendard;
-}
-
-.search-container input.search-input {
-  width: 100%;
-  height: 48px;
-  border-radius: 12px;
-  font-family: Pretendard;
-  margin-bottom: 20px;
-  padding: 12px;
-}
-
-.search-container .search-input-form-text {
-  font-size: 12px;
-  font-weight: 400;
-  font-family: Pretendard;
-  text-align: left;
-}
-
-.search-container input.search-input::placeholder {
-  font-size: 14px;
-  font-family: Pretendard;
-}
-
-.search-container button.search-input-button {
-  background: var(--search-input-button);
-  font-family: Pretendard;
-  color: #fff;
-  margin-top: 20px;
-}
-.search-container button.search-input-button:hover {
-  background: #fff;
-  color: var(--search-input-button);
-}
-
-.confirm-container {
-  position: relative;
-  top: 360px;
-  height: 240px;
-  width: 100%;
-  z-index: 10;
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.confirm-container p {
-  text-align: center;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: Pretendard;
-}
-
-.search-result-container {
-  position: relative;
-  margin-top: 40px;
-  margin-bottom: 100px;
-  font-family: Pretendard;
-  z-index: 10;
-}
-
-.search-result-container .search-result-share {
-  background: #0009b3;
-  width: 60%;
-  margin: 20px auto;
-  color: #fff;
-  position: relative;
-  z-index: 10;
-  pointer-events: auto;
-}
-
-.search-result-container .search-result-share:disabled {
-  cursor: not-allowed;
-  background: #dddddd55;
-  color: #ffffff55;
-}
-
-.search-result-container .search-result-share:disabled:hover {
-  cursor: not-allowed;
-  background: #dddddd55;
-  color: #ffffff55;
-}
-
-.search-result-container .search-result-share:hover {
-  background: #fff;
-  color: #0009b3;
-}
-
-.search-result-container .content-box {
-  top: 0px;
-}
 .loading {
   animation: spin 1s linear infinite;
 }
@@ -610,19 +495,6 @@ footer a {
   display: none;
 }
 
-.footer-search-link {
-  color: #ffffff66;
-  width: 120px;
-  height: 40px;
-  padding: 12px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  margin: 0 auto 20px;
-}
-
 .MuiPopper-root {
   position: absolute;
   z-index: 10000000;
@@ -654,16 +526,6 @@ footer a {
   background: var(--youtube-secondary);
 }
 
-header {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 10000000;
-  background: #dfefef22;
-  backdrop-filter: blur(10px);
-}
-
 /** Main Song List *******************************/
 
 .song-list-container {
@@ -693,9 +555,9 @@ header {
   width: 400px;
   height: 200px;
   box-sizing: border-box;
-  opacity: 0.5;
-  transition: all 0.5s;
-  filter: saturate(30%);
+  /* transition: all 0.5s; */
+  /* opacity: 0.8; */
+  filter: saturate(0%);
   @media screen and (max-width: 400px) {
     /* width: calc(100% - 45% - 40px); */
     width: 100%;
@@ -744,7 +606,7 @@ header {
   top: 50%;
   left: 20px;
   transform: translateY(-50%);
-  background: var(--background);
+  background: #fff;
   border: 1px solid var(--index-floating-button-container);
   width: 50px;
   border-radius: 30px;
@@ -752,7 +614,6 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 10px 20px #000000ee;
   @media screen and (max-width: 400px) {
     height: 72px;
     width: 72px;

@@ -8,6 +8,20 @@ import { getSearchResult } from "~/.server/search";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { LuSearch } from "react-icons/lu";
 import LinkContainer from "~/components/LinkContainer";
+import {
+  searchForm,
+  searchFormContainer,
+  searchFormText,
+  searchInput,
+  searchInputButton,
+  searchResultText,
+  searchResultTextSecondary,
+  searchTitle,
+  searchTrackContainer,
+} from "~/styles/search.css";
+import TrackContainer from "~/components/TrackContainer";
+import TrackFooter from "~/components/TrackFooter";
+import { FaShare } from "react-icons/fa";
 
 export const links: LinksFunction = () => {
   return [
@@ -63,9 +77,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const title = String(formData.get("title"));
   const artist = String(formData.get("artist"));
 
-  const data = await getSearchResult({ title, artist });
-
-  return json({ ...data });
+  try {
+    const data = await getSearchResult({ title, artist });
+    return json({ ...data });
+  } catch (err) {
+    console.error("❌ Server error in loader:", err);
+    throw new Response("Something went wrong", { status: 500 });
+  }
 };
 
 export default function Search() {
@@ -73,62 +91,89 @@ export default function Search() {
   const data = fetcher.data as SearchResultPage;
   const isSubmitting = fetcher.state === "submitting";
 
-  return (
-    <div className="search-container">
-      <fetcher.Form
-        action="/search"
-        method="post"
-        className="search-form mt-[30px]"
-      >
-        <p className="search-input-form-text">
-          찾으시는 곡의 이름이 무엇인가요?
-        </p>
-        <input
-          className="search-input"
-          name="title"
-          type="text"
-          placeholder="곡의 제목을 정확히 입력해주세요"
-        />
-        <p className="search-input-form-text">
-          아티스트의 이름이 어떻게 되나요?
-        </p>
-        <input
-          className="search-input"
-          name="artist"
-          type="text"
-          placeholder="아티스트의 이름을 정확히 입력해주세요"
-        />
-        <button className="search-input-button" type="submit">
-          {isSubmitting ? (
-            <span className="loading">
-              <AiOutlineLoading3Quarters fontSize={20} />
-            </span>
-          ) : (
-            <LuSearch fontSize={20} />
-          )}
-        </button>
-      </fetcher.Form>
+  console.log("front", data);
 
-      {fetcher.state === "idle" && data && (
-        <div className="search-result-container">
-          <LinkContainer
-            id={data?.id}
-            isSearch={true}
-            title={data?.title}
-            artist={data?.artist}
-            coverImgUrl={data?.rawArtwork}
-            bgColor={data?.bgColor}
-            youtubeLink={`https://www.youtube.com/watch?v=${data?.youtubeUrl}`}
-            apple={data?.appleMusicUrl}
-            spotifyId={data?.spotifyUrl}
-            releaseDate={data?.releaseDate}
-            youtubeMusic={`https://music.youtube.com/watch?v=${data?.youtubeUrl}`}
-            youtubeUrl={data?.youtubeUrl}
-            melonUrl={data?.melonUrl}
-          />
-        </div>
-      )}
-    </div>
+  return (
+    <>
+      <div className={searchFormContainer}>
+        <fetcher.Form action="/search" method="post" className={searchForm}>
+          <h1 className={searchTitle}>
+            Let your friends know what song’s playing!
+          </h1>
+          <div>
+            <p className={searchFormText}>찾으시는 곡의 이름이 무엇인가요?</p>
+            <input
+              className={searchInput}
+              name="title"
+              type="text"
+              placeholder="곡의 제목을 정확히 입력해주세요"
+            />
+            <p style={{ marginTop: 20 }} className={searchFormText}>
+              아티스트의 이름이 어떻게 되나요?
+            </p>
+            <input
+              className={searchInput}
+              name="artist"
+              type="text"
+              placeholder="아티스트의 이름을 정확히 입력해주세요"
+            />
+          </div>
+          <button className={searchInputButton} type="submit">
+            {isSubmitting ? (
+              <span className="loading">
+                <AiOutlineLoading3Quarters fontSize={20} />
+              </span>
+            ) : (
+              <LuSearch fontSize={20} />
+            )}
+          </button>
+        </fetcher.Form>
+
+        {fetcher.state === "idle" && data && (
+          <div className={searchTrackContainer}>
+            <p className={searchResultText}>
+              찾으시는 곡이 맞나요?
+              <br />
+              아래의 공유 버튼을 눌러 링크를 복사해 친구에게 공유하세요!
+            </p>
+            <p className={searchResultTextSecondary}>
+              공유 버튼이 동작하지 않는다면
+              <br />
+              아래의 url을 직접 복사하여 공유할 수 있습니다.
+            </p>
+            <Link to={`/${data.id}`}>
+              <p
+                style={{
+                  marginTop: 24,
+                  textDecoration: "underline",
+                  color: "#000",
+                }}
+                className={searchResultText}
+              >
+                https://muzlinkverse.com/{data.id}
+              </p>
+            </Link>
+            <TrackContainer
+              id={data?.id}
+              isSearch={true}
+              title={data?.title}
+              artist={data?.artist}
+              coverImgUrl={data?.rawArtwork}
+              bgColor={data?.bgColor}
+              youtubeLink={`https://www.youtube.com/watch?v=${data?.youtubeUrl}`}
+              apple={data?.appleMusicUrl}
+              spotifyId={data?.spotifyUrl}
+              releaseDate={data?.releaseDate}
+              youtubeMusic={`https://music.youtube.com/watch?v=${data?.youtubeUrl}`}
+              youtubeUrl={data?.youtubeUrl}
+              melonUrl={data?.melonUrl}
+              relatedSongs={data?.relatedSongs}
+            />
+          </div>
+        )}
+      </div>
+      <TrackFooter />
+    </>
   );
 }
 

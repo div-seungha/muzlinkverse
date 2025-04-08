@@ -36,18 +36,24 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
-  const cursor = url.searchParams.get("cursor") || 0;
+  const cursorId = url.searchParams.get("cursorId");
+  const cursorDate = url.searchParams.get("cursorDate");
   const limit = 40;
 
-  const songs = await prisma.song.findMany({
+  const items = await prisma.song.findMany({
     take: limit + 1,
-    ...(cursor
+    ...(cursorId && cursorDate
       ? {
           skip: 1,
-          cursor: { id: parseInt(cursor) },
+          cursor: {
+            releaseDate_id: {
+              releaseDate: cursorDate,
+              id: parseInt(cursorId),
+            },
+          },
         }
       : {}),
-    orderBy: { id: "asc" },
+    orderBy: [{ releaseDate: "desc" }, { id: "desc" }],
     select: {
       id: true,
       bgColor: true,
@@ -59,9 +65,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     },
   });
 
-  const hasMore = songs.length > limit;
-  const items = hasMore ? songs.slice(0, -1) : songs;
-  const nextCursor = hasMore ? items[items.length - 1].id : null;
+  // 페이지네이션 처리
+  const hasNextPage = items.length > limit;
+  const result = hasNextPage ? items.slice(0, -1) : items;
+  const nextCursor = hasNextPage
+    ? {
+        cursorId: result[result.length - 1].id,
+        cursorDate: result[result.length - 1].releaseDate,
+      }
+    : null;
 
   return json({ items, nextCursor });
 };
@@ -168,7 +180,7 @@ const SongList = () => {
       </InfiniteScroller>
       <Link to="/search" viewTransition>
         <div className="index-floating-button-container">
-          <LuLink fontSize={20} color="#ededef" />
+          <LuLink fontSize={20} color="#111" />
         </div>
       </Link>
     </div>

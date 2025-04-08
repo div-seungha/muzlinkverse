@@ -124,4 +124,8 @@ interface SearchResultPage {
   appleMusicUrl: string;
   melonUrl: string;
   s3_url?: string;
+  artist_profile_img?: string;
+  artist_profile_img_s3_url?: string;
+  song_artists?: any[];
+  relatedSongs: any[];
 }

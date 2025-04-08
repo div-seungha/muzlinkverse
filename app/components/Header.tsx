@@ -1,4 +1,5 @@
 import { Link, useLocation } from "@remix-run/react";
+import { headerContainer, headerContentWrapper } from "~/styles/layout.css";
 import Logo from "~/svgs/Logo";
 
 const Header = () => {
@@ -6,14 +7,22 @@ const Header = () => {
   if (location.pathname === "/sunrise") {
     return <></>;
   }
+
+  if (location.pathname === "/") {
+    return (
+      <header>
+        <div>
+          <Link to="/">
+            <Logo />
+          </Link>
+        </div>
+      </header>
+    );
+  }
   return (
-    <header
-      style={{
-        background: location.pathname === "/search" ? "#19181a" : "transparent",
-      }}
-    >
-      <div>
-        <Link to="/" viewTransition>
+    <header className={headerContainer}>
+      <div className={headerContentWrapper}>
+        <Link to="/">
           <Logo />
         </Link>
       </div>

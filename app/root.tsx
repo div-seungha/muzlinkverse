@@ -47,22 +47,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body
-        className={
-          path === "/" || path === "/search" || path === "/sunrise"
-            ? "dark"
-            : ""
-        }
+        className={path === "/sunrise" ? "dark" : ""}
         style={{
-          background:
-            path === "/" || path === "/search" || path === "/sunrise"
-              ? "#18191a"
-              : "#ededef",
+          background: path === "/sunrise" ? "#18191a" : "#ffffff",
         }}
       >
         <Header />
         {children}
         <ScrollRestoration />
-        <Footer />
+        {/* <Footer /> */}
         <Scripts />
       </body>
     </html>
