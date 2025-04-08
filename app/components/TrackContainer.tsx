@@ -158,7 +158,7 @@ const TrackContainer = (props: LinkContainerProps) => {
           {coverImgUrl ? (
             <div
               className={artworkWrapper}
-              style={{ background: gradientColors[1] }}
+              style={{ background: `#${bgColor}` }}
             >
               <img
                 className={artworkImg}
