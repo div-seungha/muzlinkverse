@@ -91,8 +91,6 @@ export default function Search() {
   const data = fetcher.data as SearchResultPage;
   const isSubmitting = fetcher.state === "submitting";
 
-  console.log("front", data);
-
   return (
     <>
       <div className={searchFormContainer}>

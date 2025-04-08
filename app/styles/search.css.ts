@@ -36,7 +36,7 @@ export const searchTitle = style({
 export const searchForm = style({
   width: "100&",
   display: "flex",
-  padding: "60px 20px",
+  padding: "60px 20px 0",
   flexDirection: "column",
 });
 

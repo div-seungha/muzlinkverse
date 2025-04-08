@@ -102,13 +102,13 @@ const TrackContainer = (props: LinkContainerProps) => {
   const handleShare = () => {
     const url = `https://muzlinkverse.com/${id}`;
 
-    // if (window.navigator.canShare()) {
-    //   window.navigator.share({
-    //     title: artist + "-" + "title",
-    //     text: "좋은 음악은 같이 나눠요!",
-    //     url,
-    //   });
-    // }
+    if (window.navigator.canShare()) {
+      window.navigator.share({
+        title: artist + "-" + "title",
+        text: "좋은 음악은 같이 나눠요!",
+        url,
+      });
+    }
 
     try {
       navigator.clipboard
@@ -129,16 +129,6 @@ const TrackContainer = (props: LinkContainerProps) => {
       setIsSnackbarOpen(true);
     }
   };
-
-  const marginTop = useMemo(() => {
-    if (isSearch && youtubeUrl) {
-      return 480;
-    }
-    if (isSearch && !youtubeUrl) {
-      return 240;
-    }
-    return 0;
-  }, [isSearch, youtubeUrl]);
 
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
@@ -273,9 +263,6 @@ const TrackContainer = (props: LinkContainerProps) => {
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           open={isSnackbarOpen}
           autoHideDuration={3000}
-          style={{
-            width: 600,
-          }}
           onClose={() => setIsSnackbarOpen(false)}
         >
           {isSuccess ? (
