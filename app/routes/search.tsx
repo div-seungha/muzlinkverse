@@ -86,10 +86,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 };
 
-export default function Search() {
+const Search = () => {
   const fetcher = useFetcher();
   const data = fetcher.data as SearchResultPage;
   const isSubmitting = fetcher.state === "submitting";
+
+  console.log(data);
 
   return (
     <>
@@ -174,7 +176,7 @@ export default function Search() {
       <TrackFooter />
     </>
   );
-}
+};
 
 export const ErrorBoundary = () => {
   const error: any = useRouteError();
@@ -242,3 +244,5 @@ export const ErrorBoundary = () => {
     </div>
   );
 };
+
+export default Search;

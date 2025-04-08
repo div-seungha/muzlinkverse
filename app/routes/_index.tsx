@@ -61,8 +61,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     },
   });
 
-  console.log(cursorId);
-
   // 페이지네이션 처리
   const hasNextPage = items.length > limit;
   const result = hasNextPage ? items.slice(0, -1) : items;
@@ -71,8 +69,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         cursorId: cursorId,
       }
     : null;
-
-  console.log(result.map((v) => v.id));
 
   return json({ items: result, nextCursor });
 };
