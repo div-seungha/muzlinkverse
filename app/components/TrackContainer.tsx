@@ -145,6 +145,7 @@ const TrackContainer = (props: LinkContainerProps) => {
       setBugs("https://m.bugs.co.kr/track/${bugsUrl}");
     } else {
       setSpotify(`https://open.spotify.com/track/${spotifyId}`);
+      setBugs(`https://music.bugs.co.kr/track/${bugsUrl}`);
     }
   }, []);
 
