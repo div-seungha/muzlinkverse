@@ -1,9 +1,8 @@
-import { prisma } from "../app/.server/db.ts";
-import axios from "axios";
-import { getSpotify } from "../app/.server/search.ts";
+import { prisma } from "../app/.server/db";
+import { getSpotify } from "../app/.server/search";
 
 const updateEmptySpotifyUrls = async () => {
-  // youtubeUrl이 비어있는 song 레코드들 가져오기
+  // Url이 비어있는 song 레코드들 가져오기
   const songs = await prisma.song.findMany({
     where: {
       releaseDate: "",

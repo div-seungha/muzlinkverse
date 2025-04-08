@@ -7,47 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ArtworkS3 {
+model artist {
+  id            Int            @id @default(autoincrement())
+  name          String
+  artistId      String         @unique
+  artistUrl     String?
+  createdAt     DateTime       @default(now())
+  genres        String[]
+  href          String?
+  popularity    Int?
+  song_id       Int
+  image         String?
+  artist_s3_url String?
+  song_artists  song_artists[]
+}
+
+model artwork_s3 {
   s3_url    String?
   title     String?
   artist    String?
   song_id   Int?
   createdAt DateTime @default(now())
   id        Int      @id @default(autoincrement())
-
-   @@map("artwork_s3")
 }
 
-model MelonCrawling {
+model melon_crawling {
   song_id String   @id
   title   String
   artists String[]
   url     String
-
-  @@map("melon_crawling")
 }
 
-model Song {
-  id             Int      @id(map: "Song_pkey") @default(autoincrement())
-  createdAt      DateTime @default(now())
-  title          String
-  artist         String
-  bgColor        String?
-  releaseDate    String?
-  spotifyUrl     String?
-  appleMusicUrl  String?
-  youtubeUrl     String?
-  popularity     Int?
-  artworkId      Int?     @unique(map: "Song_artworkId_key")
-  rawArtwork     String?
-  melonUrl       String?
-  bugsUrl        String?
-  naverVibeUrl   String?
-  floUrl         String?
-  genieUrl       String?
-  artwork_s3_url String?
-  s3_url         String?
+model song {
+  id                        Int            @id(map: "Song_pkey") @default(autoincrement())
+  createdAt                 DateTime       @default(now())
+  title                     String
+  artist                    String
+  bgColor                   String?
+  releaseDate               String?
+  spotifyUrl                String?
+  appleMusicUrl             String?
+  youtubeUrl                String?
+  popularity                Int?
+  artworkId                 Int?           @unique(map: "Song_artworkId_key")
+  rawArtwork                String?
+  melonUrl                  String?
+  bugsUrl                   String?
+  naverVibeUrl              String?
+  floUrl                    String?
+  genieUrl                  String?
+  s3_url                    String?
+  artist_profile_img        String?
+  artist_profile_img_s3_url String?
+  song_artists              song_artists[]
 
   @@unique([title, artist], map: "Song_title_artist_key")
-  @@map("song")
+  @@unique([releaseDate, id])
+}
+
+model song_artists {
+  song_id   Int
+  artist_id Int
+  artist    artist @relation(fields: [artist_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  song      song   @relation(fields: [song_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([song_id, artist_id])
 }
