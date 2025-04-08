@@ -11,6 +11,9 @@ export const footerText = style({
 export const footerContainer = style({
   position: "relative",
   bottom: 0,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
   background: vars.color.background,
 });
 

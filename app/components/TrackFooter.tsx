@@ -19,14 +19,14 @@ const TrackFooter = () => {
 
   return (
     <footer className={footerContainer}>
-      <div style={{ display: "inline" }}>
+      <div>
         <Link to="/search">
           {/* <Tooltip
             title="새로운 음원 링크 생성하기"
             placement="top"
             style={{ zIndex: 100000 }}
           > */}
-          <div className="footer-search-link text-center">
+          <div style={{ margin: "20px 0" }}>
             <FaExternalLinkAlt color="#000" fontSize={16} />
           </div>
           {/* </Tooltip> */}
