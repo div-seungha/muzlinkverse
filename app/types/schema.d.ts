@@ -123,6 +123,9 @@ interface SearchResultPage {
   youtubeUrl: string;
   appleMusicUrl: string;
   melonUrl: string;
+  floUrl?: string;
+  bugsUrl?: string;
+  naverVibeUrl?: string;
   s3_url?: string;
   artist_profile_img?: string;
   artist_profile_img_s3_url?: string;

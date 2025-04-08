@@ -97,10 +97,10 @@ const TrackPage = () => {
   const youtubeUrl = data.youtubeUrl;
   const youtubeLink = `https://www.youtube.com/watch?v=${data.youtubeUrl}`;
   const youtubeMusic = `https://music.youtube.com/watch?v=${data.youtubeUrl}`;
-  // const flo ="";
-  // const naver = "";
-  const melonUrl = data.melonUrl;
-  // const bugs = "";
+  const floUrl = data.floUrl || "";
+  const naverVibeUrl = data.naverVibeUrl || "";
+  const melonUrl = data.melonUrl || "";
+  const bugsUrl = data.bugsUrl || "";
 
   const coverImgUrl = data.s3_url || data.rawArtwork;
 
@@ -120,6 +120,9 @@ const TrackPage = () => {
       youtubeMusic={youtubeMusic}
       youtubeUrl={youtubeUrl}
       melonUrl={melonUrl}
+      bugsUrl={bugsUrl}
+      floUrl={floUrl}
+      naverVibeUrl={naverVibeUrl}
       relatedSongs={data.relatedSongs}
     />
   );
