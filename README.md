@@ -8,3 +8,4 @@ From DB to client, it's all my own work. It's a website that allows people to li
 - Postgresql, Prisma
 - Remix, React (full stack)
 - Deployment: aws s3, railway, cloudflare
+- Sentry
