@@ -73,3 +73,11 @@ model song_artists {
 
   @@id([song_id, artist_id])
 }
+
+model info_mismatch {
+  id      Int      @id @default(autoincrement())
+  title   String?
+  artist  String?
+  content String?
+  isdone  Boolean?
+}
