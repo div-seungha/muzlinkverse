@@ -7,7 +7,6 @@ import { json, Link, useRouteError, useFetcher } from "@remix-run/react";
 import { getSearchResult } from "~/.server/search";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { LuSearch } from "react-icons/lu";
-import LinkContainer from "~/components/LinkContainer";
 import {
   searchForm,
   searchFormContainer,
@@ -21,7 +20,6 @@ import {
 } from "~/styles/search.css";
 import TrackContainer from "~/components/TrackContainer";
 import TrackFooter from "~/components/TrackFooter";
-import { FaShare } from "react-icons/fa";
 
 export const links: LinksFunction = () => {
   return [

@@ -80,4 +80,5 @@ model info_mismatch {
   artist  String?
   content String?
   isdone  Boolean?
+  createdAt DateTime @default(now())
 }

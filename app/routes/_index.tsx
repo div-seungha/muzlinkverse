@@ -5,6 +5,13 @@ import { useEffect, useState, useRef } from "react";
 import { findMostContrastingColor } from "~/module/calcualte-color";
 import { FaShare } from "react-icons/fa";
 import { LuLink } from "react-icons/lu";
+import {
+  indexContainer,
+  indexTitle,
+  songCard,
+  songCardCoverImg,
+  songCardWrapper,
+} from "~/styles/index.css";
 
 type Data = {
   id: number;
@@ -104,8 +111,8 @@ const SongList = () => {
   }, [fetcher.data]);
 
   return (
-    <div className="p-[20px]">
-      <h1 className="index-title"></h1>
+    <div className={indexContainer}>
+      <h1 className={indexTitle}>오늘은 무슨 곡을 들을까...?</h1>
       <InfiniteScroller
         loadNext={() => {
           const cursor = songs[songs.length - 1].id;
@@ -128,17 +135,17 @@ const SongList = () => {
                 to={`/${song.id}`}
                 key={i}
                 viewTransition
-                className={`song-card-wrapper ${
+                className={`${songCardWrapper} ${
                   i % 2 === 0 ? "flex-row-reverse" : "flex-row"
                 } `}
               >
                 <img
-                  className="song-card-cover-img"
+                  className={songCardCoverImg}
                   src={song.s3_url || song.rawArtwork || "/dummy-album.png"}
                   alt={song.title}
                 />
                 <div
-                  className="song-card"
+                  className={songCard}
                   style={{
                     background: `#${song.bgColor}` || "transparent",
                   }}
@@ -181,11 +188,11 @@ const SongList = () => {
           <div ref={loaderRef} className="song-card-wrapper"></div>
         </div>
       </InfiniteScroller>
-      <Link to="/search" viewTransition>
+      {/* <Link to="/search" viewTransition>
         <div className="index-floating-button-container">
           <LuLink fontSize={20} color="#111" />
         </div>
-      </Link>
+      </Link> */}
     </div>
   );
 };

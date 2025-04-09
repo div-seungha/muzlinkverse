@@ -13,6 +13,7 @@ import "./tailwind.css";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
 import Header from "./components/Header";
+import Nav from "./components/Nav";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -52,7 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           background: path === "/sunrise" ? "#18191a" : "#ffffff",
         }}
       >
-        <Header />
+        <Nav />
         {children}
         <ScrollRestoration />
         {/* <Footer /> */}
