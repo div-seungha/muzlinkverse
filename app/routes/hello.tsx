@@ -5,7 +5,12 @@ const Hello = () => {
   return (
     <div
       className={contentContainer}
-      style={{ textAlign: "left", display: "block", paddingTop: 100 }}
+      style={{
+        textAlign: "left",
+        display: "block",
+        padding: 20,
+        paddingTop: 100,
+      }}
     >
       <p className={searchFormText}>
         안녕하세요. 저는 올해로 만 4년을 갓 넘긴, 주니어도 아닌 시니어도 아닌,
