@@ -10,6 +10,7 @@ const Hello = () => {
         display: "block",
         padding: 20,
         paddingTop: 100,
+        paddingBottom: 200,
       }}
     >
       <p className={searchFormText}>
