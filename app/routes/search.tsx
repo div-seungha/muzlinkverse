@@ -103,6 +103,7 @@ const Search = () => {
               name="title"
               type="text"
               placeholder="곡의 제목을 정확히 입력해주세요"
+              required
             />
             <p style={{ marginTop: 20 }} className={searchFormText}>
               아티스트의 이름이 어떻게 되나요?
@@ -112,6 +113,7 @@ const Search = () => {
               name="artist"
               type="text"
               placeholder="아티스트의 이름을 정확히 입력해주세요"
+              required
             />
           </div>
           <p
