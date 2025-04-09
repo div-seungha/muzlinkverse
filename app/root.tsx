@@ -53,7 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           background: path === "/sunrise" ? "#18191a" : "#ffffff",
         }}
       >
-        <Nav />
+        {path !== "/sunrise" && <Nav />}
         {children}
         <ScrollRestoration />
         {/* <Footer /> */}
