@@ -89,8 +89,6 @@ const Search = () => {
   const data = fetcher.data as SearchResultPage;
   const isSubmitting = fetcher.state === "submitting";
 
-  console.log(data);
-
   return (
     <>
       <div className={searchFormContainer}>
@@ -116,6 +114,17 @@ const Search = () => {
               placeholder="아티스트의 이름을 정확히 입력해주세요"
             />
           </div>
+          <p
+            style={{ marginTop: 20, textAlign: "center" }}
+            className={searchFormText}
+          >
+            곡명과 아티스트명을 정확히 입력해 주셔야
+            <br />
+            검색이 원활히 진행됩니다. <br />
+            만약 검색했는데 결과가 잘못되었다면
+            <br />
+            좌측 느낌표 아이콘을 눌러 제보해주세요.
+          </p>
           <button className={searchInputButton} type="submit">
             {isSubmitting ? (
               <span className="loading">

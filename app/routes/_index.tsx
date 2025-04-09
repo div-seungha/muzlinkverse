@@ -57,7 +57,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
           },
         }
       : {}),
-    orderBy: { id: "asc" },
+    orderBy: { id: "desc" },
     select: {
       id: true,
       bgColor: true,
