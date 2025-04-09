@@ -46,11 +46,12 @@ export const songCardWrapper = style({
   height: 200,
   boxSizing: "border-box",
   display: "flex",
+  flexWrap: "wrap",
   opacity: 0.8,
-  flexWrap: "nowrap",
   filter: "saturate(0%)",
   "@media": {
     "screen and (max-width: 768px)": {
+      flexWrap: "nowrap",
       width: "100%",
       height: 160,
     },
