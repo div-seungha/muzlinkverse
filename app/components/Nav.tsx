@@ -38,11 +38,11 @@ const Nav = () => {
                 <PiBrowsers fontSize={24} color={vars.color.grey2} />
               </Link>
             </li>
-            <li>
+            {/*<li>
               <Link className={navItem} to="/hello">
                 <BsPersonVideo3 fontSize={24} color={vars.color.grey2} />
-              </Link>
-            </li>
+              </Link>}
+            </li>*/}
           </ul>
         </nav>
         <div
@@ -75,11 +75,11 @@ const Nav = () => {
                 <PiBrowsers fontSize={18} color={vars.color.grey2} />
               </Link>
             </li>
-            <li>
+            {/*<li>
               <Link className={navMobileItem} to="/hello">
                 <BsPersonVideo3 fontSize={18} color={vars.color.grey2} />
               </Link>
-            </li>
+            </li>*/}
           </ul>
         </nav>
       </div>

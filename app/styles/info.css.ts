@@ -5,6 +5,7 @@ import { searchInput } from "./search.css";
 
 export const contentContainer = style({
   ...defaultContainer,
+  padding: "20px 0",
   position: "relative",
   display: "flex",
   flexDirection: "column",
