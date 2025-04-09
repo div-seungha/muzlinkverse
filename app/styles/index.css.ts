@@ -86,3 +86,12 @@ export const songCard = style({
     },
   },
 });
+
+export const songListContainer = style({
+  width: "100%",
+  minWidth: "calc(100svw - 100px)",
+  minHeight: "100svh",
+  display: "flex",
+  flexWrap: "wrap",
+  margin: "0 auto",
+});

@@ -11,6 +11,7 @@ import {
   songCard,
   songCardCoverImg,
   songCardWrapper,
+  songListContainer,
 } from "~/styles/index.css";
 
 type Data = {
@@ -122,7 +123,7 @@ const SongList = () => {
         }}
         loading={fetcher.state === "loading"}
       >
-        <div className="song-list-container">
+        <div className={songListContainer}>
           {songs.map((song, i) => {
             const textColor = findMostContrastingColor(
               song.bgColor || "#000000"
