@@ -155,3 +155,38 @@ export const navMobileItemWrapper = style({
   flexDirection: "column",
   gap: 8,
 });
+
+export const navEventContainer = style({
+  position: "fixed",
+  bottom: 20,
+  left: 20,
+  zIndex: 10000,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+export const navEventItemWrapper = style({
+  justifyContent: "center",
+  alignItems: "flex-start",
+  display: "flex",
+  flexDirection: "column",
+  gap: 8,
+});
+
+export const navEventLabelItem = style({
+  padding: 8,
+  width: 200,
+  height: 36,
+  fontSize: 12,
+  fontFamily: "Pretendard",
+  color: vars.color.grey2,
+  borderRadius: 25,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  background: vars.color.background,
+  border: `1px solid ${vars.color.primaryBorderColor}`,
+  boxSizing: "border-box",
+  boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.05)",
+});

@@ -39,6 +39,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const path = location.pathname;
 
+  const isNotShowLayout =
+    path === "/sunrise" || path === "/event/612012/sunrise";
+
   return (
     <html lang="ko">
       <head>
@@ -53,10 +56,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
           background: path === "/sunrise" ? "#18191a" : "#ffffff",
         }}
       >
-        {path !== "/sunrise" && <Nav />}
+        {!isNotShowLayout && <Nav />}
         {children}
         <ScrollRestoration />
-        {/* <Footer /> */}
         <Scripts />
       </body>
     </html>
