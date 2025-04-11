@@ -41,7 +41,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   const relatedSongIds = relatedSongLinks.map((link) => link.song_id);
 
-  // 관련 곡 정보 가져오기 (최신순 정렬 + 최대 10개)
+  // 관련 곡 정보 가져오기 (최신순 정렬 + 최대 3개)
   const relatedSongs = await prisma.song.findMany({
     where: {
       id: { in: relatedSongIds },
@@ -56,7 +56,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     orderBy: {
       releaseDate: "desc",
     },
-    take: 5,
+    take: 3,
   });
 
   return json({

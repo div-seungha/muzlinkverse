@@ -1,5 +1,5 @@
-import { prisma } from "../app/.server/db";
-import { getSpotifyAccessToken } from "../app/.server/search";
+import { prisma } from "../app/.server/db.ts";
+import { getSpotifyAccessToken } from "../app/.server/search.ts";
 import axios from "axios";
 import fs from "fs";
 

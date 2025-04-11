@@ -1,11 +1,11 @@
-import { prisma } from "../app/.server/db";
-import { getSpotify } from "../app/.server/search";
+import { prisma } from "../app/.server/db.ts";
+import { getSpotify } from "../app/.server/search.ts";
 
 const updateEmptySpotifyUrls = async () => {
   // Url이 비어있는 song 레코드들 가져오기
   const songs = await prisma.song.findMany({
     where: {
-      spotifyUrl: "",
+      OR: [{ spotifyUrl: "" }, { spotifyUrl: null }],
     },
     select: {
       id: true,

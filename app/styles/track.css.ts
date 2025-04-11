@@ -53,6 +53,7 @@ export const artworkImg = style({
   border: 0,
   boxSizing: "border-box",
   borderRadius: 8,
+  objectFit: "contain",
 });
 
 export const trackInfoContainer = style({

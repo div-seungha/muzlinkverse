@@ -3,8 +3,8 @@ import {
   getMelonSearchResult,
   getSpotify,
   getYoutubeVideo,
-} from "../app/.server/search";
-import { prisma } from "../app/.server/db";
+} from "../app/.server/search.ts";
+import { prisma } from "../app/.server/db.ts";
 
 async function wait(ms: number) {
   return new Promise((res) => setTimeout(res, 500));
@@ -13,7 +13,12 @@ async function wait(ms: number) {
 async function main() {
   const songs = await prisma.song.findMany({
     where: {
-      artist: "심각한 개구리",
+      OR: [
+        { spotifyUrl: "" },
+        { spotifyUrl: null },
+        { appleMusicUrl: "" },
+        { appleMusicUrl: null },
+      ],
     },
     select: {
       id: true,
@@ -23,7 +28,7 @@ async function main() {
     },
   });
 
-  console.log(`🎧 "심각한 개구리" 곡 ${songs.length}개 찾음`);
+  console.log(`🎧 "곡 ${songs.length}개 찾음`);
 
   for (let i = 0; i < songs.length; i++) {
     console.log(
