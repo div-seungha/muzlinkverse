@@ -40,7 +40,7 @@ const migrateArtwork = async () => {
     try {
       const s3Url = await downloadAndUploadImage(song.rawArtwork, key);
 
-      await prisma.artworkS3.create({
+      await prisma.artwork_s3.create({
         data: {
           s3_url: s3Url,
           song_id: song.id,

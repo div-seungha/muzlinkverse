@@ -1,36 +1,12 @@
 BEGIN;
 
--- 1. artist 이름 통일
-UPDATE song
-SET "artist" = 'Admin.S'
-WHERE LOWER("artist") = 'admin.s';
-
--- 2~4. 중복 병합: 전체 CTE를 한 번에 정의
+-- 1~4. title + artist 기준 중복 병합 처리
 WITH
 normalized AS (
   SELECT
-    "id",
-    "createdAt",
-    "title",
-    "artist",
-    LOWER("title") AS norm_title,
-    LOWER("artist") AS norm_artist,
-    "spotifyUrl",
-    "appleMusicUrl",
-    "youtubeUrl",
-    "melonUrl",
-    "bugsUrl",
-    "naverVibeUrl",
-    "floUrl",
-    "genieUrl",
-    "s3_url",
-    "artist_profile_img",
-    "artist_profile_img_s3_url",
-    "bgColor",
-    "releaseDate",
-    "popularity",
-    "rawArtwork",
-    "artworkId"
+    *,
+    TRIM(LOWER("title")) AS norm_title,
+    TRIM(LOWER("artist")) AS norm_artist
   FROM song
 ),
 dupes AS (
@@ -53,7 +29,6 @@ updates AS (
   JOIN normalized s ON s."id" = rem_id
 ),
 update_result AS (
-  -- 3. 병합: 나중 행의 데이터를 먼저 생성된 행에 덮어쓰기
   UPDATE song target
   SET
     "spotifyUrl" = COALESCE(u."spotifyUrl", target."spotifyUrl"),
@@ -76,7 +51,7 @@ update_result AS (
   WHERE target."id" = u.keep_id
 )
 
--- 4. 중복 행 제거
+-- 4. 병합된 중복 행 제거
 DELETE FROM song
 WHERE "id" IN (
   SELECT unnest(all_ids[2:])
