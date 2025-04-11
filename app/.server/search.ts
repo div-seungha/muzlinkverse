@@ -168,7 +168,7 @@ export const getSearchResult = async (params: SearchParams) => {
   let existingSong = await prisma.song.findFirst({
     where: {
       title: {
-        equals: title,
+        contains: title,
         mode: "insensitive",
       },
       song_artists: {

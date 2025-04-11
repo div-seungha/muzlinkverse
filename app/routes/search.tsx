@@ -177,6 +177,7 @@ const Search = () => {
               youtubeMusic={`https://music.youtube.com/watch?v=${data?.youtubeUrl}`}
               youtubeUrl={data?.youtubeUrl}
               melonUrl={data?.melonUrl}
+              bugsUrl={data?.bugsUrl}
               relatedSongs={data?.relatedSongs}
             />
           </div>
